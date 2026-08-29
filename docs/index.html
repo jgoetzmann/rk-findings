@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>rk-harness findings</title>
+<style>
+body{font-family:monospace;max-width:1100px;margin:1em auto;padding:0 1em;color:#111;background:#fff}
+p.banner{border:2px solid #b00;background:#fff3f3;padding:.5em;font-weight:bold}
+table{border-collapse:collapse;margin:.5em 0}
+th,td{border:1px solid #999;padding:.2em .5em;text-align:left;vertical-align:top}
+th{background:#eee}
+.tier{padding:0 .3em;border:1px solid #333;border-radius:.2em}
+.tier-heldout_verified{background:#cfc}
+.tier-search_only{background:#ffc}
+.tier-unreplicated{background:#ddd}
+.hash{word-break:break-all}
+.note{font-style:italic;color:#444}
+nav a{margin-right:1em}
+</style>
+</head>
+<body>
+<p class="banner">Automatically generated. Not reviewed by a human. See rk-overview for interpretation.</p>
+<nav><a href="index.html">index</a><a href="hypotheses.html">hypotheses</a><a href="costmodel.html">cost model</a><a href="falsification.html">falsification</a></nav>
+<h1>rk-harness findings</h1>
+<h2>Archive</h2><dl>
+<dt>records</dt><dd>22</dd>
+<dt>last cycle</dt><dd>2</dd>
+<dt>open hypotheses</dt><dd>0</dd>
+<dt>refuted hypotheses</dt><dd>0</dd>
+</dl>
+<p class="note">Fitness is heldout_error under m0plus_fast at equal cycle budget; lower is better and nothing more is claimed. Cells are (stages, cycle bucket).</p>
+<h2>Order 1 grid</h2>
+<table>
+<tr><th>stages</th><th>bucket</th><th>tableau_hash</th><th>tier</th><th>heldout_error</th><th>search_error</th><th>cycles fast</th><th>cycles slow</th><th>measured_order</th><th>label</th><th>verifier_hash</th></tr>
+<tr><td>1</td><td>0</td><td class="hash"><a href="cell-p1-s1-b0.html">ff5d6ff6768ca543f76e1311813e3f39263a2e4c630c0b5980e14def29e3021b</a></td><td><span class="tier tier-unreplicated">unreplicated</span></td><td>0.320268</td><td>0.01289</td><td>5</td><td>5</td><td>0.984858</td><td>search result</td><td class="hash">2411e83fb565dab5f13595d3fba6ed5accc90cad5bfa534b06b1d7fc231a0938</td></tr>
+</table>
+<h2>Order 2 grid</h2>
+<table>
+<tr><th>stages</th><th>bucket</th><th>tableau_hash</th><th>tier</th><th>heldout_error</th><th>search_error</th><th>cycles fast</th><th>cycles slow</th><th>measured_order</th><th>label</th><th>verifier_hash</th></tr>
+<tr><td>2</td><td>0</td><td class="hash"><a href="cell-p2-s2-b0.html">2d2c2b75d7193bbca80707ea30a28e7d7f7314c4dffc32a28920582921efa210</a></td><td><span class="tier tier-unreplicated">unreplicated</span></td><td>0.0613276</td><td>0.0120927</td><td>15</td><td>16</td><td>2.01094</td><td>exhaustive — optimal within the enumerated space</td><td class="hash">2411e83fb565dab5f13595d3fba6ed5accc90cad5bfa534b06b1d7fc231a0938</td></tr>
+<tr><td>2</td><td>1</td><td class="hash"><a href="cell-p2-s2-b1.html">790fd510596624b6228630dbed114e38c2037a4a320d9926f8d32e4cdee79e5f</a></td><td><span class="tier tier-unreplicated">unreplicated</span></td><td>0.0918503</td><td>0.0237079</td><td>16</td><td>30</td><td>2.01094</td><td>search result</td><td class="hash">2411e83fb565dab5f13595d3fba6ed5accc90cad5bfa534b06b1d7fc231a0938</td></tr>
+</table>
+<h2>Order 3 grid</h2>
+<table>
+<tr><th>stages</th><th>bucket</th><th>tableau_hash</th><th>tier</th><th>heldout_error</th><th>search_error</th><th>cycles fast</th><th>cycles slow</th><th>measured_order</th><th>label</th><th>verifier_hash</th></tr>
+<tr><td>3</td><td>1</td><td class="hash"><a href="cell-p3-s3-b1.html">387f8c5072d25e82b8770c60028a88171622058cb3cf5f1104a7f119f8f72bfe</a></td><td><span class="tier tier-unreplicated">unreplicated</span></td><td>0.0851789</td><td>0.016372</td><td>23</td><td>50</td><td>3.04041</td><td>search result</td><td class="hash">2411e83fb565dab5f13595d3fba6ed5accc90cad5bfa534b06b1d7fc231a0938</td></tr>
+</table>
+<h2>Order 4 grid</h2>
+<table>
+<tr><th>stages</th><th>bucket</th><th>tableau_hash</th><th>tier</th><th>heldout_error</th><th>search_error</th><th>cycles fast</th><th>cycles slow</th><th>measured_order</th><th>label</th><th>verifier_hash</th></tr>
+<tr><td>4</td><td>2</td><td class="hash"><a href="cell-p4-s4-b2.html">05ef8dc28c8266b20b2ee188b8fc4628c6bfd6db0c076f32cdc4a33ee80447ea</a></td><td><span class="tier tier-unreplicated">unreplicated</span></td><td>0.0852522</td><td>0.0219424</td><td>36</td><td>64</td><td>4.07063</td><td>search result</td><td class="hash">2411e83fb565dab5f13595d3fba6ed5accc90cad5bfa534b06b1d7fc231a0938</td></tr>
+</table>
+</body>
+</html>

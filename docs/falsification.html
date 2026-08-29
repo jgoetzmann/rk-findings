@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>falsification experiment</title>
+<style>
+body{font-family:monospace;max-width:1100px;margin:1em auto;padding:0 1em;color:#111;background:#fff}
+p.banner{border:2px solid #b00;background:#fff3f3;padding:.5em;font-weight:bold}
+table{border-collapse:collapse;margin:.5em 0}
+th,td{border:1px solid #999;padding:.2em .5em;text-align:left;vertical-align:top}
+th{background:#eee}
+.tier{padding:0 .3em;border:1px solid #333;border-radius:.2em}
+.tier-heldout_verified{background:#cfc}
+.tier-search_only{background:#ffc}
+.tier-unreplicated{background:#ddd}
+.hash{word-break:break-all}
+.note{font-style:italic;color:#444}
+nav a{margin-right:1em}
+</style>
+</head>
+<body>
+<p class="banner">Automatically generated. Not reviewed by a human. See rk-overview for interpretation.</p>
+<nav><a href="index.html">index</a><a href="hypotheses.html">hypotheses</a><a href="costmodel.html">cost model</a><a href="falsification.html">falsification</a></nav>
+<h1>falsification experiment</h1>
+<p>verdict: <strong>mixed</strong></p>
+<dl>
+<dt>methods</dt><dd><dl>
+<dt>heun2</dt><dd><dl>
+<dt>coefficient_fraction</dt><dd><dl>
+<dt>m0plus_fast</dt><dd>0.5</dd>
+<dt>m0plus_slow</dt><dd>0.147727</dd>
+</dl></dd>
+<dt>crossover_h</dt><dd>0.0390625</dd>
+<dt>crossover_practical</dt><dd>true</dd>
+<dt>cycles_per_step</dt><dd><dl>
+<dt>m0plus_fast</dt><dd>26</dd>
+<dt>m0plus_slow</dt><dd>26</dd>
+</dl></dd>
+<dt>derivative_cost</dt><dd><dl>
+<dt>m0plus_fast</dt><dd>13</dd>
+<dt>m0plus_slow</dt><dd>75</dd>
+</dl></dd>
+<dt>stages</dt><dd>2</dd>
+<dt>sweep</dt><dd><table><tr><th>float_error</th><th>h</th><th>n</th><th>q15_error</th></tr>
+<tr><td>4.41468e+08</td><td>5</td><td>8</td><td>inf</td></tr>
+<tr><td>3.67678e+07</td><td>2.5</td><td>16</td><td>inf</td></tr>
+<tr><td>17.4738</td><td>1.25</td><td>32</td><td>inf</td></tr>
+<tr><td>0.0467395</td><td>0.625</td><td>64</td><td>0.0466968</td></tr>
+<tr><td>0.0123373</td><td>0.3125</td><td>128</td><td>0.0127543</td></tr>
+<tr><td>0.00312695</td><td>0.15625</td><td>256</td><td>0.00400537</td></tr>
+<tr><td>0.000786061</td><td>0.078125</td><td>512</td><td>0.00297096</td></tr>
+<tr><td>0.00019668</td><td>0.0390625</td><td>1024</td><td>0.00642073</td></tr>
+<tr><td>4.91511e-05</td><td>0.0195312</td><td>2048</td><td>0.0126341</td></tr>
+<tr><td>1.22823e-05</td><td>0.00976562</td><td>4096</td><td>0.0276052</td></tr>
+</table></dd>
+</dl></dd>
+<dt>rk4</dt><dd><dl>
+<dt>coefficient_fraction</dt><dd><dl>
+<dt>m0plus_fast</dt><dd>0.559322</dd>
+<dt>m0plus_slow</dt><dd>0.361702</dd>
+</dl></dd>
+<dt>crossover_h</dt><dd>0.15625</dd>
+<dt>crossover_practical</dt><dd>true</dd>
+<dt>cycles_per_step</dt><dd><dl>
+<dt>m0plus_fast</dt><dd>66</dd>
+<dt>m0plus_slow</dt><dd>170</dd>
+</dl></dd>
+<dt>derivative_cost</dt><dd><dl>
+<dt>m0plus_fast</dt><dd>13</dd>
+<dt>m0plus_slow</dt><dd>75</dd>
+</dl></dd>
+<dt>stages</dt><dd>4</dd>
+<dt>sweep</dt><dd><table><tr><th>float_error</th><th>h</th><th>n</th><th>q15_error</th></tr>
+<tr><td>2.37016e+10</td><td>5</td><td>8</td><td>inf</td></tr>
+<tr><td>0.0176384</td><td>2.5</td><td>16</td><td>inf</td></tr>
+<tr><td>0.0124722</td><td>1.25</td><td>32</td><td>inf</td></tr>
+<tr><td>0.00101889</td><td>0.625</td><td>64</td><td>0.00133582</td></tr>
+<tr><td>6.29326e-05</td><td>0.3125</td><td>128</td><td>0.00112763</td></tr>
+<tr><td>3.88382e-06</td><td>0.15625</td><td>256</td><td>0.00253715</td></tr>
+<tr><td>2.40922e-07</td><td>0.078125</td><td>512</td><td>0.00479333</td></tr>
+<tr><td>1.49965e-08</td><td>0.0390625</td><td>1024</td><td>0.0156265</td></tr>
+<tr><td>9.35305e-10</td><td>0.0195312</td><td>2048</td><td>0.0398531</td></tr>
+<tr><td>5.83937e-11</td><td>0.00976562</td><td>4096</td><td>0.0258308</td></tr>
+</table></dd>
+</dl></dd>
+</dl></dd>
+<dt>models</dt><dd>[m0plus_fast, m0plus_slow]</dd>
+<dt>n_states</dt><dd>2</dd>
+<dt>ns</dt><dd>[8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]</dd>
+<dt>problem</dt><dd>damped_osc</dd>
+<dt>t_end</dt><dd>40</dd>
+<dt>thresholds</dt><dd><dl>
+<dt>kill_fraction</dt><dd>0.15</dd>
+<dt>practical_h_max</dt><dd>1</dd>
+<dt>practical_h_min</dt><dd>0.001</dd>
+<dt>proceed_fraction</dt><dd>0.3</dd>
+</dl></dd>
+</dl>
+</body>
+</html>
