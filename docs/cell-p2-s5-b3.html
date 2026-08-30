@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>cell p2 s5 b3</title>
+<style>
+body{font-family:monospace;max-width:1100px;margin:1em auto;padding:0 1em;color:#111;background:#fff}
+p.banner{border:2px solid #b00;background:#fff3f3;padding:.5em;font-weight:bold}
+table{border-collapse:collapse;margin:.5em 0}
+th,td{border:1px solid #999;padding:.2em .5em;text-align:left;vertical-align:top}
+th{background:#eee}
+.tier{padding:0 .3em;border:1px solid #333;border-radius:.2em}
+.tier-heldout_verified{background:#cfc}
+.tier-search_only{background:#ffc}
+.tier-unreplicated{background:#ddd}
+.hash{word-break:break-all}
+.note{font-style:italic;color:#444}
+nav a{margin-right:1em}
+</style>
+</head>
+<body>
+<p class="banner">Automatically generated. Not reviewed by a human. See rk-overview for interpretation.</p>
+<nav><a href="index.html">index</a><a href="hypotheses.html">hypotheses</a><a href="costmodel.html">cost model</a><a href="falsification.html">falsification</a></nav>
+<h1>cell p2 s5 b3</h1>
+<p>grid order 2, 5 stages, cycle bucket 3</p>
+<dl>
+<dt>tier</dt><dd><span class="tier tier-unreplicated">unreplicated</span></dd>
+<dt>phase label</dt><dd>search result</dd>
+<dt>tableau_hash</dt><dd><span class="hash">16ef2c532f3c640c7687e5050bb32baf2ec9dfab4c0d8215a12b50316f76c995</span></dd>
+<dt>verifier_hash</dt><dd><span class="hash">de5bec229ffa404a85b9172fdc808ef6035716c3df8b308c816e90ffb54fd6e9</span></dd>
+<dt>cycle_id</dt><dd>33</dd>
+<dt>seed</dt><dd>3203</dd>
+<dt>directive_id</dt><dd>D-0032</dd>
+<dt>hypothesis_id</dt><dd>none</dd>
+<dt>recorded</dt><dd>2026-08-30T06:45:50Z</dd>
+</dl>
+<h2>Tableau</h2>
+<table>
+<tr><th></th><th>A[.][0]</th><th>A[.][1]</th><th>A[.][2]</th><th>A[.][3]</th><th>A[.][4]</th></tr>
+<tr><th>c[0] = 0/1</th><td>0/1</td><td>0/1</td><td>0/1</td><td>0/1</td><td>0/1</td></tr>
+<tr><th>c[1] = 7/4</th><td>7/4</td><td>0/1</td><td>0/1</td><td>0/1</td><td>0/1</td></tr>
+<tr><th>c[2] = 19/16</th><td>1/8</td><td>17/16</td><td>0/1</td><td>0/1</td><td>0/1</td></tr>
+<tr><th>c[3] = -1/32</th><td>-35/32</td><td>25/32</td><td>9/32</td><td>0/1</td><td>0/1</td></tr>
+<tr><th>c[4] = 3/4</th><td>-7/16</td><td>5/32</td><td>23/32</td><td>5/16</td><td>0/1</td></tr>
+<tr><th>b</th><td>247/1792</td><td>145/1792</td><td>3/32</td><td>11/32</td><td>11/32</td></tr>
+</table>
+<h2>Cycle counts (n_states = 1)</h2>
+<table><tr><th>model</th><th>cycles</th><th>note</th></tr>
+<tr><td>m0plus_fast</td><td>64</td><td></td></tr>
+<tr><td>m0plus_slow</td><td>106</td><td></td></tr>
+<tr><td>avr_approx</td><td>338</td><td>Cost model approximate; see HANDOFF §4.5.</td></tr>
+</table>
+<h2>Score</h2>
+<table><tr><th>metric</th><th>value</th></tr>
+<tr><td>measured_order</td><td>1.99814</td></tr>
+<tr><td>order_fit_points</td><td>8</td></tr>
+<tr><td>error_constant</td><td>1.00561</td></tr>
+<tr><td>stability_real</td><td>-1.65469</td></tr>
+<tr><td>stability_imag</td><td>0.679348</td></tr>
+<tr><td>csd_weight_total</td><td>43</td></tr>
+<tr><td>coeff_quant_error</td><td>2.17983e-06</td></tr>
+<tr><td>search_error</td><td>0.00763882</td></tr>
+<tr><td>heldout_error</td><td>0.0826017</td></tr>
+<tr><td>overflow_margin</td><td>1.91985</td></tr>
+</table>
+<h2>Per problem</h2>
+<table><tr><th>key</th><th>error</th><th>note</th></tr>
+<tr><td>avr_approx:dahlquist</td><td>0.00016747</td><td>Cost model approximate; see HANDOFF §4.5.</td></tr>
+<tr><td>avr_approx:damped_osc</td><td>0.0953813</td><td>Cost model approximate; see HANDOFF §4.5.</td></tr>
+<tr><td>avr_approx:dc_motor</td><td>0.00694418</td><td>Cost model approximate; see HANDOFF §4.5.</td></tr>
+<tr><td>avr_approx:heldout_error</td><td>2.02722</td><td>Cost model approximate; see HANDOFF §4.5.</td></tr>
+<tr><td>avr_approx:pendulum</td><td>4.05433</td><td>Cost model approximate; see HANDOFF §4.5.</td></tr>
+<tr><td>avr_approx:quaternion</td><td>0.0181543</td><td>Cost model approximate; see HANDOFF §4.5.</td></tr>
+<tr><td>avr_approx:rc_thermal</td><td>0.0246497</td><td>Cost model approximate; see HANDOFF §4.5.</td></tr>
+<tr><td>avr_approx:search_error</td><td>0.367278</td><td>Cost model approximate; see HANDOFF §4.5.</td></tr>
+<tr><td>avr_approx:vanderpol_mild</td><td>0.628954</td><td>Cost model approximate; see HANDOFF §4.5.</td></tr>
+<tr><td>dahlquist</td><td>0.00016747</td><td></td></tr>
+<tr><td>damped_osc</td><td>0.00215823</td><td></td></tr>
+<tr><td>dc_motor</td><td>0.0286122</td><td></td></tr>
+<tr><td>pendulum</td><td>0.00992222</td><td></td></tr>
+<tr><td>quaternion</td><td>0.0333963</td><td></td></tr>
+<tr><td>rc_thermal</td><td>0.158933</td><td></td></tr>
+<tr><td>slow:dahlquist</td><td>4.53999e-05</td><td></td></tr>
+<tr><td>slow:damped_osc</td><td>0.00869881</td><td></td></tr>
+<tr><td>slow:dc_motor</td><td>0.0167368</td><td></td></tr>
+<tr><td>slow:heldout_error</td><td>0.0544843</td><td></td></tr>
+<tr><td>slow:pendulum</td><td>0.0457836</td><td></td></tr>
+<tr><td>slow:quaternion</td><td>0.0218074</td><td></td></tr>
+<tr><td>slow:rc_thermal</td><td>0.0949859</td><td></td></tr>
+<tr><td>slow:search_error</td><td>0.0287016</td><td></td></tr>
+<tr><td>slow:vanderpol_mild</td><td>0.0489457</td><td></td></tr>
+<tr><td>vanderpol_mild</td><td>0.0130525</td><td></td></tr>
+</table>
+</body>
+</html>
