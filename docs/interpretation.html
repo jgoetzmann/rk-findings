@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>hypothesis ledger</title>
+<title>interpretation</title>
 <style>
 :root{
   color-scheme:light;
@@ -101,16 +101,20 @@ footer{margin-top:40px;font-size:12px;color:var(--text-3)}
 <body>
 <header class="site"><div class="wrap">
 <p class="banner">Automatically generated. Not reviewed by a human. See rk-overview for interpretation.</p>
-<h1>hypothesis ledger</h1>
-<p class="sub">Falsifiable statements about the archive, resolved mechanically.</p>
-<nav class="tabs"><a href="index.html">overview</a><a href="costmodel.html">cost model</a><a href="falsification.html">falsification</a><a href="hypotheses.html" class="on">hypotheses</a><a href="literature.html">literature</a><a href="interpretation.html">interpretation</a></nav>
+<h1>interpretation</h1>
+<p class="sub">Model-written readings of the archive; the numbers stay authoritative.</p>
+<nav class="tabs"><a href="index.html">overview</a><a href="costmodel.html">cost model</a><a href="falsification.html">falsification</a><a href="hypotheses.html">hypotheses</a><a href="literature.html">literature</a><a href="interpretation.html" class="on">interpretation</a></nav>
 </div></header>
 <div class="wrap">
-<div class="cards"><div class="card"><div class="k">open</div><div class="v">0</div></div><div class="card"><div class="k">supported</div><div class="v">0</div></div><div class="card"><div class="k">refuted</div><div class="v">1</div></div><div class="card"><div class="k">inconclusive</div><div class="v">0</div></div></div>
-<p class="note">Verdicts are computed by code from the archive; the model never writes one. A missing cell reads as inconclusive, never refuted.</p>
-<div class="scroll"><table><tr><th>id</th><th>statement</th><th>mechanism</th><th>control</th><th>predicate</th><th>verdict</th><th>n_samples</th><th>effect_size</th><th>min_samples</th><th>resolved_cycle</th><th>cycle</th><th>rationale</th></tr>
-<tr><td>H-001</td><td>The order-2, three-stage archive cell does better than the order-2, two-stage cell on held-out error under the slow cost model.</td><td>The slow cost model rewards the additional stage&#x27;s accuracy enough to overcome its higher cycle cost.</td><td>Under the fast cost model, the cheaper two-stage cell should instead have lower held-out error if cost-driven selection causes the advantage.</td><td class="mono">slow.p2s3.heldout &lt; slow.p2s2.heldout AND fast.p2s2.heldout &lt; fast.p2s3.heldout</td><td><span class="badge badge-refuted">refuted</span></td><td>44</td><td>0.603339</td><td>20</td><td>548</td><td>n/a</td><td></td></tr>
-</table></div>
+<p class="note">Model-written text. Sources are model-collected citations; verify them before relying on them. See rk-overview for the human view.</p>
+<article class="entry">
+<h2>cycle 549</h2>
+<p class="when">written 2026-08-30T22:33:31Z</p>
+<p>The archive remains sparse: 15 of 160 cells are filled, concentrated in orders two through four and mostly along the lower-cost buckets expected for each stage count. Order one has no populated grid entries despite the summary reporting one filled cell, an inconsistency worth checking in the archive export. Among recorded candidates, the lowest held-out error is 2.862e-02 for the order-two, three-stage, bucket-one cell. Search error is often much smaller than held-out error, especially for several four- to six-stage candidates, indicating that optimization on the search cases does not reliably transfer to the held-out set.</p>
+<p>The gap between search and held-out performance is consistent with fixed-point errors depending on more than formal order. Floor quantization introduces directional bias, while stage coefficients and implementation form determine how perturbations propagate within and between steps. Additional stages can reduce truncation error yet also create more narrowing points, vanished increments, or opportunities for saturation. This helps explain why neither increasing stage count nor increasing order produces a monotonic improvement in the current archive.</p>
+<p>The resolved hypothesis is recorded as refuted after 44 samples, with a moderate reported effect size, so the proposed reversal between slow and fast cost models was not observed as specified. Because the predicate combines two comparisons, that verdict alone does not identify which comparison failed or whether both did. The fixed reference result is likewise mixed: the RK4 coefficient is favorable in 55.9% of fast-model cases but 36.2% of slow-model cases, with a crossover step size of 0.15625. This agrees with the literature digest’s warning that arithmetic costs and error propagation depend on the multiplier and compiled implementation, rather than on the RK formula or Cortex-M0+ label alone.</p>
+<p>The large number of empty cells limits conclusions about trends across buckets, stages, and orders, and the current order-three, stage-three, bucket-one cell has only one archived representative with held-out error 4.767e-02. Next examination should separate rounding, saturation, and vanished-increment events; record where narrowing occurs; and report the two hypothesis comparisons individually. Replication near the 0.15625 crossover, coupled with instruction-level cycle measurements for both multiplier models, would clarify whether the observed differences arise from numerical behavior, cost-model boundaries, or selection effects from sparse coverage.</p>
+</article>
 <footer>rk-harness findings — Q15 fixed point, equal cycle budget, Cortex-M0+ cost models.</footer>
 </div>
 </body>

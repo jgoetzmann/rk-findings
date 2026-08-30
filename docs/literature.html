@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>hypothesis ledger</title>
+<title>literature digest</title>
 <style>
 :root{
   color-scheme:light;
@@ -101,16 +101,20 @@ footer{margin-top:40px;font-size:12px;color:var(--text-3)}
 <body>
 <header class="site"><div class="wrap">
 <p class="banner">Automatically generated. Not reviewed by a human. See rk-overview for interpretation.</p>
-<h1>hypothesis ledger</h1>
-<p class="sub">Falsifiable statements about the archive, resolved mechanically.</p>
-<nav class="tabs"><a href="index.html">overview</a><a href="costmodel.html">cost model</a><a href="falsification.html">falsification</a><a href="hypotheses.html" class="on">hypotheses</a><a href="literature.html">literature</a><a href="interpretation.html">interpretation</a></nav>
+<h1>literature digest</h1>
+<p class="sub">Web-researched background that feeds the directive and hypothesis prompts.</p>
+<nav class="tabs"><a href="index.html">overview</a><a href="costmodel.html">cost model</a><a href="falsification.html">falsification</a><a href="hypotheses.html">hypotheses</a><a href="literature.html" class="on">literature</a><a href="interpretation.html">interpretation</a></nav>
 </div></header>
 <div class="wrap">
-<div class="cards"><div class="card"><div class="k">open</div><div class="v">0</div></div><div class="card"><div class="k">supported</div><div class="v">0</div></div><div class="card"><div class="k">refuted</div><div class="v">1</div></div><div class="card"><div class="k">inconclusive</div><div class="v">0</div></div></div>
-<p class="note">Verdicts are computed by code from the archive; the model never writes one. A missing cell reads as inconclusive, never refuted.</p>
-<div class="scroll"><table><tr><th>id</th><th>statement</th><th>mechanism</th><th>control</th><th>predicate</th><th>verdict</th><th>n_samples</th><th>effect_size</th><th>min_samples</th><th>resolved_cycle</th><th>cycle</th><th>rationale</th></tr>
-<tr><td>H-001</td><td>The order-2, three-stage archive cell does better than the order-2, two-stage cell on held-out error under the slow cost model.</td><td>The slow cost model rewards the additional stage&#x27;s accuracy enough to overcome its higher cycle cost.</td><td>Under the fast cost model, the cheaper two-stage cell should instead have lower held-out error if cost-driven selection causes the advantage.</td><td class="mono">slow.p2s3.heldout &lt; slow.p2s2.heldout AND fast.p2s2.heldout &lt; fast.p2s3.heldout</td><td><span class="badge badge-refuted">refuted</span></td><td>44</td><td>0.603339</td><td>20</td><td>548</td><td>n/a</td><td></td></tr>
-</table></div>
+<p class="note">Model-written text. Sources are model-collected citations; verify them before relying on them. See rk-overview for the human view.</p>
+<article class="entry">
+<h2>Quantized Runge–Kutta on Cortex-M0+</h2>
+<p class="when">collected 2026-08-30T22:32:12Z at cycle 549</p>
+<p>Runge–Kutta roundoff is not merely an independent per-step disturbance: perturbations introduced in stage calculations propagate both within a step and across later steps, and their amplification depends on the RK coefficients and the precise implementation. In Q15 arithmetic, flooring every rescaled product produces an error in the interval from minus one quantization unit up to zero, creating directional bias rather than the cancellation expected from zero-mean errors. Repeated small updates may consequently drift or disappear entirely, while saturation introduces a separate nonlinear error. Wider intermediates and delayed narrowing can reduce the number of quantization points without changing the nominal RK formula.</p>
+<p>Research on low-precision Runge–Kutta discretizations of the heat equation found correlated error growth and eventual stagnation under deterministic round-to-nearest, whereas stochastic rounding made leading errors zero-mean and substantially reduced accumulation. Those results do not directly establish performance for general fixed-point ODEs or floor rounding, but they show why a consistently biased rule deserves separate analysis. On Cortex-M0+, stochastic rounding also requires extra state and operations, while multiply latency is implementation-dependent: the core can contain either a single-cycle or a 32-cycle 32-bit multiplier. Thus fixed cycle budgets must be checked against the particular MCU and compiled instruction sequence, not the architecture name alone.</p>
+<ul><li>Floor quantization has a one-sided error and therefore introduces systematic negative bias.</li><li>RK stage perturbations can be amplified within a single step, depending on coefficients and implementation form.</li><li>Accumulated perturbations can dominate truncation error as the step size is reduced.</li><li>Small quantized increments can vanish, causing stagnation or frozen state components.</li><li>Stochastic rounding removes earliest-order rounding bias in expectation but adds random-number and comparison costs.</li><li>Q15 uses 16-bit storage with 15 fractional bits; wider intermediates can postpone narrowing and saturation.</li><li>Saturation and rounding are distinct error mechanisms and should be measured separately.</li><li>Cortex-M0+ implementations may have either one-cycle or 32-cycle multiplication, materially affecting cycle estimates.</li></ul>
+<p>sources:</p><ul><li><a href="https://arxiv.org/abs/1309.1317">Propagation of internal errors in explicit Runge–Kutta methods and internal stability of SSP and extrapolation methods</a></li><li><a href="https://www.sciencedirect.com/science/article/pii/S0168927496000402">Error propagation in Runge-Kutta methods</a></li><li><a href="https://arxiv.org/abs/2010.16225">Effects of round-to-nearest and stochastic rounding in the numerical solution of the heat equation in low precision</a></li><li><a href="https://arm-software.github.io/CMSIS-DSP/main/group__FIXED.html">CMSIS-DSP: Fixed point datatypes</a></li><li><a href="https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/Processor%20Datasheets/Arm%20Cortex-M0%20plus%20Processor%20Datasheet.pdf">Arm Cortex-M0+ Processor Datasheet</a></li></ul>
+</article>
 <footer>rk-harness findings — Q15 fixed point, equal cycle budget, Cortex-M0+ cost models.</footer>
 </div>
 </body>
