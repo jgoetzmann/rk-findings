@@ -119,13 +119,48 @@ footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);
   font-size:12px;color:var(--text-3)}
 footer p{margin:3px 0;max-width:none}
 footer p.prov a{color:var(--text-2)}
+nav.tabs.sub2{margin-top:0;padding-bottom:2px}
+nav.tabs.sub2 a{font-size:12.5px;padding:4px 12px;border-radius:7px;color:var(--text-3)}
+nav.tabs.sub2 a:hover{color:var(--text-1)}
+nav.tabs.sub2 a.on{background:var(--surface-0);border:1px solid var(--line);
+  color:var(--text-1);font-weight:600;box-shadow:none}
+
+/* one-line ledger rows: the summary carries the whole record, the body carries prose */
+.ledger{min-width:820px}
+.ledhead,details.led>summary{display:grid;
+  grid-template-columns:14px 78px 104px 1fr 58px 62px 52px;
+  gap:12px;align-items:center;padding:6px 12px}
+.ledhead{font-size:11px;color:var(--text-2);font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase}
+details.led{background:var(--surface-1);border:1px solid var(--line);border-radius:8px;
+  margin:4px 0;font-size:12.5px}
+details.led>summary{cursor:pointer;list-style:none;font-variant-numeric:tabular-nums}
+details.led>summary::-webkit-details-marker{display:none}
+details.led>summary::before{content:"+";color:var(--text-3);font-weight:600}
+details.led[open]>summary::before{content:"2"}
+details.led[open]>summary{border-bottom:1px solid var(--line)}
+details.led>div{padding:10px 16px 12px 40px}
+details.led .pred{font:12px ui-monospace,Consolas,monospace;color:var(--text-2);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+details.led .num,.ledhead .num{text-align:right}
+details.led .badge{justify-self:start}
+details.led .mono{font-size:12px;color:var(--text-2)}
+details.led .rep{color:var(--text-3);font-weight:600}
+details.led table{font-size:12px;margin:6px 0 0}
+details.repeats{margin:10px 0;font-size:13px;color:var(--text-2);border:1px solid var(--line);
+  border-radius:8px;background:var(--surface-0)}
+details.repeats>summary{cursor:pointer;padding:6px 12px;color:var(--text-3);font-size:12.5px}
+details.repeats>summary:hover{color:var(--text-1)}
+details.repeats[open]>summary{border-bottom:1px solid var(--line);color:var(--text-2)}
+details.repeats>div{padding:4px 12px 8px}
+.hash a,a.hash{font:12px ui-monospace,Consolas,monospace}
 </style>
 </head>
 <body>
 <header class="site"><div class="wrap">
 <h1>cell p3 s5 b3</h1>
 
-<nav class="tabs"><a href="index.html" class="on">overview</a><a href="methodology.html">methodology</a><a href="costmodel.html">cost model</a><a href="falsification.html">falsification</a><a href="validation.html">validation</a><a href="benchmark.html">benchmark</a><a href="hypotheses.html">hypotheses</a><a href="literature.html">literature</a><a href="interpretation.html">interpretation</a><a href="glossary.html">glossary</a></nav>
+<nav class="tabs"><a href="index.html" class="on">overview</a><a href="validation.html">validation</a><a href="benchmark.html">benchmark</a><a href="hypotheses.html">hypotheses</a><a href="falsification.html">falsification</a></nav><nav class="tabs sub2"><a href="methodology.html">methodology</a><a href="costmodel.html">cost model</a><a href="literature.html">literature</a><a href="interpretation.html">interpretation</a><a href="glossary.html">glossary</a></nav>
 </div></header>
 <div class="wrap">
 <p class="sub">grid order 3, 5 stages, cycle bucket 3</p>
@@ -192,34 +227,19 @@ footer p.prov a{color:var(--text-2)}
 <tr><td>overflow_margin</td><td class="num">1.95864</td></tr>
 </table>
 <details class="explain"><summary>How to read this</summary><div><p>measured_order is the slope of a log-log fit of float64 final-state error against step size on the dahlquist problem, over the longest usable run of points (order_fit_points of them); it is measured evidence, distinct from the algebraic <a href="glossary.html#order">order</a> that keys the grid. error_constant is the L2 norm of the order-condition residuals one order past the achieved one, a size estimate for the leading truncation term. stability_real and stability_imag are the extents of the stability region along the negative real axis and the imaginary axis.</p><p>csd_weight_total sums <a href="glossary.html#csd-weight">CSD weights</a> over the non-trivial coefficients, a proxy for coefficient-arithmetic cost. coeff_quant_error is the largest gap between an exact coefficient and its m/2^s form. search_error and heldout_error are root-mean-square errors over the two problem sets at the fixed cycle budget; heldout_error is the archive fitness. overflow_margin is 1 / max|state| observed at twice the nominal amplitude and must exceed 1.0, meaning a doubled signal still fits in <a href="glossary.html#q15">Q15</a> range.</p></div></details>
-<h3>All per-problem keys</h3>
-<div class="scroll"><table><tr><th>key</th><th class="num">error</th><th>note</th></tr>
-<tr><td>avr_approx:dahlquist</td><td class="num">0.00016747</td><td><span class="note">Cost model approximate; see HANDOFF §4.5.</span></td></tr>
-<tr><td>avr_approx:damped_osc</td><td class="num">inf</td><td><span class="note">Cost model approximate; see HANDOFF §4.5.</span></td></tr>
-<tr><td>avr_approx:dc_motor</td><td class="num">0.00731512</td><td><span class="note">Cost model approximate; see HANDOFF §4.5.</span></td></tr>
-<tr><td>avr_approx:heldout_error</td><td class="num">inf</td><td><span class="note">Cost model approximate; see HANDOFF §4.5.</span></td></tr>
-<tr><td>avr_approx:pendulum</td><td class="num">inf</td><td><span class="note">Cost model approximate; see HANDOFF §4.5.</span></td></tr>
-<tr><td>avr_approx:quaternion</td><td class="num">0.0141715</td><td><span class="note">Cost model approximate; see HANDOFF §4.5.</span></td></tr>
-<tr><td>avr_approx:rc_thermal</td><td class="num">inf</td><td><span class="note">Cost model approximate; see HANDOFF §4.5.</span></td></tr>
-<tr><td>avr_approx:search_error</td><td class="num">inf</td><td><span class="note">Cost model approximate; see HANDOFF §4.5.</span></td></tr>
-<tr><td>avr_approx:vanderpol_mild</td><td class="num">0.000336215</td><td><span class="note">Cost model approximate; see HANDOFF §4.5.</span></td></tr>
-<tr><td>dahlquist</td><td class="num">0.00016747</td><td></td></tr>
-<tr><td>damped_osc</td><td class="num">0.00165899</td><td></td></tr>
-<tr><td>dc_motor</td><td class="num">0.0745273</td><td></td></tr>
-<tr><td>pendulum</td><td class="num">0.0210483</td><td></td></tr>
-<tr><td>quaternion</td><td class="num">0.0266019</td><td></td></tr>
-<tr><td>rc_thermal</td><td class="num">0.0888036</td><td></td></tr>
-<tr><td>slow:dahlquist</td><td class="num">0.00016747</td><td></td></tr>
-<tr><td>slow:damped_osc</td><td class="num">0.00126707</td><td></td></tr>
-<tr><td>slow:dc_motor</td><td class="num">0.0295896</td><td></td></tr>
-<tr><td>slow:heldout_error</td><td class="num">inf</td><td></td></tr>
-<tr><td>slow:pendulum</td><td class="num">inf</td><td></td></tr>
-<tr><td>slow:quaternion</td><td class="num">0.0143307</td><td></td></tr>
-<tr><td>slow:rc_thermal</td><td class="num">inf</td><td></td></tr>
-<tr><td>slow:search_error</td><td class="num">0.00634024</td><td></td></tr>
-<tr><td>slow:vanderpol_mild</td><td class="num">0.010907</td><td></td></tr>
-<tr><td>vanderpol_mild</td><td class="num">0.041268</td><td></td></tr>
+<h3>Every per-problem error, by cost model</h3>
+<div class="scroll"><table><tr><th>problem</th><th class="num">m0plus_fast</th><th class="num">m0plus_slow</th><th class="num">avr_approx</th></tr>
+<tr><td>dahlquist</td><td class="num">0.00016747</td><td class="num">0.00016747</td><td class="num">0.00016747</td></tr>
+<tr><td>damped_osc</td><td class="num">0.00165899</td><td class="num">0.00126707</td><td class="num">inf</td></tr>
+<tr><td>vanderpol_mild</td><td class="num">0.041268</td><td class="num">0.010907</td><td class="num">0.000336215</td></tr>
+<tr><td>pendulum</td><td class="num">0.0210483</td><td class="num">inf</td><td class="num">inf</td></tr>
+<tr><td>dc_motor</td><td class="num">0.0745273</td><td class="num">0.0295896</td><td class="num">0.00731512</td></tr>
+<tr><td>rc_thermal</td><td class="num">0.0888036</td><td class="num">inf</td><td class="num">inf</td></tr>
+<tr><td>quaternion</td><td class="num">0.0266019</td><td class="num">0.0143307</td><td class="num">0.0141715</td></tr>
+<tr><td><strong>search_error</strong></td><td class="num">n/a</td><td class="num">0.00634024</td><td class="num">inf</td></tr>
+<tr><td><strong>heldout_error</strong></td><td class="num">n/a</td><td class="num">inf</td><td class="num">inf</td></tr>
 </table></div>
+<p class="note">Cost model approximate; see HANDOFF §4.5.</p>
 <footer>
 <p>rk-harness findings: Q15 fixed point, equal cycle budget, Cortex-M0+ cost models.</p>
 <p class="prov">Generated from run data by the harness; no human review. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
