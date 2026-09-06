@@ -166,32 +166,32 @@ details.repeats>div{padding:4px 12px 8px}
 <p class="sub">grid order 2, 2 stages, cycle bucket 1</p>
 <p class="lead">This page is the full archive record for the <a href="glossary.html#elite">elite</a> of one grid cell: algebraic order 2, 2 stages, <a href="glossary.html#cost-bucket">cycle bucket</a> 1. Everything here was produced by the pinned verifier; see the <a href="index.html">overview</a> for where this cell sits in the archive. The <a href="glossary.html#tiers">tier</a> and phase label are assigned mechanically, and <a href="glossary.html#verifier-hash">verifier_hash</a> pins the exact scoring code.</p>
 <div class="panel"><dl class="meta">
-<dt>tier</dt><dd><span class="tier tier-heldout_verified">heldout_verified</span></dd>
+<dt>tier</dt><dd><span class="tier tier-unreplicated">unreplicated</span></dd>
 <dt>phase label</dt><dd>search result</dd>
-<dt>tableau_hash</dt><dd><span class="hash">91b27380696d9bfe8cc3f7f114452b678138cdce64a8a99123540170c9cee090</span></dd>
+<dt>tableau_hash</dt><dd><span class="hash">4e5868abfd6e6066690d5ae52829556a14bbc3e92b4610851119cec37793c48c</span></dd>
 <dt>verifier_hash</dt><dd><span class="hash">de5bec229ffa404a85b9172fdc808ef6035716c3df8b308c816e90ffb54fd6e9</span></dd>
-<dt>cycle_id</dt><dd>549</dd>
-<dt>seed</dt><dd>54801</dd>
-<dt>directive_id</dt><dd>D-547H001</dd>
-<dt>hypothesis_id</dt><dd>H-001</dd>
-<dt>recorded</dt><dd>2026-08-30 17:02 CT <span class="when">(stored 2026-08-30T22:02:54Z UTC)</span></dd>
+<dt>cycle_id</dt><dd>1263</dd>
+<dt>seed</dt><dd>126201</dd>
+<dt>directive_id</dt><dd>D-F01263</dd>
+<dt>hypothesis_id</dt><dd>none</dd>
+<dt>recorded</dt><dd>2026-09-06 05:56 CT <span class="when">(stored 2026-09-06T10:56:18Z UTC)</span></dd>
 </dl></div>
 <h2>Tableau</h2>
 <div class="scroll"><table>
 <tr><th></th><th>A[.][0]</th><th>A[.][1]</th></tr>
 <tr><th class="mono">c[0] = 0/1</th><td class="mono">0/1</td><td class="mono">0/1</td></tr>
-<tr><th class="mono">c[1] = -311/8192</th><td class="mono">-311/8192</td><td class="mono">0/1</td></tr>
-<tr><th>b</th><td class="mono">4407/311</td><td class="mono">-4096/311</td></tr>
+<tr><th class="mono">c[1] = 5205/32768</th><td class="mono">5205/32768</td><td class="mono">0/1</td></tr>
+<tr><th>b</th><td class="mono">-11179/5205</td><td class="mono">16384/5205</td></tr>
 </table></div>
 <p class="note">All values are exact fractions; the Q15 integrator applies each one as a <a href="glossary.html#dyadic-rational">dyadic</a> m/2^s pair, listed below. The <a href="glossary.html#tableau">tableau</a> layout is defined in the glossary.</p>
 <details class="fold"><summary>Raw coefficient representation (m/2^s)</summary><div><p>The Q15 integrator applies each nonzero A and b entry to a state value v as (v * m) &gt;&gt; s, an arithmetic right shift that <a href="glossary.html#floor-rounding">floors</a>. Zero entries are skipped. When exact is no, m/2^s only approximates the fraction and the largest such gap is the record's coeff_quant_error. <a href="glossary.html#csd-weight">CSD weight</a> is the length of the shift-add chain the cost model may charge for the multiply by m.</p>
 <div class="scroll"><table><tr><th>entry</th><th>exact value</th><th class="num">m</th><th class="num">s</th><th>m/2^s</th><th>exact</th><th class="num">csd weight</th></tr>
-<tr><td class="mono">A[1][0]</td><td class="mono">-311/8192</td><td class="num">-311</td><td class="num">13</td><td class="mono">-311/2^13</td><td>yes</td><td class="num">4</td></tr>
-<tr><td class="mono">b[0]</td><td class="mono">4407/311</td><td class="num">29021</td><td class="num">11</td><td class="mono">29021/2^11</td><td>no</td><td class="num">7</td></tr>
-<tr><td class="mono">b[1]</td><td class="mono">-4096/311</td><td class="num">-26973</td><td class="num">11</td><td class="mono">-26973/2^11</td><td>no</td><td class="num">8</td></tr>
+<tr><td class="mono">A[1][0]</td><td class="mono">5205/32768</td><td class="num">5205</td><td class="num">15</td><td class="mono">5205/2^15</td><td>yes</td><td class="num">6</td></tr>
+<tr><td class="mono">b[0]</td><td class="mono">-11179/5205</td><td class="num">-8797</td><td class="num">12</td><td class="mono">-8797/2^12</td><td>no</td><td class="num">6</td></tr>
+<tr><td class="mono">b[1]</td><td class="mono">16384/5205</td><td class="num">12893</td><td class="num">12</td><td class="mono">12893/2^12</td><td>no</td><td class="num">7</td></tr>
 </table></div></div></details>
 <h2>Per problem</h2>
-<div class="panel"><figure><figcaption>Final-state error of this tableau on each problem, integrated in Q15 under m0plus_fast at the fixed cycle budget. Bar length is error on a log scale; the printed value is exact. dahlquist, damped_osc and vanderpol_mild are the search set the optimizer sees; the other four are the <a href="glossary.html#held-out-set">held-out set</a> that decides archive fitness, and on several problems <a href="glossary.html#floor-rounding">floor rounding</a> dominates the method choice, so bars can look similar across very different tableaus.</figcaption><svg viewBox="0 0 560 228" width="560" height="228" role="img" aria-label="Per-problem error, log scale"><line class="gridline" x1="118.00" y1="10" x2="118.00" y2="202"/><text x="118.00" y="216" text-anchor="middle">1e-5</text><line class="gridline" x1="203.20" y1="10" x2="203.20" y2="202"/><text x="203.20" y="216" text-anchor="middle">1e-4</text><line class="gridline" x1="288.40" y1="10" x2="288.40" y2="202"/><text x="288.40" y="216" text-anchor="middle">1e-3</text><line class="gridline" x1="373.60" y1="10" x2="373.60" y2="202"/><text x="373.60" y="216" text-anchor="middle">1e-2</text><line class="gridline" x1="458.80" y1="10" x2="458.80" y2="202"/><text x="458.80" y="216" text-anchor="middle">1e-1</text><line class="gridline" x1="544.00" y1="10" x2="544.00" y2="202"/><text x="544.00" y="216" text-anchor="middle">1e0</text><text x="112" y="27.00" text-anchor="end">dahlquist</text><rect x="118" y="14" width="55.98" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dahlquist: 4.53999e-05</title></rect><text class="lbl" x="179.98" y="27.00">4.53999e-05</text><text x="112" y="53.00" text-anchor="end">damped_osc</text><rect x="118" y="40" width="271.31" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>damped_osc: 0.0152892</title></rect><text class="lbl" x="395.31" y="53.00">0.0152892</text><text x="112" y="79.00" text-anchor="end">dc_motor</text><rect x="118" y="66" width="330.28" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dc_motor: 0.0752481</title></rect><text class="lbl" x="454.28" y="79.00">0.0752481</text><text x="112" y="105.00" text-anchor="end">pendulum</text><rect x="118" y="92" width="268.47" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>pendulum: 0.0141604</title></rect><text class="lbl" x="392.47" y="105.00">0.0141604</text><text x="112" y="131.00" text-anchor="end">quaternion</text><rect x="118" y="118" width="314.05" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>quaternion: 0.0485342</title></rect><text class="lbl" x="438.05" y="131.00">0.0485342</text><text x="112" y="157.00" text-anchor="end">rc_thermal</text><rect x="118" y="144" width="357.25" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>rc_thermal: 0.155983</title></rect><text class="lbl" x="481.25" y="157.00">0.155983</text><text x="112" y="183.00" text-anchor="end">vanderpol_mild</text><rect x="118" y="170" width="273.71" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>vanderpol_mild: 0.0163154</title></rect><text class="lbl" x="397.71" y="183.00">0.0163154</text></svg></figure></div>
+<div class="panel"><figure><figcaption>Final-state error of this tableau on each problem, integrated in Q15 under m0plus_fast at the fixed cycle budget. Bar length is error on a log scale; the printed value is exact. dahlquist, damped_osc and vanderpol_mild are the search set the optimizer sees; the other four are the <a href="glossary.html#held-out-set">held-out set</a> that decides archive fitness, and on several problems <a href="glossary.html#floor-rounding">floor rounding</a> dominates the method choice, so bars can look similar across very different tableaus.</figcaption><svg viewBox="0 0 560 228" width="560" height="228" role="img" aria-label="Per-problem error, log scale"><line class="gridline" x1="118.00" y1="10" x2="118.00" y2="202"/><text x="118.00" y="216" text-anchor="middle">1e-5</text><line class="gridline" x1="203.20" y1="10" x2="203.20" y2="202"/><text x="203.20" y="216" text-anchor="middle">1e-4</text><line class="gridline" x1="288.40" y1="10" x2="288.40" y2="202"/><text x="288.40" y="216" text-anchor="middle">1e-3</text><line class="gridline" x1="373.60" y1="10" x2="373.60" y2="202"/><text x="373.60" y="216" text-anchor="middle">1e-2</text><line class="gridline" x1="458.80" y1="10" x2="458.80" y2="202"/><text x="458.80" y="216" text-anchor="middle">1e-1</text><line class="gridline" x1="544.00" y1="10" x2="544.00" y2="202"/><text x="544.00" y="216" text-anchor="middle">1e0</text><text x="112" y="27.00" text-anchor="end">dahlquist</text><rect x="118" y="14" width="55.98" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dahlquist: 4.53999e-05</title></rect><text class="lbl" x="179.98" y="27.00">4.53999e-05</text><text x="112" y="53.00" text-anchor="end">damped_osc</text><rect x="118" y="40" width="256.70" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>damped_osc: 0.0103029</title></rect><text class="lbl" x="380.70" y="53.00">0.0103029</text><text x="112" y="79.00" text-anchor="end">dc_motor</text><rect x="118" y="66" width="329.81" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dc_motor: 0.0742956</title></rect><text class="lbl" x="453.81" y="79.00">0.0742956</text><text x="112" y="105.00" text-anchor="end">pendulum</text><rect x="118" y="92" width="203.34" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>pendulum: 0.00243547</title></rect><text class="lbl" x="327.34" y="105.00">0.00243547</text><text x="112" y="131.00" text-anchor="end">quaternion</text><rect x="118" y="118" width="326.44" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>quaternion: 0.0678265</title></rect><text class="lbl" x="450.44" y="131.00">0.0678265</text><text x="112" y="157.00" text-anchor="end">rc_thermal</text><rect x="118" y="144" width="355.05" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>rc_thermal: 0.146992</title></rect><text class="lbl" x="479.05" y="157.00">0.146992</text><text x="112" y="183.00" text-anchor="end">vanderpol_mild</text><rect x="118" y="170" width="299.46" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>vanderpol_mild: 0.0327216</title></rect><text class="lbl" x="423.46" y="183.00">0.0327216</text></svg></figure></div>
 <h2>Cycle counts (n_states = 1)</h2>
 <table><tr><th>model</th><th class="num">cycles</th><th>note</th></tr>
 <tr><td>m0plus_fast</td><td class="num">17</td><td></td></tr>
@@ -202,27 +202,27 @@ details.repeats>div{padding:4px 12px 8px}
 <table><tr><th>metric</th><th class="num">value</th></tr>
 <tr><td>measured_order</td><td class="num">2.01094</td></tr>
 <tr><td>order_fit_points</td><td class="num">8</td></tr>
-<tr><td>error_constant</td><td class="num">0.389748</td></tr>
+<tr><td>error_constant</td><td class="num">0.303725</td></tr>
 <tr><td>stability_real</td><td class="num">-2</td></tr>
 <tr><td>stability_imag</td><td class="num">0.00168185</td></tr>
 <tr><td>csd_weight_total</td><td class="num">19</td></tr>
-<tr><td>coeff_quant_error</td><td class="num">7.85018e-06</td></tr>
-<tr><td>search_error</td><td class="num">0.0129094</td></tr>
-<tr><td>heldout_error</td><td class="num">0.0902067</td></tr>
-<tr><td>overflow_margin</td><td class="num">1.91335</td></tr>
+<tr><td>coeff_quant_error</td><td class="num">3.74771e-05</td></tr>
+<tr><td>search_error</td><td class="num">0.0198062</td></tr>
+<tr><td>heldout_error</td><td class="num">0.0890685</td></tr>
+<tr><td>overflow_margin</td><td class="num">1.97374</td></tr>
 </table>
 <details class="explain"><summary>How to read this</summary><div><p>measured_order is the slope of a log-log fit of float64 final-state error against step size on the dahlquist problem, over the longest usable run of points (order_fit_points of them); it is measured evidence, distinct from the algebraic <a href="glossary.html#order">order</a> that keys the grid. error_constant is the L2 norm of the order-condition residuals one order past the achieved one, a size estimate for the leading truncation term. stability_real and stability_imag are the extents of the stability region along the negative real axis and the imaginary axis.</p><p>csd_weight_total sums <a href="glossary.html#csd-weight">CSD weights</a> over the non-trivial coefficients, a proxy for coefficient-arithmetic cost. coeff_quant_error is the largest gap between an exact coefficient and its m/2^s form. search_error and heldout_error are root-mean-square errors over the two problem sets at the fixed cycle budget; heldout_error is the archive fitness. overflow_margin is 1 / max|state| observed at twice the nominal amplitude and must exceed 1.0, meaning a doubled signal still fits in <a href="glossary.html#q15">Q15</a> range.</p></div></details>
 <h3>Every per-problem error, by cost model</h3>
 <div class="scroll"><table><tr><th>problem</th><th class="num">m0plus_fast</th><th class="num">m0plus_slow</th><th class="num">avr_approx</th></tr>
-<tr><td>dahlquist</td><td class="num">4.53999e-05</td><td class="num">4.53999e-05</td><td class="num">4.53999e-05</td></tr>
-<tr><td>damped_osc</td><td class="num">0.0152892</td><td class="num">0.00754662</td><td class="num">0.00476609</td></tr>
-<tr><td>vanderpol_mild</td><td class="num">0.0163154</td><td class="num">0.00695398</td><td class="num">0.0719896</td></tr>
-<tr><td>pendulum</td><td class="num">0.0141604</td><td class="num">0.0216723</td><td class="num">0.0716853</td></tr>
-<tr><td>dc_motor</td><td class="num">0.0752481</td><td class="num">0.111363</td><td class="num">0.0202729</td></tr>
-<tr><td>rc_thermal</td><td class="num">0.155983</td><td class="num">0.088177</td><td class="num">0.0519757</td></tr>
-<tr><td>quaternion</td><td class="num">0.0485342</td><td class="num">0.0461807</td><td class="num">0.0083188</td></tr>
-<tr><td><strong>search_error</strong></td><td class="num">n/a</td><td class="num">0.00592484</td><td class="num">0.0416542</td></tr>
-<tr><td><strong>heldout_error</strong></td><td class="num">n/a</td><td class="num">0.0754641</td><td class="num">0.0456083</td></tr>
+<tr><td>dahlquist</td><td class="num">4.53999e-05</td><td class="num">4.53999e-05</td><td class="num">7.66704e-05</td></tr>
+<tr><td>damped_osc</td><td class="num">0.0103029</td><td class="num">0.00533121</td><td class="num">0.00481708</td></tr>
+<tr><td>vanderpol_mild</td><td class="num">0.0327216</td><td class="num">0.0293085</td><td class="num">0.0100733</td></tr>
+<tr><td>pendulum</td><td class="num">0.00243547</td><td class="num">0.00767522</td><td class="num">0.0461145</td></tr>
+<tr><td>dc_motor</td><td class="num">0.0742956</td><td class="num">0.0262859</td><td class="num">0.0142939</td></tr>
+<tr><td>rc_thermal</td><td class="num">0.146992</td><td class="num">0.0882573</td><td class="num">0.0523325</td></tr>
+<tr><td>quaternion</td><td class="num">0.0678265</td><td class="num">0.0239425</td><td class="num">0.0124409</td></tr>
+<tr><td><strong>search_error</strong></td><td class="num">n/a</td><td class="num">0.017199</td><td class="num">0.00644677</td></tr>
+<tr><td><strong>heldout_error</strong></td><td class="num">n/a</td><td class="num">0.0477296</td><td class="num">0.0361398</td></tr>
 </table></div>
 <p class="note">Cost model approximate; see HANDOFF §4.5.</p>
 <footer>
