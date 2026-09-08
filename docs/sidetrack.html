@@ -169,6 +169,7 @@ details.repeats>div{padding:4px 12px 8px}
 <h2>adaptive.controller_gains</h2>
 <p class="sub">adaptive track, 16 points</p>
 <p>Closes: EPOCH2-DESIGN section 4: the dyadic PI gains rest on one measurement, and the classical alpha for a 3(2) pair is 1/3 rather than 1/4</p>
+<p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
 <div class="scroll"><table>
 <tr><th>point</th><th>cycle</th><th>points</th><th>finished</th><th>max_error</th><th>rejection_rate</th><th>total_accepted</th><th>total_fevals</th><th>total_rejected</th></tr>
 <tr><th class="mono">a1o2_b0o1</th><td class="num">2380</td><td>3</td><td>3</td><td>2.1067e-05</td><td>0.01309</td><td>377</td><td>1149</td><td>5</td></tr>
@@ -191,6 +192,7 @@ details.repeats>div{padding:4px 12px 8px}
 <h2>adaptive.suite_sweep</h2>
 <p class="sub">adaptive track, 8 points</p>
 <p>Closes: EPOCH2-DESIGN section 5: the scored tolerance ladder is unchosen, and the published curve covers 3 of the 8 validation problems</p>
+<p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
 <div class="scroll"><table>
 <tr><th>point</th><th>cycle</th><th>points</th><th>finished</th><th>statuses</th><th>fevals_max</th><th>fevals_min</th><th>rejection_rate_max</th></tr>
 <tr><th class="mono">battery_2rc</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>421</td><td>28</td><td>0.0151515</td></tr>
@@ -205,6 +207,7 @@ details.repeats>div{padding:4px 12px 8px}
 <h2>sdirk.gamma_dyadic_scan</h2>
 <p class="sub">implicit track, 9 points</p>
 <p>Closes: EPOCH3-DESIGN: L-stability is to be checked numerically for the snapped gamma, and the NOT_L_STABLE threshold is a placeholder</p>
+<p class="note">Arithmetic: tableau and stability algebra exact over Fractions; the measured order is float64</p>
 <p class="note">gamma is snapped to a dyadic, a21 is fixed at 1 - gamma so that c2 = 1, and b is solved from the two order conditions. Stiff accuracy and order 2 can only hold together at the irrational gamma, so order is the one kept.</p>
 <div class="scroll"><table>
 <tr><th>point</th><th>cycle</th><th>candidates</th><th>a_stable</th><th>best_gamma</th><th>best_measured_order</th><th>best_r_at_infinity</th><th>l_stable</th></tr>
@@ -221,6 +224,7 @@ details.repeats>div{padding:4px 12px 8px}
 <h2>sdirk.newton_iters</h2>
 <p class="sub">implicit track, 4 points</p>
 <p>Closes: EPOCH3-DESIGN: three Newton iterations is the prototype&#x27;s setting, not a ruling</p>
+<p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
 <p class="note">EPOCH3-DESIGN.md: three iterations is the prototype&#x27;s setting, not a ruling; the count enters the pinned evaluator config at the epoch boundary, so it should be chosen on data</p>
 <div class="scroll"><table>
 <tr><th>point</th><th>cycle</th><th>cycles_per_step_2_states</th><th>newton_iters</th><th>order_estimate</th><th>stiff_best_errors</th></tr>
@@ -232,6 +236,7 @@ details.repeats>div{padding:4px 12px 8px}
 <h2>sdirk.stiff_suite</h2>
 <p class="sub">implicit track, 3 points</p>
 <p>Closes: EPOCH3-DESIGN: the stiff case rests on rc_thermal and a synthetic two-rate system, while the suite now has three purpose-built stiff problems</p>
+<p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
 <p class="note">cycle estimates exclude rhs and Jacobian evaluations, matching costmodel.cycle_count; SDIRK2 is priced with a finite-difference Jacobian because the validation problems supply no analytic one</p>
 <div class="scroll"><table>
 <tr><th>point</th><th>cycle</th><th>explicit_finishers</th><th>finishers</th><th>rk4_min_stable_n</th><th>sdirk2_best_error</th><th>sdirk2_min_stable_n</th></tr>
@@ -240,7 +245,7 @@ details.repeats>div{padding:4px 12px 8px}
 <tr><th class="mono">servo_load_step</th><td class="num">2380</td><td>none</td><td>sdirk2</td><td>n/a</td><td>8.63721e-07</td><td>8</td></tr>
 </table></div>
 <h2>What these numbers are not</h2>
-<ul><li>Not scored. No side-track measurement enters the archive, changes an elite, or affects a hypothesis verdict. The executor is outside the verifier hash by construction.</li><li>Not Q15. Every run here is float64, so quantization effects that dominate the archive, the floor bias in particular, are absent.</li><li>Not a cost comparison with the archive. There is no shared cycle budget. Where cycles per step appear, the explicit anchors are priced by the same pinned cost model the archive uses, and SDIRK2 is priced by the unpinned prototype estimate with a finite-difference Jacobian. Neither figure includes the right-hand side or Jacobian evaluation itself.</li><li>Preliminary. These exist to choose the parameters that get frozen at an epoch boundary. The scored implementation is written fresh against the pinned interfaces when that boundary arrives.</li></ul>
+<ul><li>Not scored. No side-track measurement enters the archive, changes an elite, or affects a hypothesis verdict. The executor is outside the verifier hash by construction.</li><li>Not Q15. Nothing on this page carries the quantization effects that dominate the archive, the floor bias in particular. Each job states its own arithmetic above, because they differ: the solver jobs run in float64, while the stability scan is exact over rationals with only the measured order in float.</li><li>Not a cost comparison with the archive. There is no shared cycle budget. Where cycles per step appear, the explicit anchors are priced by the same pinned cost model the archive uses, and SDIRK2 is priced by the unpinned prototype estimate with a finite-difference Jacobian. Neither figure includes the right-hand side or Jacobian evaluation itself.</li><li>Preliminary. These exist to choose the parameters that get frozen at an epoch boundary. The scored implementation is written fresh against the pinned interfaces when that boundary arrives.</li></ul>
 <p class="note">Plan, job catalogue and invariants: docs/SIDETRACK-AUTOMATION.md in the harness repository. Designs these feed: docs/EPOCH2-DESIGN.md and docs/EPOCH3-DESIGN.md.</p>
 <footer>
 <p>rk-harness findings: Q15 fixed point, equal cycle budget, Cortex-M0+ cost models.</p>
