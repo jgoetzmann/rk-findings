@@ -164,7 +164,7 @@ details.repeats>div{padding:4px 12px 8px}
 </div></header>
 <div class="wrap">
 <p class="lead">The side tracks are off-archive measurements for the two method classes the run does not score. Adaptive embedded pairs and implicit SDIRK methods cannot enter the archive as things stand, because the verifier accepts only explicit fixed-step tableaus; everything on this page is produced outside the scored path and exists so the epoch-2 and epoch-3 designs are settled on measurements rather than estimates. Each job states its own arithmetic below, because they differ. Nothing here ranks against the archive, and nothing here is Q15.</p>
-<div class="cards"><div class="card"><div class="k">points measured</div><div class="v">131</div><div class="d">one per parameter point in the plan</div></div><div class="card"><div class="k">jobs</div><div class="v">10</div><div class="d">each closes one open design question</div></div><div class="card"><div class="k">tracks</div><div class="v">adaptive, implicit</div><div class="d">adaptive is epoch 2, implicit is epoch 3</div></div><div class="card"><div class="k">code hash</div><div class="v">a98acb39fb4f</div><div class="d">digest over the executor and the prototypes</div></div></div>
+<div class="cards"><div class="card"><div class="k">points measured</div><div class="v">143</div><div class="d">one per parameter point in the plan</div></div><div class="card"><div class="k">jobs</div><div class="v">10</div><div class="d">each closes one open design question</div></div><div class="card"><div class="k">tracks</div><div class="v">adaptive, implicit</div><div class="d">adaptive is epoch 2, implicit is epoch 3</div></div><div class="card"><div class="k">code hash</div><div class="v">a98acb39fb4f</div><div class="d">digest over the executor and the prototypes</div></div></div>
 <details class="explain"><summary>How to read this</summary><div><p>A <em>point</em> is one member of a job's finite, deterministic plan. A firing of the side-track executor measures the points it has not measured yet, writes each as its own artifact, and appends a line to the ledger this page is rendered from.</p><p>Every artifact is a pure function of the code and the point's parameters: no clock, no host detail, no unseeded randomness, so re-measuring a point reproduces it byte for byte. The <strong>code hash</strong> is a digest over the executor and the prototype modules. A point counts as measured only under the hash that measured it, so editing a prototype re-opens its points instead of leaving stale numbers standing beside fresh ones.</p><p>These runs are float64 and off-archive by design. They carry no <a href="glossary.html#q15">Q15</a> quantization, no floor bias, and no cycle budget, so their errors are not comparable with anything on the <a href="glossary.html#elite">elite</a> grids. The comparison they support is between methods inside this page, not between this page and the archive.</p></div></details>
 <h2>adaptive.controller_gains</h2>
 <p class="sub">adaptive track, 32 points</p>
@@ -221,7 +221,7 @@ details.repeats>div{padding:4px 12px 8px}
 <tr><th class="mono">st4_s4</th><td class="num">2520</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>0</td><td>1073741824</td><td>capped</td></tr>
 </table></div>
 <h2>adaptive.q15_estimate_floor</h2>
-<p class="sub">adaptive track, 14 points</p>
+<p class="sub">adaptive track, 24 points</p>
 <p>Closes: EPOCH2-DESIGN section 3: the roughly 2 LSB floor-bias figure for the Q15 error estimate is an estimate, and section 5 needs the scored tolerance ladder to sit above whatever that floor turns out to be</p>
 <p class="note">Arithmetic: Q15 fixed point throughout, on the pinned primitives in rk_harness.fixedpoint, with floor multiply; the reference float mode used to reproduce the frozen curve is float64</p>
 <p class="note">the bit scan is booked at its worst case and its branches cannot be priced by the pinned cost model, so the sequence figure is an upper bound rather than an exact count. The factor table is held in Q14 because a Q15 table cannot represent a factor of 1.0 at all; the encoding is an open item in EPOCH2-DESIGN section 4.</p>
@@ -236,11 +236,21 @@ details.repeats>div{padding:4px 12px 8px}
 <tr><th class="mono">buck_converter_s1</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.0504386</td><td>-1.8119</td><td>0</td><td>false</td></tr>
 <tr><th class="mono">buck_converter_s2</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.0101078</td><td>-1.84062</td><td>0</td><td>false</td></tr>
 <tr><th class="mono">buck_converter_s4</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.016269</td><td>-1.81396</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">enzyme_qssa_s1</th><td class="num">2540</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>256</td><td>-0.200438</td><td>-1.8909</td><td>135</td><td>false</td></tr>
+<tr><th class="mono">enzyme_qssa_s2</th><td class="num">2540</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.12472</td><td>-1.84144</td><td>136</td><td>false</td></tr>
+<tr><th class="mono">enzyme_qssa_s4</th><td class="num">2540</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.0850521</td><td>-1.81784</td><td>140</td><td>false</td></tr>
 <tr><th class="mono">glucose_minimal_s1</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.0394501</td><td>-1.91737</td><td>0</td><td>false</td></tr>
 <tr><th class="mono">glucose_minimal_s2</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.0237129</td><td>-1.93891</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">glucose_minimal_s4</th><td class="num">2540</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.0134941</td><td>-1.90417</td><td>0</td><td>false</td></tr>
 <tr><th class="mono">pll_lock_s1</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok, overflow</td><td>512</td><td>-0.104358</td><td>-1.94728</td><td>1</td><td>false</td></tr>
 <tr><th class="mono">pll_lock_s2</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok</td><td>512</td><td>-0.00373301</td><td>-1.89591</td><td>0</td><td>false</td></tr>
 <tr><th class="mono">pll_lock_s4</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.00638674</td><td>-1.82013</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">robertson_scaled_s1</th><td class="num">2540</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>128</td><td>-0.166833</td><td>-1.88871</td><td>10</td><td>false</td></tr>
+<tr><th class="mono">robertson_scaled_s2</th><td class="num">2540</td><td>10</td><td>6</td><td>attempt_cap, ok, overflow, step_underflow</td><td>64</td><td>-0.112156</td><td>-1.88565</td><td>20</td><td>false</td></tr>
+<tr><th class="mono">robertson_scaled_s4</th><td class="num">2540</td><td>10</td><td>5</td><td>attempt_cap, ok, overflow, step_underflow</td><td>32</td><td>-0.0732931</td><td>-1.7575</td><td>32</td><td>false</td></tr>
+<tr><th class="mono">servo_load_step_s1</th><td class="num">2540</td><td>10</td><td>7</td><td>ok, overflow, step_underflow</td><td>256</td><td>-1.58357</td><td>-1.72787</td><td>3</td><td>false</td></tr>
+<tr><th class="mono">servo_load_step_s2</th><td class="num">2540</td><td>10</td><td>7</td><td>ok, overflow, step_underflow</td><td>n/a</td><td>-1.52041</td><td>-1.59191</td><td>3</td><td>false</td></tr>
+<tr><th class="mono">servo_load_step_s4</th><td class="num">2540</td><td>10</td><td>7</td><td>ok, overflow, step_underflow</td><td>n/a</td><td>-1.45251</td><td>-1.48171</td><td>4</td><td>false</td></tr>
 </table></div>
 <h2>adaptive.suite_sweep</h2>
 <p class="sub">adaptive track, 16 points</p>
@@ -325,12 +335,14 @@ details.repeats>div{padding:4px 12px 8px}
 <tr><th class="mono">s12</th><td class="num">2520</td><td>17</td><td>17</td><td>75/256</td><td>2.0069</td><td>-0.00124444</td><td>0</td></tr>
 </table></div>
 <h2>sdirk.jacobian_cost</h2>
-<p class="sub">implicit track, 1 points</p>
+<p class="sub">implicit track, 3 points</p>
 <p>Closes: EPOCH3-DESIGN: the optional analytic Jacobian field is unpriced because every side-track SDIRK number is costed with the finite difference</p>
 <p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
 <p class="note">the analytic Jacobian evaluation is excluded from the cycle count by the same convention costmodel.cycle_count uses for rhs evaluations, since both are application-supplied code. The reported saving is therefore the finite-difference assembly arithmetic plus the n extra rhs evaluations per step that assembly needs.</p>
 <div class="scroll"><table>
 <tr><th>point</th><th>cycle</th><th>best_error_analytic</th><th>best_error_finite_difference</th><th>cycles_analytic</th><th>cycles_finite_difference</th><th>cycles_saved</th><th>f_evals_saved</th><th>max_abs_diff</th><th>max_rel_diff</th></tr>
+<tr><th class="mono">enzyme_qssa</th><td class="num">2540</td><td>2.76241e-06</td><td>2.76241e-06</td><td>348</td><td>372</td><td>24</td><td>2</td><td>9.69249e-09</td><td>1.69982e-10</td></tr>
+<tr><th class="mono">robertson_scaled</th><td class="num">2540</td><td>n/a</td><td>n/a</td><td>598</td><td>652</td><td>54</td><td>3</td><td>3.72529e-07</td><td>3.72529e-07</td></tr>
 <tr><th class="mono">servo_load_step</th><td class="num">2520</td><td>3.46048e-06</td><td>3.46048e-06</td><td>348</td><td>372</td><td>24</td><td>2</td><td>9.93411e-09</td><td>1.02767e-09</td></tr>
 </table></div>
 <h2>sdirk.newton_iters</h2>
