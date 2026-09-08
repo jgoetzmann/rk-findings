@@ -164,85 +164,215 @@ details.repeats>div{padding:4px 12px 8px}
 </div></header>
 <div class="wrap">
 <p class="lead">The side tracks are off-archive measurements for the two method classes the run does not score. Adaptive embedded pairs and implicit SDIRK methods cannot enter the archive as things stand, because the verifier accepts only explicit fixed-step tableaus; everything on this page is produced outside the scored path and exists so the epoch-2 and epoch-3 designs are settled on measurements rather than estimates. Each job states its own arithmetic below, because they differ. Nothing here ranks against the archive, and nothing here is Q15.</p>
-<div class="cards"><div class="card"><div class="k">points measured</div><div class="v">40</div><div class="d">one per parameter point in the plan</div></div><div class="card"><div class="k">jobs</div><div class="v">5</div><div class="d">each closes one open design question</div></div><div class="card"><div class="k">tracks</div><div class="v">adaptive, implicit</div><div class="d">adaptive is epoch 2, implicit is epoch 3</div></div><div class="card"><div class="k">code hash</div><div class="v">a98acb39fb4f</div><div class="d">digest over the executor and the prototypes</div></div></div>
+<div class="cards"><div class="card"><div class="k">points measured</div><div class="v">131</div><div class="d">one per parameter point in the plan</div></div><div class="card"><div class="k">jobs</div><div class="v">10</div><div class="d">each closes one open design question</div></div><div class="card"><div class="k">tracks</div><div class="v">adaptive, implicit</div><div class="d">adaptive is epoch 2, implicit is epoch 3</div></div><div class="card"><div class="k">code hash</div><div class="v">a98acb39fb4f</div><div class="d">digest over the executor and the prototypes</div></div></div>
 <details class="explain"><summary>How to read this</summary><div><p>A <em>point</em> is one member of a job's finite, deterministic plan. A firing of the side-track executor measures the points it has not measured yet, writes each as its own artifact, and appends a line to the ledger this page is rendered from.</p><p>Every artifact is a pure function of the code and the point's parameters: no clock, no host detail, no unseeded randomness, so re-measuring a point reproduces it byte for byte. The <strong>code hash</strong> is a digest over the executor and the prototype modules. A point counts as measured only under the hash that measured it, so editing a prototype re-opens its points instead of leaving stale numbers standing beside fresh ones.</p><p>These runs are float64 and off-archive by design. They carry no <a href="glossary.html#q15">Q15</a> quantization, no floor bias, and no cycle budget, so their errors are not comparable with anything on the <a href="glossary.html#elite">elite</a> grids. The comparison they support is between methods inside this page, not between this page and the archive.</p></div></details>
 <h2>adaptive.controller_gains</h2>
-<p class="sub">adaptive track, 16 points</p>
+<p class="sub">adaptive track, 32 points</p>
 <p>Closes: EPOCH2-DESIGN section 4: the dyadic PI gains rest on one measurement, and the classical alpha for a 3(2) pair is 1/3 rather than 1/4</p>
 <p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
 <div class="scroll"><table>
 <tr><th>point</th><th>cycle</th><th>points</th><th>finished</th><th>max_error</th><th>rejection_rate</th><th>total_accepted</th><th>total_fevals</th><th>total_rejected</th></tr>
 <tr><th class="mono">a1o2_b0o1</th><td class="num">2380</td><td>3</td><td>3</td><td>2.1067e-05</td><td>0.01309</td><td>377</td><td>1149</td><td>5</td></tr>
+<tr><th class="mono">a1o2_b0o1</th><td class="num">2520</td><td>3</td><td>3</td><td>2.1067e-05</td><td>0.01309</td><td>377</td><td>1149</td><td>5</td></tr>
 <tr><th class="mono">a1o2_b1o16</th><td class="num">2380</td><td>3</td><td>3</td><td>1.94951e-05</td><td>0.01295</td><td>381</td><td>1161</td><td>5</td></tr>
+<tr><th class="mono">a1o2_b1o16</th><td class="num">2520</td><td>3</td><td>3</td><td>1.94951e-05</td><td>0.01295</td><td>381</td><td>1161</td><td>5</td></tr>
 <tr><th class="mono">a1o2_b1o4</th><td class="num">2380</td><td>3</td><td>3</td><td>1.55843e-05</td><td>0.15748</td><td>428</td><td>1527</td><td>80</td></tr>
+<tr><th class="mono">a1o2_b1o4</th><td class="num">2520</td><td>3</td><td>3</td><td>1.55843e-05</td><td>0.15748</td><td>428</td><td>1527</td><td>80</td></tr>
 <tr><th class="mono">a1o2_b1o8</th><td class="num">2380</td><td>3</td><td>3</td><td>1.82134e-05</td><td>0.01269</td><td>389</td><td>1185</td><td>5</td></tr>
+<tr><th class="mono">a1o2_b1o8</th><td class="num">2520</td><td>3</td><td>3</td><td>1.82134e-05</td><td>0.01269</td><td>389</td><td>1185</td><td>5</td></tr>
 <tr><th class="mono">a1o4_b0o1</th><td class="num">2380</td><td>3</td><td>3</td><td>1.51356e-05</td><td>0.01663</td><td>414</td><td>1266</td><td>7</td></tr>
+<tr><th class="mono">a1o4_b0o1</th><td class="num">2520</td><td>3</td><td>3</td><td>1.51356e-05</td><td>0.01663</td><td>414</td><td>1266</td><td>7</td></tr>
 <tr><th class="mono">a1o4_b1o16</th><td class="num">2380</td><td>3</td><td>3</td><td>1.23288e-05</td><td>0.01562</td><td>441</td><td>1347</td><td>7</td></tr>
+<tr><th class="mono">a1o4_b1o16</th><td class="num">2520</td><td>3</td><td>3</td><td>1.23288e-05</td><td>0.01562</td><td>441</td><td>1347</td><td>7</td></tr>
 <tr><th class="mono">a1o4_b1o4</th><td class="num">2380</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+<tr><th class="mono">a1o4_b1o4</th><td class="num">2520</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
 <tr><th class="mono">a1o4_b1o8</th><td class="num">2380</td><td>3</td><td>3</td><td>8.24192e-06</td><td>0.01386</td><td>498</td><td>1518</td><td>7</td></tr>
+<tr><th class="mono">a1o4_b1o8</th><td class="num">2520</td><td>3</td><td>3</td><td>8.24192e-06</td><td>0.01386</td><td>498</td><td>1518</td><td>7</td></tr>
 <tr><th class="mono">a1o8_b0o1</th><td class="num">2380</td><td>3</td><td>3</td><td>8.18309e-06</td><td>0.02534</td><td>500</td><td>1542</td><td>13</td></tr>
+<tr><th class="mono">a1o8_b0o1</th><td class="num">2520</td><td>3</td><td>3</td><td>8.18309e-06</td><td>0.02534</td><td>500</td><td>1542</td><td>13</td></tr>
 <tr><th class="mono">a1o8_b1o16</th><td class="num">2380</td><td>3</td><td>3</td><td>2.7001e-06</td><td>0.01793</td><td>712</td><td>2178</td><td>13</td></tr>
+<tr><th class="mono">a1o8_b1o16</th><td class="num">2520</td><td>3</td><td>3</td><td>2.7001e-06</td><td>0.01793</td><td>712</td><td>2178</td><td>13</td></tr>
 <tr><th class="mono">a1o8_b1o4</th><td class="num">2380</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+<tr><th class="mono">a1o8_b1o4</th><td class="num">2520</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
 <tr><th class="mono">a1o8_b1o8</th><td class="num">2380</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+<tr><th class="mono">a1o8_b1o8</th><td class="num">2520</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
 <tr><th class="mono">a3o8_b0o1</th><td class="num">2380</td><td>3</td><td>3</td><td>1.87781e-05</td><td>0.01018</td><td>389</td><td>1182</td><td>4</td></tr>
+<tr><th class="mono">a3o8_b0o1</th><td class="num">2520</td><td>3</td><td>3</td><td>1.87781e-05</td><td>0.01018</td><td>389</td><td>1182</td><td>4</td></tr>
 <tr><th class="mono">a3o8_b1o16</th><td class="num">2380</td><td>3</td><td>3</td><td>1.69917e-05</td><td>0.00993</td><td>399</td><td>1212</td><td>4</td></tr>
+<tr><th class="mono">a3o8_b1o16</th><td class="num">2520</td><td>3</td><td>3</td><td>1.69917e-05</td><td>0.00993</td><td>399</td><td>1212</td><td>4</td></tr>
 <tr><th class="mono">a3o8_b1o4</th><td class="num">2380</td><td>3</td><td>3</td><td>8.4292e-06</td><td>0.00797</td><td>498</td><td>1509</td><td>4</td></tr>
+<tr><th class="mono">a3o8_b1o4</th><td class="num">2520</td><td>3</td><td>3</td><td>8.4292e-06</td><td>0.00797</td><td>498</td><td>1509</td><td>4</td></tr>
 <tr><th class="mono">a3o8_b1o8</th><td class="num">2380</td><td>3</td><td>3</td><td>1.51866e-05</td><td>0.00957</td><td>414</td><td>1257</td><td>4</td></tr>
+<tr><th class="mono">a3o8_b1o8</th><td class="num">2520</td><td>3</td><td>3</td><td>1.51866e-05</td><td>0.00957</td><td>414</td><td>1257</td><td>4</td></tr>
+</table></div>
+<h2>adaptive.pair_census</h2>
+<p class="sub">adaptive track, 8 points</p>
+<p>Closes: EPOCH2-DESIGN section 2: the search-space note assumes a dyadic A admits both an order-p b and an order-(p-1) b_hat with a free parameter left, and that has not been counted</p>
+<p class="note">Arithmetic: exact over Fractions; no float and no Q15 arithmetic is involved</p>
+<div class="scroll"><table>
+<tr><th>point</th><th>cycle</th><th>b_hat_exact</th><th>b_hat_free</th><th>both_solvable</th><th>d_forced_zero</th><th>fsal</th><th>matrices</th><th>space_size</th><th>status</th></tr>
+<tr><th class="mono">st3_s1</th><td class="num">2520</td><td>64</td><td>64</td><td>0</td><td>0</td><td>0</td><td>64</td><td>64</td><td>ok</td></tr>
+<tr><th class="mono">st3_s2</th><td class="num">2520</td><td>384</td><td>512</td><td>4</td><td>0</td><td>0</td><td>512</td><td>512</td><td>ok</td></tr>
+<tr><th class="mono">st3_s3</th><td class="num">2520</td><td>2048</td><td>4096</td><td>6</td><td>0</td><td>0</td><td>4096</td><td>4096</td><td>ok</td></tr>
+<tr><th class="mono">st3_s4</th><td class="num">2520</td><td>10240</td><td>32768</td><td>24</td><td>0</td><td>0</td><td>32768</td><td>32768</td><td>ok</td></tr>
+<tr><th class="mono">st4_s1</th><td class="num">2520</td><td>4096</td><td>4096</td><td>3646</td><td>0</td><td>0</td><td>4096</td><td>4096</td><td>ok</td></tr>
+<tr><th class="mono">st4_s2</th><td class="num">2520</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>0</td><td>262144</td><td>capped</td></tr>
+<tr><th class="mono">st4_s3</th><td class="num">2520</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>0</td><td>16777216</td><td>capped</td></tr>
+<tr><th class="mono">st4_s4</th><td class="num">2520</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>0</td><td>1073741824</td><td>capped</td></tr>
+</table></div>
+<h2>adaptive.q15_estimate_floor</h2>
+<p class="sub">adaptive track, 14 points</p>
+<p>Closes: EPOCH2-DESIGN section 3: the roughly 2 LSB floor-bias figure for the Q15 error estimate is an estimate, and section 5 needs the scored tolerance ladder to sit above whatever that floor turns out to be</p>
+<p class="note">Arithmetic: Q15 fixed point throughout, on the pinned primitives in rk_harness.fixedpoint, with floor multiply; the reference float mode used to reproduce the frozen curve is float64</p>
+<p class="note">the bit scan is booked at its worst case and its branches cannot be priced by the pinned cost model, so the sequence figure is an upper bound rather than an exact count. The factor table is held in Q14 because a Q15 table cannot represent a factor of 1.0 at all; the encoding is an open item in EPOCH2-DESIGN section 4.</p>
+<div class="scroll"><table>
+<tr><th>point</th><th>cycle</th><th>points</th><th>finished</th><th>statuses</th><th>flattening_tol_lsb</th><th>mean_bias_lsb_pooled</th><th>mean_bias_lsb_total</th><th>overflow_rejected</th><th>tables_agree</th></tr>
+<tr><th class="mono">battery_2rc_s1</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.00486615</td><td>-2.03564</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">battery_2rc_s2</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.00466504</td><td>-1.89532</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">battery_2rc_s4</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.0126933</td><td>-1.943</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">bicycle_lateral_s1</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>256</td><td>-0.0168511</td><td>-1.59451</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">bicycle_lateral_s2</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.00646408</td><td>-1.28954</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">bicycle_lateral_s4</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.00734325</td><td>-1.22897</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">buck_converter_s1</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.0504386</td><td>-1.8119</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">buck_converter_s2</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.0101078</td><td>-1.84062</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">buck_converter_s4</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.016269</td><td>-1.81396</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">glucose_minimal_s1</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.0394501</td><td>-1.91737</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">glucose_minimal_s2</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.0237129</td><td>-1.93891</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">pll_lock_s1</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok, overflow</td><td>512</td><td>-0.104358</td><td>-1.94728</td><td>1</td><td>false</td></tr>
+<tr><th class="mono">pll_lock_s2</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok</td><td>512</td><td>-0.00373301</td><td>-1.89591</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">pll_lock_s4</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.00638674</td><td>-1.82013</td><td>0</td><td>false</td></tr>
 </table></div>
 <h2>adaptive.suite_sweep</h2>
-<p class="sub">adaptive track, 8 points</p>
+<p class="sub">adaptive track, 16 points</p>
 <p>Closes: EPOCH2-DESIGN section 5: the scored tolerance ladder is unchosen, and the published curve covers 3 of the 8 validation problems</p>
 <p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
 <div class="scroll"><table>
 <tr><th>point</th><th>cycle</th><th>points</th><th>finished</th><th>statuses</th><th>fevals_max</th><th>fevals_min</th><th>rejection_rate_max</th></tr>
 <tr><th class="mono">battery_2rc</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>421</td><td>28</td><td>0.0151515</td></tr>
+<tr><th class="mono">battery_2rc</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>421</td><td>28</td><td>0.0151515</td></tr>
 <tr><th class="mono">bicycle_lateral</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>1195</td><td>43</td><td>0.0434783</td></tr>
+<tr><th class="mono">bicycle_lateral</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>1195</td><td>43</td><td>0.0434783</td></tr>
 <tr><th class="mono">buck_converter</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>3571</td><td>91</td><td>0.0166667</td></tr>
+<tr><th class="mono">buck_converter</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>3571</td><td>91</td><td>0.0166667</td></tr>
 <tr><th class="mono">enzyme_qssa</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>3301</td><td>1162</td><td>0.198905</td></tr>
+<tr><th class="mono">enzyme_qssa</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>3301</td><td>1162</td><td>0.198905</td></tr>
 <tr><th class="mono">glucose_minimal</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>1675</td><td>49</td><td>0.0333333</td></tr>
+<tr><th class="mono">glucose_minimal</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>1675</td><td>49</td><td>0.0333333</td></tr>
 <tr><th class="mono">pll_lock</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>1603</td><td>52</td><td>0.0344828</td></tr>
+<tr><th class="mono">pll_lock</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>1603</td><td>52</td><td>0.0344828</td></tr>
 <tr><th class="mono">robertson_scaled</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>3883</td><td>2353</td><td>0.0425039</td></tr>
+<tr><th class="mono">robertson_scaled</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>3883</td><td>2353</td><td>0.0425039</td></tr>
 <tr><th class="mono">servo_load_step</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>3145</td><td>3004</td><td>0.00667939</td></tr>
+<tr><th class="mono">servo_load_step</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>3145</td><td>3004</td><td>0.00667939</td></tr>
+</table></div>
+<h2>sdirk.gamma_a21_scan</h2>
+<p class="sub">implicit track, 25 points</p>
+<p>Closes: EPOCH3-DESIGN: the L-stability window in J4 is 17 candidates wide and nothing pins that width, and the second free parameter of the 2-stage SDIRK is never varied</p>
+<p class="note">Arithmetic: tableau and stability algebra exact over Fractions; the measured order is float64</p>
+<p class="note">A = [[gamma, 0], [a21, gamma]], c is the row sum, b is solved from the two order-2 conditions, so b2 = (1/2 - gamma) / a21. The numerator of R(z) works out to (1, 1 - 2 gamma, 1/2 - 2 gamma + gamma^2) whatever a21 is, so |R(inf)|, A-stability and L-stability are functions of gamma alone. The a21 axis moves the order-3 residuals, stiff accuracy, the exactness of b, its CSD cost and the measured order.</p>
+<div class="scroll"><table>
+<tr><th>point</th><th>cycle</th><th>a21_values</th><th>a_stable_gammas</th><th>b_exact_pairs</th><th>gammas</th><th>l_stable_gammas</th><th>min_abs_r_inf</th><th>min_order3_residual</th><th>pairs</th><th>r_inf_a21_invariant</th><th>stiffly_accurate_pairs</th></tr>
+<tr><th class="mono">s04_t04</th><td class="num">2520</td><td>32</td><td>12</td><td>144</td><td>15</td><td>0</td><td>0.28</td><td>0.109375</td><td>480</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s04_t06</th><td class="num">2520</td><td>65</td><td>12</td><td>125</td><td>15</td><td>0</td><td>0.28</td><td>0.105469</td><td>975</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s04_t08</th><td class="num">2520</td><td>65</td><td>12</td><td>71</td><td>15</td><td>0</td><td>0.28</td><td>0.104492</td><td>975</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s04_t10</th><td class="num">2520</td><td>65</td><td>12</td><td>65</td><td>15</td><td>0</td><td>0.28</td><td>0.116292</td><td>975</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s04_t12</th><td class="num">2520</td><td>65</td><td>12</td><td>65</td><td>15</td><td>0</td><td>0.28</td><td>0.120687</td><td>975</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s06_t04</th><td class="num">2520</td><td>32</td><td>48</td><td>596</td><td>63</td><td>0</td><td>0.0637119</td><td>0.108724</td><td>2016</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s06_t06</th><td class="num">2520</td><td>65</td><td>48</td><td>425</td><td>63</td><td>0</td><td>0.0637119</td><td>0.104736</td><td>4095</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s06_t08</th><td class="num">2520</td><td>65</td><td>48</td><td>113</td><td>63</td><td>0</td><td>0.0637119</td><td>0.104431</td><td>4095</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s06_t10</th><td class="num">2520</td><td>65</td><td>48</td><td>71</td><td>63</td><td>0</td><td>0.0637119</td><td>0.112976</td><td>4095</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s06_t12</th><td class="num">2520</td><td>65</td><td>48</td><td>65</td><td>63</td><td>0</td><td>0.0637119</td><td>0.114461</td><td>4095</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s08_t04</th><td class="num">2520</td><td>32</td><td>44</td><td>615</td><td>65</td><td>0</td><td>0.00124444</td><td>0.107747</td><td>2080</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s08_t06</th><td class="num">2520</td><td>65</td><td>44</td><td>444</td><td>65</td><td>0</td><td>0.00124444</td><td>0.104706</td><td>4225</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s08_t08</th><td class="num">2520</td><td>65</td><td>44</td><td>75</td><td>65</td><td>0</td><td>0.00124444</td><td>0.104202</td><td>4225</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s08_t10</th><td class="num">2520</td><td>65</td><td>44</td><td>11</td><td>65</td><td>0</td><td>0.00124444</td><td>0.112172</td><td>4225</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s08_t12</th><td class="num">2520</td><td>65</td><td>44</td><td>1</td><td>65</td><td>0</td><td>0.00124444</td><td>0.11372</td><td>4225</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s10_t04</th><td class="num">2520</td><td>32</td><td>65</td><td>614</td><td>65</td><td>0</td><td>0.00124444</td><td>0.107503</td><td>2080</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s10_t06</th><td class="num">2520</td><td>65</td><td>65</td><td>443</td><td>65</td><td>0</td><td>0.00124444</td><td>0.104677</td><td>4225</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s10_t08</th><td class="num">2520</td><td>65</td><td>65</td><td>97</td><td>65</td><td>0</td><td>0.00124444</td><td>0.104431</td><td>4225</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s10_t10</th><td class="num">2520</td><td>65</td><td>65</td><td>20</td><td>65</td><td>0</td><td>0.00124444</td><td>0.114232</td><td>4225</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s10_t12</th><td class="num">2520</td><td>65</td><td>65</td><td>5</td><td>65</td><td>0</td><td>0.00124444</td><td>0.118352</td><td>4225</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s12_t04</th><td class="num">2520</td><td>32</td><td>65</td><td>611</td><td>65</td><td>0</td><td>0.00124444</td><td>0.108236</td><td>2080</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s12_t06</th><td class="num">2520</td><td>65</td><td>65</td><td>441</td><td>65</td><td>0</td><td>0.00124444</td><td>0.106004</td><td>4225</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s12_t08</th><td class="num">2520</td><td>65</td><td>65</td><td>94</td><td>65</td><td>0</td><td>0.00124444</td><td>0.105652</td><td>4225</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s12_t10</th><td class="num">2520</td><td>65</td><td>65</td><td>16</td><td>65</td><td>0</td><td>0.00124444</td><td>0.118352</td><td>4225</td><td>true</td><td>0</td></tr>
+<tr><th class="mono">s12_t12</th><td class="num">2520</td><td>65</td><td>65</td><td>2</td><td>65</td><td>0</td><td>0.00124444</td><td>0.123021</td><td>4225</td><td>true</td><td>0</td></tr>
 </table></div>
 <h2>sdirk.gamma_dyadic_scan</h2>
-<p class="sub">implicit track, 9 points</p>
+<p class="sub">implicit track, 18 points</p>
 <p>Closes: EPOCH3-DESIGN: L-stability is to be checked numerically for the snapped gamma, and the NOT_L_STABLE threshold is a placeholder</p>
 <p class="note">Arithmetic: tableau and stability algebra exact over Fractions; the measured order is float64</p>
 <p class="note">gamma is snapped to a dyadic, a21 is fixed at 1 - gamma so that c2 = 1, and b is solved from the two order conditions. Stiff accuracy and order 2 can only hold together at the irrational gamma, so order is the one kept.</p>
 <div class="scroll"><table>
 <tr><th>point</th><th>cycle</th><th>candidates</th><th>a_stable</th><th>best_gamma</th><th>best_measured_order</th><th>best_r_at_infinity</th><th>l_stable</th></tr>
 <tr><th class="mono">s04</th><td class="num">2380</td><td>13</td><td>10</td><td>5/16</td><td>2.0062</td><td>-0.28</td><td>0</td></tr>
+<tr><th class="mono">s04</th><td class="num">2520</td><td>13</td><td>10</td><td>5/16</td><td>2.0062</td><td>-0.28</td><td>0</td></tr>
 <tr><th class="mono">s05</th><td class="num">2380</td><td>17</td><td>10</td><td>9/32</td><td>2.0066</td><td>0.209877</td><td>0</td></tr>
+<tr><th class="mono">s05</th><td class="num">2520</td><td>17</td><td>10</td><td>9/32</td><td>2.0066</td><td>0.209877</td><td>0</td></tr>
 <tr><th class="mono">s06</th><td class="num">2380</td><td>17</td><td>12</td><td>19/64</td><td>2.0069</td><td>-0.0637119</td><td>0</td></tr>
+<tr><th class="mono">s06</th><td class="num">2520</td><td>17</td><td>12</td><td>19/64</td><td>2.0069</td><td>-0.0637119</td><td>0</td></tr>
 <tr><th class="mono">s07</th><td class="num">2380</td><td>17</td><td>14</td><td>19/64</td><td>2.0069</td><td>-0.0637119</td><td>0</td></tr>
+<tr><th class="mono">s07</th><td class="num">2520</td><td>17</td><td>14</td><td>19/64</td><td>2.0069</td><td>-0.0637119</td><td>0</td></tr>
 <tr><th class="mono">s08</th><td class="num">2380</td><td>17</td><td>17</td><td>75/256</td><td>2.0069</td><td>-0.00124444</td><td>0</td></tr>
+<tr><th class="mono">s08</th><td class="num">2520</td><td>17</td><td>17</td><td>75/256</td><td>2.0069</td><td>-0.00124444</td><td>0</td></tr>
 <tr><th class="mono">s09</th><td class="num">2380</td><td>17</td><td>17</td><td>75/256</td><td>2.0069</td><td>-0.00124444</td><td>0</td></tr>
+<tr><th class="mono">s09</th><td class="num">2520</td><td>17</td><td>17</td><td>75/256</td><td>2.0069</td><td>-0.00124444</td><td>0</td></tr>
 <tr><th class="mono">s10</th><td class="num">2380</td><td>17</td><td>17</td><td>75/256</td><td>2.0069</td><td>-0.00124444</td><td>0</td></tr>
+<tr><th class="mono">s10</th><td class="num">2520</td><td>17</td><td>17</td><td>75/256</td><td>2.0069</td><td>-0.00124444</td><td>0</td></tr>
 <tr><th class="mono">s11</th><td class="num">2380</td><td>17</td><td>17</td><td>75/256</td><td>2.0069</td><td>-0.00124444</td><td>0</td></tr>
+<tr><th class="mono">s11</th><td class="num">2520</td><td>17</td><td>17</td><td>75/256</td><td>2.0069</td><td>-0.00124444</td><td>0</td></tr>
 <tr><th class="mono">s12</th><td class="num">2380</td><td>17</td><td>17</td><td>75/256</td><td>2.0069</td><td>-0.00124444</td><td>0</td></tr>
+<tr><th class="mono">s12</th><td class="num">2520</td><td>17</td><td>17</td><td>75/256</td><td>2.0069</td><td>-0.00124444</td><td>0</td></tr>
+</table></div>
+<h2>sdirk.jacobian_cost</h2>
+<p class="sub">implicit track, 1 points</p>
+<p>Closes: EPOCH3-DESIGN: the optional analytic Jacobian field is unpriced because every side-track SDIRK number is costed with the finite difference</p>
+<p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
+<p class="note">the analytic Jacobian evaluation is excluded from the cycle count by the same convention costmodel.cycle_count uses for rhs evaluations, since both are application-supplied code. The reported saving is therefore the finite-difference assembly arithmetic plus the n extra rhs evaluations per step that assembly needs.</p>
+<div class="scroll"><table>
+<tr><th>point</th><th>cycle</th><th>best_error_analytic</th><th>best_error_finite_difference</th><th>cycles_analytic</th><th>cycles_finite_difference</th><th>cycles_saved</th><th>f_evals_saved</th><th>max_abs_diff</th><th>max_rel_diff</th></tr>
+<tr><th class="mono">servo_load_step</th><td class="num">2520</td><td>3.46048e-06</td><td>3.46048e-06</td><td>348</td><td>372</td><td>24</td><td>2</td><td>9.93411e-09</td><td>1.02767e-09</td></tr>
 </table></div>
 <h2>sdirk.newton_iters</h2>
-<p class="sub">implicit track, 4 points</p>
+<p class="sub">implicit track, 8 points</p>
 <p>Closes: EPOCH3-DESIGN: three Newton iterations is the prototype&#x27;s setting, not a ruling</p>
 <p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
 <p class="note">EPOCH3-DESIGN.md: three iterations is the prototype&#x27;s setting, not a ruling; the count enters the pinned evaluator config at the epoch boundary, so it should be chosen on data</p>
 <div class="scroll"><table>
 <tr><th>point</th><th>cycle</th><th>cycles_per_step_2_states</th><th>newton_iters</th><th>order_estimate</th><th>stiff_best_errors</th></tr>
 <tr><th class="mono">it1</th><td class="num">2380</td><td>236</td><td>1</td><td>2.0069</td><td>enzyme_qssa 3.21588e-06; robertson_scaled 4.06153; servo_load_step 3.46048e-06</td></tr>
+<tr><th class="mono">it1</th><td class="num">2520</td><td>236</td><td>1</td><td>2.0069</td><td>enzyme_qssa 3.21588e-06; robertson_scaled 4.06153; servo_load_step 3.46048e-06</td></tr>
 <tr><th class="mono">it2</th><td class="num">2380</td><td>304</td><td>2</td><td>2.0069</td><td>enzyme_qssa 2.76307e-06; robertson_scaled n/a; servo_load_step 3.46048e-06</td></tr>
+<tr><th class="mono">it2</th><td class="num">2520</td><td>304</td><td>2</td><td>2.0069</td><td>enzyme_qssa 2.76307e-06; robertson_scaled n/a; servo_load_step 3.46048e-06</td></tr>
 <tr><th class="mono">it3</th><td class="num">2380</td><td>372</td><td>3</td><td>2.0069</td><td>enzyme_qssa 2.76241e-06; robertson_scaled n/a; servo_load_step 3.46048e-06</td></tr>
+<tr><th class="mono">it3</th><td class="num">2520</td><td>372</td><td>3</td><td>2.0069</td><td>enzyme_qssa 2.76241e-06; robertson_scaled n/a; servo_load_step 3.46048e-06</td></tr>
 <tr><th class="mono">it4</th><td class="num">2380</td><td>440</td><td>4</td><td>2.0069</td><td>enzyme_qssa 2.76241e-06; robertson_scaled n/a; servo_load_step 3.46048e-06</td></tr>
+<tr><th class="mono">it4</th><td class="num">2520</td><td>440</td><td>4</td><td>2.0069</td><td>enzyme_qssa 2.76241e-06; robertson_scaled n/a; servo_load_step 3.46048e-06</td></tr>
 </table></div>
 <h2>sdirk.stiff_suite</h2>
-<p class="sub">implicit track, 3 points</p>
+<p class="sub">implicit track, 6 points</p>
 <p>Closes: EPOCH3-DESIGN: the stiff case rests on rc_thermal and a synthetic two-rate system, while the suite now has three purpose-built stiff problems</p>
 <p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
 <p class="note">cycle estimates exclude rhs and Jacobian evaluations, matching costmodel.cycle_count; SDIRK2 is priced with a finite-difference Jacobian because the validation problems supply no analytic one</p>
 <div class="scroll"><table>
 <tr><th>point</th><th>cycle</th><th>explicit_finishers</th><th>finishers</th><th>rk4_min_stable_n</th><th>sdirk2_best_error</th><th>sdirk2_min_stable_n</th></tr>
 <tr><th class="mono">enzyme_qssa</th><td class="num">2380</td><td>none</td><td>sdirk2</td><td>n/a</td><td>6.89217e-07</td><td>8</td></tr>
+<tr><th class="mono">enzyme_qssa</th><td class="num">2520</td><td>none</td><td>sdirk2</td><td>n/a</td><td>6.89217e-07</td><td>8</td></tr>
 <tr><th class="mono">robertson_scaled</th><td class="num">2380</td><td>none</td><td>sdirk2</td><td>n/a</td><td>1.0198e-05</td><td>256</td></tr>
+<tr><th class="mono">robertson_scaled</th><td class="num">2520</td><td>none</td><td>sdirk2</td><td>n/a</td><td>1.0198e-05</td><td>256</td></tr>
 <tr><th class="mono">servo_load_step</th><td class="num">2380</td><td>none</td><td>sdirk2</td><td>n/a</td><td>8.63721e-07</td><td>8</td></tr>
+<tr><th class="mono">servo_load_step</th><td class="num">2520</td><td>none</td><td>sdirk2</td><td>n/a</td><td>8.63721e-07</td><td>8</td></tr>
+</table></div>
+<h2>sdirk.stiff_suite_budget</h2>
+<p class="sub">implicit track, 3 points</p>
+<p>Closes: EPOCH3-DESIGN: the stiff ladder in J3 stops at 256 steps while the harness scores at a matched cycle budget, where the cheap explicit methods take thousands of steps</p>
+<p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
+<p class="note">cycle estimates exclude rhs and Jacobian evaluations, matching costmodel.cycle_count; SDIRK2 is priced with a finite-difference Jacobian because that is how every other side-track SDIRK number is costed. The budget is not read from any results file: an artifact that depended on host state would stop being reproducible.</p>
+<div class="scroll"><table>
+<tr><th>point</th><th>cycle</th><th>budget_cycles</th><th>error_at_budget</th><th>finishers_at_budget</th><th>sdirk2_error_at_budget</th><th>steps_at_budget</th></tr>
+<tr><th class="mono">enzyme_qssa</th><td class="num">2520</td><td>65536</td><td>euler 1.89045e-05; heun2 3.42268e-08; midpoint 2.09683e-08; rk4 3.24934e-11; sdirk2 1.45953e-06</td><td>euler, heun2, midpoint, rk4, sdirk2</td><td>1.45953e-06</td><td>euler 6553; heun2 2520; midpoint 2978; rk4 992; sdirk2 176</td></tr>
+<tr><th class="mono">robertson_scaled</th><td class="num">2520</td><td>65536</td><td>euler 8.80946e-05; heun2 3.81289e-07; midpoint 3.16523e-07; rk4 n/a; sdirk2 n/a</td><td>euler, heun2, midpoint</td><td>n/a</td><td>euler 4369; heun2 1680; midpoint 1985; rk4 661; sdirk2 100</td></tr>
+<tr><th class="mono">servo_load_step</th><td class="num">2520</td><td>65536</td><td>euler 2.3216e-05; heun2 3.67262e-08; midpoint 2.62928e-08; rk4 2.62516e-13; sdirk2 1.82872e-06</td><td>euler, heun2, midpoint, rk4, sdirk2</td><td>1.82872e-06</td><td>euler 6553; heun2 2520; midpoint 2978; rk4 992; sdirk2 176</td></tr>
 </table></div>
 <h2>What these numbers are not</h2>
 <ul><li>Not scored. No side-track measurement enters the archive, changes an elite, or affects a hypothesis verdict. The executor is outside the verifier hash by construction.</li><li>Not Q15. Nothing on this page carries the quantization effects that dominate the archive, the floor bias in particular, and nothing here runs under a cycle budget. Each job states its own arithmetic above, because they differ: the solver jobs run in float64, while the stability scan is exact over rationals with only the measured order in float.</li><li>Not a cost comparison with the archive. There is no shared cycle budget. Where cycles per step appear, the explicit anchors are priced by the same pinned cost model the archive uses, and SDIRK2 is priced by the unpinned prototype estimate with a finite-difference Jacobian. Neither figure includes the right-hand side or Jacobian evaluation itself.</li><li>Preliminary. These exist to choose the parameters that get frozen at an epoch boundary. The scored implementation is written fresh against the pinned interfaces when that boundary arrives.</li></ul>
