@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>adaptive methods</title>
+<style>
+:root{
+  color-scheme:light;
+  --surface-0:#f5f4f2;--surface-1:#fcfcfb;--line:#dedcd6;--grid:#eceae5;
+  --text-1:#0b0b0b;--text-2:#52514e;--text-3:#8a887f;
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;
+  --good-bg:#e0f2e3;--good-fg:#0d5c1d;--warn-bg:#fdf0d3;--warn-fg:#7a5300;
+  --mut-bg:#eceae5;--mut-fg:#52514e;--bad-bg:#fbe3e3;--bad-fg:#8f1d1d;
+  --q1:#cde2fb;--q2:#9ec5f4;--q3:#6da7ec;--q4:#3987e5;--q5:#256abf;--q6:#184f95;--q7:#0d366b;
+  --banner-bg:#fdf0d3;--banner-line:#c98500;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme:dark;
+    --surface-0:#111110;--surface-1:#1a1a19;--line:#3a3936;--grid:#262523;
+    --text-1:#ffffff;--text-2:#c3c2b7;--text-3:#8a887f;
+    --s1:#3987e5;--s2:#d95926;--s3:#199e70;
+    --good-bg:#123a1c;--good-fg:#9fdca9;--warn-bg:#42350b;--warn-fg:#ecc76a;
+    --mut-bg:#262523;--mut-fg:#c3c2b7;--bad-bg:#461414;--bad-fg:#f1a5a5;
+    --q1:#0d366b;--q2:#184f95;--q3:#256abf;--q4:#3987e5;--q5:#6da7ec;--q6:#9ec5f4;--q7:#cde2fb;
+    --banner-bg:#42350b;--banner-line:#ecc76a;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-0);color:var(--text-1);
+  font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 48px}
+header.site{background:var(--surface-1);border-bottom:1px solid var(--line);margin-bottom:28px}
+header.site .wrap{padding-top:22px;padding-bottom:0}
+h1{font-size:26px;margin:6px 0 2px;letter-spacing:-.015em}
+h2{font-size:18px;margin:36px 0 12px;letter-spacing:-.01em}
+h3{font-size:14px;margin:20px 0 6px;color:var(--text-2)}
+p{max-width:76ch}
+.sub{color:var(--text-2);margin:0 0 14px;font-size:14px}
+nav.tabs{display:flex;gap:2px;flex-wrap:wrap;margin:14px 0 0}
+nav.tabs a{padding:8px 14px;border-radius:8px 8px 0 0;color:var(--text-2);
+  text-decoration:none;font-size:13.5px;border:1px solid transparent;border-bottom:none}
+nav.tabs a:hover{color:var(--text-1);background:var(--surface-0)}
+nav.tabs a.on{background:var(--surface-0);border-color:var(--line);color:var(--text-1);
+  font-weight:600;box-shadow:0 1px 0 var(--surface-0)}
+a{color:var(--s1)}
+.cards{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;align-items:stretch}
+.card{background:var(--surface-1);border:1px solid var(--line);border-radius:10px;
+  padding:12px 16px;min-width:148px;flex:0 1 auto;display:flex;flex-direction:column}
+.card .k{font-size:11px;color:var(--text-2);letter-spacing:.06em;text-transform:uppercase}
+.card .v{font-size:26px;font-weight:650;font-variant-numeric:tabular-nums;
+  letter-spacing:-.01em;line-height:1.25;margin:2px 0}
+.card .d{font-size:12px;color:var(--text-3);margin-top:auto}
+.panel{background:var(--surface-1);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;margin:16px 0}
+figure{margin:0}
+figure figcaption{font-size:13px;color:var(--text-2);margin:0 0 10px;max-width:72ch;
+  line-height:1.5}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-2);margin:2px 0 6px}
+.legend .sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;
+  vertical-align:-1px}
+.charts{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+svg{max-width:100%;height:auto;display:block}
+svg text{font:11px system-ui,-apple-system,"Segoe UI",sans-serif;fill:var(--text-2)}
+svg .lbl{font-weight:600;fill:var(--text-1);paint-order:stroke;stroke:var(--surface-1);
+  stroke-width:3px;stroke-linejoin:round}
+svg .axis{stroke:var(--line)}
+svg .gridline{stroke:var(--grid)}
+svg .cellstroke{stroke:var(--surface-1);stroke-width:2px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;margin:10px 0;font-size:13px;background:var(--surface-1);
+  border:1px solid var(--line);border-radius:8px}
+th,td{border-bottom:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface-0);color:var(--text-2);font-weight:600;font-size:12px;
+  letter-spacing:.02em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover>td{background:var(--grid)}
+td{font-variant-numeric:tabular-nums}
+th.num,td.num{text-align:right}
+.tier,.badge{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11.5px;
+  font-weight:600;white-space:nowrap}
+.tier-heldout_verified{background:var(--good-bg);color:var(--good-fg)}
+.tier-search_only{background:var(--warn-bg);color:var(--warn-fg)}
+.tier-unreplicated{background:var(--mut-bg);color:var(--mut-fg)}
+.badge-open{background:var(--mut-bg);color:var(--mut-fg)}
+.badge-supported{background:var(--good-bg);color:var(--good-fg)}
+.badge-refuted{background:var(--bad-bg);color:var(--bad-fg)}
+.badge-inconclusive{background:var(--warn-bg);color:var(--warn-fg)}
+.badge-active{background:var(--good-bg);color:var(--good-fg)}
+.badge-frozen{background:var(--mut-bg);color:var(--mut-fg)}
+.hash{word-break:break-all;font:12px ui-monospace,Consolas,monospace;color:var(--text-2)}
+.mono{font:13px ui-monospace,Consolas,monospace}
+.note{font-size:13px;color:var(--text-2);font-style:italic}
+dl.meta{display:grid;grid-template-columns:max-content 1fr;gap:2px 16px;font-size:13px}
+dl.meta dt{color:var(--text-2)}
+dl.meta dd{margin:0}
+article.entry{background:var(--surface-1);border:1px solid var(--line);border-radius:10px;
+  padding:16px 20px;margin:14px 0}
+article.entry h2{margin-top:0}
+article.entry .when{font-size:12px;color:var(--text-3);margin:0 0 8px}
+.when{font-size:12px;color:var(--text-3)}
+p.lead{color:var(--text-2);font-size:13.5px;max-width:76ch;margin:10px 0 16px}
+details.explain{margin:10px 0;max-width:76ch;font-size:13px;color:var(--text-2);
+  border:1px solid var(--line);border-radius:8px;background:var(--surface-1)}
+details.explain summary{cursor:pointer;padding:6px 12px;color:var(--text-3);
+  font-size:12.5px;letter-spacing:.02em}
+details.explain summary:hover{color:var(--text-1)}
+details.explain[open] summary{border-bottom:1px solid var(--line);color:var(--text-2)}
+details.explain>div{padding:4px 12px 8px}
+details.explain p{margin:8px 0}
+details.fold{background:var(--surface-1);border:1px solid var(--line);border-radius:10px;
+  margin:10px 0}
+details.fold>summary{cursor:pointer;padding:10px 16px;font-size:13.5px}
+details.fold>summary:hover{color:var(--text-1)}
+details.fold[open]>summary{border-bottom:1px solid var(--line)}
+details.fold>div{padding:6px 16px 12px}
+footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--text-3)}
+footer p{margin:3px 0;max-width:none}
+footer p.prov a{color:var(--text-2)}
+nav.tabs.sub2{margin-top:0;padding-bottom:2px}
+nav.tabs.sub2 a{font-size:12.5px;padding:4px 12px;border-radius:7px;color:var(--text-3)}
+nav.tabs.sub2 a:hover{color:var(--text-1)}
+nav.tabs.sub2 a.on{background:var(--surface-0);border:1px solid var(--line);
+  color:var(--text-1);font-weight:600;box-shadow:none}
+nav.tabs.sub3{margin-top:0;padding-bottom:4px}
+nav.tabs.sub3 a{font-size:12px;padding:3px 12px;border-radius:7px;color:var(--text-3)}
+nav.tabs.sub3 a:hover{color:var(--text-1)}
+nav.tabs.sub3 a.on{background:var(--surface-0);border:1px solid var(--line);
+  color:var(--text-1);font-weight:600;box-shadow:none}
+
+/* the three method classes: one accent each, slots 1-3 of the validated palette */
+.card.klass{flex:1 1 280px;min-width:250px;max-width:380px;
+  border-left-width:3px;border-left-style:solid}
+.card.k-explicit{border-left-color:var(--s1)}
+.card.k-implicit{border-left-color:var(--s2)}
+.card.k-adaptive{border-left-color:var(--s3)}
+.card.klass .d{margin-top:0;margin-bottom:8px}
+.card.klass .n{font-size:12.5px;color:var(--text-2);margin:0 0 8px;max-width:none}
+.card.klass .go{font-size:13px;margin:auto 0 0;max-width:none}
+/* A class with nothing measured yet states that in words. Set smaller and in
+   the secondary colour so it does not read as a headline figure sitting beside
+   one, which is the comparison the hub row invites. */
+.card.unmeasured .v{font-size:17px;font-weight:550;color:var(--text-2);letter-spacing:0}
+
+/* one-line ledger rows: the summary carries the whole record, the body carries prose */
+.ledger{min-width:820px}
+.ledhead,details.led>summary{display:grid;
+  grid-template-columns:14px 78px 104px 1fr 58px 62px 52px;
+  gap:12px;align-items:center;padding:6px 12px}
+.ledhead{font-size:11px;color:var(--text-2);font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase}
+details.led{background:var(--surface-1);border:1px solid var(--line);border-radius:8px;
+  margin:4px 0;font-size:12.5px}
+details.led>summary{cursor:pointer;list-style:none;font-variant-numeric:tabular-nums}
+details.led>summary::-webkit-details-marker{display:none}
+details.led>summary::before{content:"+";color:var(--text-3);font-weight:600}
+details.led[open]>summary::before{content:"\2212"}
+details.led[open]>summary{border-bottom:1px solid var(--line)}
+details.led>div{padding:10px 16px 12px 40px}
+details.led .pred{font:12px ui-monospace,Consolas,monospace;color:var(--text-2);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+details.led .num,.ledhead .num{text-align:right}
+details.led .badge{justify-self:start}
+details.led .mono{font-size:12px;color:var(--text-2)}
+details.led .rep{color:var(--text-3);font-weight:600}
+details.led table{font-size:12px;margin:6px 0 0}
+details.repeats{margin:10px 0;font-size:13px;color:var(--text-2);border:1px solid var(--line);
+  border-radius:8px;background:var(--surface-0)}
+details.repeats>summary{cursor:pointer;padding:6px 12px;color:var(--text-3);font-size:12.5px}
+details.repeats>summary:hover{color:var(--text-1)}
+details.repeats[open]>summary{border-bottom:1px solid var(--line);color:var(--text-2)}
+details.repeats>div{padding:4px 12px 8px}
+.hash a,a.hash{font:12px ui-monospace,Consolas,monospace}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+<h1>adaptive methods</h1>
+<p class="sub">Embedded pairs and step-size control, measured off-archive.</p>
+<nav class="tabs"><a href="index.html">overview</a><a href="explicit.html">explicit</a><a href="implicit.html">implicit</a><a href="adaptive.html" class="on">adaptive</a></nav><nav class="tabs sub2"><a href="validation.html">validation</a><a href="benchmark.html">benchmark</a><a href="hypotheses.html">hypotheses</a><a href="falsification.html">falsification</a></nav><nav class="tabs sub3"><a href="methodology.html">methodology</a><a href="costmodel.html">cost model</a><a href="sidetrack.html">measurement ledger</a><a href="literature.html">literature</a><a href="interpretation.html">interpretation</a><a href="glossary.html">glossary</a></nav>
+</div></header>
+<div class="wrap">
+<p class="lead">Adaptive methods: the class that chooses its own step size from an error estimate, measured <a href="glossary.html#off-archive">off-archive</a> because the scored record schema holds one set of weights and one fixed step count. This page carries what the run has measured about the class, the library integrators that stand next to it, and a plain statement of what these numbers are not.</p>
+<p class="note">An adaptive method carries an embedded pair: two weight vectors over one set of stages, of different order. The difference between the two updates estimates the local error of the step, and a step-size controller turns that estimate into the next step size, shrinking after a step whose estimate exceeds the tolerance and growing when there is accuracy to spare. A step the controller declines is recomputed at a smaller size, so an adaptive run spends work on attempts that never advance the solution.</p>
+<p class="note">A record holds one b vector, and the verifier scores a fixed step count against a fixed cycle budget. An embedded pair has a second b vector with nowhere to live, and an adaptive run has no fixed step count to score, so the class is measured outside the scored path and its runs are never ranked against an archive score.</p>
+<div class="cards"><div class="card"><div class="k">points measured</div><div class="v">56</div><div class="d">one per parameter point in the plan; 24 of them were measured again after the executor changed</div></div><div class="card"><div class="k">jobs</div><div class="v">4</div><div class="d">each closes one open design question</div></div><div class="card"><div class="k">highest declined share</div><div class="v">0.15748</div><div class="d">largest share of attempts the controller declined at any measured point</div></div><div class="card"><div class="k">code hash</div><div class="v">305c692a1b5c</div><div class="d">digest over the executor and the prototypes, at the latest measurement</div></div></div>
+<h2>What an embedded pair is</h2>
+<p>Two methods share one A matrix and one set of stage derivatives. The higher-order weights b give the update that advances the solution; the lower-order weights b_hat give a second update from the same stages, and the difference between them is the error estimate, bought for the price of the arithmetic on the difference alone. The <a href="glossary.html#step-size-controller">step-size controller</a> compares that estimate against the requested tolerance: when the estimate is larger, the attempt is declined and recomputed at a smaller step size. Nothing in an archive record can hold b_hat, which is the whole of why this class sits outside the grids. The terms are defined in the <a href="glossary.html#embedded-pair">glossary</a>.</p>
+<h2>Accepted and declined work</h2>
+<p>What the controller did at each measured point: how many attempts advanced the solution, how many were declined and recomputed, and how much derivative work the whole run cost. The declined share is the number a fixed-step method has no counterpart for, and it is the reason an adaptive run cannot be priced by its step count alone.</p>
+<div class="scroll"><table>
+<tr><th>job</th><th>point</th><th>cycle</th><th class="num">accepted steps</th><th class="num">declined attempts</th><th class="num">declined share</th><th class="num">rhs evaluations</th><th class="num">largest error</th></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o2_b0o1</th><td class="num">2380</td><td class="num">377</td><td class="num">5</td><td class="num">0.01309</td><td class="num">1149</td><td class="num">2.1067e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o2_b0o1</th><td class="num">2520</td><td class="num">377</td><td class="num">5</td><td class="num">0.01309</td><td class="num">1149</td><td class="num">2.1067e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o2_b1o16</th><td class="num">2380</td><td class="num">381</td><td class="num">5</td><td class="num">0.01295</td><td class="num">1161</td><td class="num">1.94951e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o2_b1o16</th><td class="num">2520</td><td class="num">381</td><td class="num">5</td><td class="num">0.01295</td><td class="num">1161</td><td class="num">1.94951e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o2_b1o4</th><td class="num">2380</td><td class="num">428</td><td class="num">80</td><td class="num">0.15748</td><td class="num">1527</td><td class="num">1.55843e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o2_b1o4</th><td class="num">2520</td><td class="num">428</td><td class="num">80</td><td class="num">0.15748</td><td class="num">1527</td><td class="num">1.55843e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o2_b1o8</th><td class="num">2380</td><td class="num">389</td><td class="num">5</td><td class="num">0.01269</td><td class="num">1185</td><td class="num">1.82134e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o2_b1o8</th><td class="num">2520</td><td class="num">389</td><td class="num">5</td><td class="num">0.01269</td><td class="num">1185</td><td class="num">1.82134e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o4_b0o1</th><td class="num">2380</td><td class="num">414</td><td class="num">7</td><td class="num">0.01663</td><td class="num">1266</td><td class="num">1.51356e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o4_b0o1</th><td class="num">2520</td><td class="num">414</td><td class="num">7</td><td class="num">0.01663</td><td class="num">1266</td><td class="num">1.51356e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o4_b1o16</th><td class="num">2380</td><td class="num">441</td><td class="num">7</td><td class="num">0.01562</td><td class="num">1347</td><td class="num">1.23288e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o4_b1o16</th><td class="num">2520</td><td class="num">441</td><td class="num">7</td><td class="num">0.01562</td><td class="num">1347</td><td class="num">1.23288e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o4_b1o4</th><td class="num">2380</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o4_b1o4</th><td class="num">2520</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o4_b1o8</th><td class="num">2380</td><td class="num">498</td><td class="num">7</td><td class="num">0.01386</td><td class="num">1518</td><td class="num">8.24192e-06</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o4_b1o8</th><td class="num">2520</td><td class="num">498</td><td class="num">7</td><td class="num">0.01386</td><td class="num">1518</td><td class="num">8.24192e-06</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o8_b0o1</th><td class="num">2380</td><td class="num">500</td><td class="num">13</td><td class="num">0.02534</td><td class="num">1542</td><td class="num">8.18309e-06</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o8_b0o1</th><td class="num">2520</td><td class="num">500</td><td class="num">13</td><td class="num">0.02534</td><td class="num">1542</td><td class="num">8.18309e-06</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o8_b1o16</th><td class="num">2380</td><td class="num">712</td><td class="num">13</td><td class="num">0.01793</td><td class="num">2178</td><td class="num">2.7001e-06</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o8_b1o16</th><td class="num">2520</td><td class="num">712</td><td class="num">13</td><td class="num">0.01793</td><td class="num">2178</td><td class="num">2.7001e-06</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o8_b1o4</th><td class="num">2380</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o8_b1o4</th><td class="num">2520</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o8_b1o8</th><td class="num">2380</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a1o8_b1o8</th><td class="num">2520</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a3o8_b0o1</th><td class="num">2380</td><td class="num">389</td><td class="num">4</td><td class="num">0.01018</td><td class="num">1182</td><td class="num">1.87781e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a3o8_b0o1</th><td class="num">2520</td><td class="num">389</td><td class="num">4</td><td class="num">0.01018</td><td class="num">1182</td><td class="num">1.87781e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a3o8_b1o16</th><td class="num">2380</td><td class="num">399</td><td class="num">4</td><td class="num">0.00993</td><td class="num">1212</td><td class="num">1.69917e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a3o8_b1o16</th><td class="num">2520</td><td class="num">399</td><td class="num">4</td><td class="num">0.00993</td><td class="num">1212</td><td class="num">1.69917e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a3o8_b1o4</th><td class="num">2380</td><td class="num">498</td><td class="num">4</td><td class="num">0.00797</td><td class="num">1509</td><td class="num">8.4292e-06</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a3o8_b1o4</th><td class="num">2520</td><td class="num">498</td><td class="num">4</td><td class="num">0.00797</td><td class="num">1509</td><td class="num">8.4292e-06</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a3o8_b1o8</th><td class="num">2380</td><td class="num">414</td><td class="num">4</td><td class="num">0.00957</td><td class="num">1257</td><td class="num">1.51866e-05</td></tr>
+<tr><td>adaptive.controller_gains</td><th class="mono">a3o8_b1o8</th><td class="num">2520</td><td class="num">414</td><td class="num">4</td><td class="num">0.00957</td><td class="num">1257</td><td class="num">1.51866e-05</td></tr>
+</table></div>
+<h2>What the run has measured</h2>
+<details class="explain"><summary>How to read this</summary><div><p>A <em>point</em> is one member of a job's finite, deterministic plan. A firing of the side-track executor measures the points it has not measured yet, writes each as its own artifact, and appends a line to the ledger these tables are rendered from.</p><p>Every artifact is a pure function of the code and the point's parameters: no clock, no host detail, no unseeded randomness, so re-measuring a point reproduces it byte for byte. The <strong>code hash</strong> is a digest over the executor and the prototype modules, and a point counts as measured only under the hash that measured it.</p><p>These runs are <a href="glossary.html#off-archive">off-archive</a> by design and, except where a job says otherwise, they are float64: no <a href="glossary.html#q15">Q15</a> quantization, no floor bias, no cycle budget. Their errors are not comparable with anything on the <a href="glossary.html#elite">elite</a> grids.</p></div></details>
+<h3>adaptive.controller_gains</h3>
+<p class="sub">32 points</p>
+<p>Closes: EPOCH2-DESIGN section 4: the dyadic PI gains rest on one measurement, and the classical alpha for a 3(2) pair is 1/3 rather than 1/4</p>
+<p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
+<div class="scroll"><table>
+<tr><th>point</th><th>cycle</th><th>points</th><th>finished</th><th>max_error</th><th>rejection_rate</th><th>total_accepted</th><th>total_fevals</th><th>total_rejected</th></tr>
+<tr><th class="mono">a1o2_b0o1</th><td class="num">2380</td><td>3</td><td>3</td><td>2.1067e-05</td><td>0.01309</td><td>377</td><td>1149</td><td>5</td></tr>
+<tr><th class="mono">a1o2_b0o1</th><td class="num">2520</td><td>3</td><td>3</td><td>2.1067e-05</td><td>0.01309</td><td>377</td><td>1149</td><td>5</td></tr>
+<tr><th class="mono">a1o2_b1o16</th><td class="num">2380</td><td>3</td><td>3</td><td>1.94951e-05</td><td>0.01295</td><td>381</td><td>1161</td><td>5</td></tr>
+<tr><th class="mono">a1o2_b1o16</th><td class="num">2520</td><td>3</td><td>3</td><td>1.94951e-05</td><td>0.01295</td><td>381</td><td>1161</td><td>5</td></tr>
+<tr><th class="mono">a1o2_b1o4</th><td class="num">2380</td><td>3</td><td>3</td><td>1.55843e-05</td><td>0.15748</td><td>428</td><td>1527</td><td>80</td></tr>
+<tr><th class="mono">a1o2_b1o4</th><td class="num">2520</td><td>3</td><td>3</td><td>1.55843e-05</td><td>0.15748</td><td>428</td><td>1527</td><td>80</td></tr>
+<tr><th class="mono">a1o2_b1o8</th><td class="num">2380</td><td>3</td><td>3</td><td>1.82134e-05</td><td>0.01269</td><td>389</td><td>1185</td><td>5</td></tr>
+<tr><th class="mono">a1o2_b1o8</th><td class="num">2520</td><td>3</td><td>3</td><td>1.82134e-05</td><td>0.01269</td><td>389</td><td>1185</td><td>5</td></tr>
+<tr><th class="mono">a1o4_b0o1</th><td class="num">2380</td><td>3</td><td>3</td><td>1.51356e-05</td><td>0.01663</td><td>414</td><td>1266</td><td>7</td></tr>
+<tr><th class="mono">a1o4_b0o1</th><td class="num">2520</td><td>3</td><td>3</td><td>1.51356e-05</td><td>0.01663</td><td>414</td><td>1266</td><td>7</td></tr>
+<tr><th class="mono">a1o4_b1o16</th><td class="num">2380</td><td>3</td><td>3</td><td>1.23288e-05</td><td>0.01562</td><td>441</td><td>1347</td><td>7</td></tr>
+<tr><th class="mono">a1o4_b1o16</th><td class="num">2520</td><td>3</td><td>3</td><td>1.23288e-05</td><td>0.01562</td><td>441</td><td>1347</td><td>7</td></tr>
+<tr><th class="mono">a1o4_b1o4</th><td class="num">2380</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+<tr><th class="mono">a1o4_b1o4</th><td class="num">2520</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+<tr><th class="mono">a1o4_b1o8</th><td class="num">2380</td><td>3</td><td>3</td><td>8.24192e-06</td><td>0.01386</td><td>498</td><td>1518</td><td>7</td></tr>
+<tr><th class="mono">a1o4_b1o8</th><td class="num">2520</td><td>3</td><td>3</td><td>8.24192e-06</td><td>0.01386</td><td>498</td><td>1518</td><td>7</td></tr>
+<tr><th class="mono">a1o8_b0o1</th><td class="num">2380</td><td>3</td><td>3</td><td>8.18309e-06</td><td>0.02534</td><td>500</td><td>1542</td><td>13</td></tr>
+<tr><th class="mono">a1o8_b0o1</th><td class="num">2520</td><td>3</td><td>3</td><td>8.18309e-06</td><td>0.02534</td><td>500</td><td>1542</td><td>13</td></tr>
+<tr><th class="mono">a1o8_b1o16</th><td class="num">2380</td><td>3</td><td>3</td><td>2.7001e-06</td><td>0.01793</td><td>712</td><td>2178</td><td>13</td></tr>
+<tr><th class="mono">a1o8_b1o16</th><td class="num">2520</td><td>3</td><td>3</td><td>2.7001e-06</td><td>0.01793</td><td>712</td><td>2178</td><td>13</td></tr>
+<tr><th class="mono">a1o8_b1o4</th><td class="num">2380</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+<tr><th class="mono">a1o8_b1o4</th><td class="num">2520</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+<tr><th class="mono">a1o8_b1o8</th><td class="num">2380</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+<tr><th class="mono">a1o8_b1o8</th><td class="num">2520</td><td>3</td><td>0</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+<tr><th class="mono">a3o8_b0o1</th><td class="num">2380</td><td>3</td><td>3</td><td>1.87781e-05</td><td>0.01018</td><td>389</td><td>1182</td><td>4</td></tr>
+<tr><th class="mono">a3o8_b0o1</th><td class="num">2520</td><td>3</td><td>3</td><td>1.87781e-05</td><td>0.01018</td><td>389</td><td>1182</td><td>4</td></tr>
+<tr><th class="mono">a3o8_b1o16</th><td class="num">2380</td><td>3</td><td>3</td><td>1.69917e-05</td><td>0.00993</td><td>399</td><td>1212</td><td>4</td></tr>
+<tr><th class="mono">a3o8_b1o16</th><td class="num">2520</td><td>3</td><td>3</td><td>1.69917e-05</td><td>0.00993</td><td>399</td><td>1212</td><td>4</td></tr>
+<tr><th class="mono">a3o8_b1o4</th><td class="num">2380</td><td>3</td><td>3</td><td>8.4292e-06</td><td>0.00797</td><td>498</td><td>1509</td><td>4</td></tr>
+<tr><th class="mono">a3o8_b1o4</th><td class="num">2520</td><td>3</td><td>3</td><td>8.4292e-06</td><td>0.00797</td><td>498</td><td>1509</td><td>4</td></tr>
+<tr><th class="mono">a3o8_b1o8</th><td class="num">2380</td><td>3</td><td>3</td><td>1.51866e-05</td><td>0.00957</td><td>414</td><td>1257</td><td>4</td></tr>
+<tr><th class="mono">a3o8_b1o8</th><td class="num">2520</td><td>3</td><td>3</td><td>1.51866e-05</td><td>0.00957</td><td>414</td><td>1257</td><td>4</td></tr>
+</table></div>
+<h3>adaptive.pair_census</h3>
+<p class="sub">8 points</p>
+<p>Closes: EPOCH2-DESIGN section 2: the search-space note assumes a dyadic A admits both an order-p b and an order-(p-1) b_hat with a free parameter left, and that has not been counted</p>
+<p class="note">Arithmetic: exact over Fractions; no float and no Q15 arithmetic is involved</p>
+<div class="scroll"><table>
+<tr><th>point</th><th>cycle</th><th>b_hat_exact</th><th>b_hat_free</th><th>both_solvable</th><th>d_forced_zero</th><th>fsal</th><th>matrices</th><th>space_size</th><th>status</th></tr>
+<tr><th class="mono">st3_s1</th><td class="num">2520</td><td>64</td><td>64</td><td>0</td><td>0</td><td>0</td><td>64</td><td>64</td><td>ok</td></tr>
+<tr><th class="mono">st3_s2</th><td class="num">2520</td><td>384</td><td>512</td><td>4</td><td>0</td><td>0</td><td>512</td><td>512</td><td>ok</td></tr>
+<tr><th class="mono">st3_s3</th><td class="num">2520</td><td>2048</td><td>4096</td><td>6</td><td>0</td><td>0</td><td>4096</td><td>4096</td><td>ok</td></tr>
+<tr><th class="mono">st3_s4</th><td class="num">2520</td><td>10240</td><td>32768</td><td>24</td><td>0</td><td>0</td><td>32768</td><td>32768</td><td>ok</td></tr>
+<tr><th class="mono">st4_s1</th><td class="num">2520</td><td>4096</td><td>4096</td><td>3646</td><td>0</td><td>0</td><td>4096</td><td>4096</td><td>ok</td></tr>
+<tr><th class="mono">st4_s2</th><td class="num">2520</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>0</td><td>262144</td><td>capped</td></tr>
+<tr><th class="mono">st4_s3</th><td class="num">2520</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>0</td><td>16777216</td><td>capped</td></tr>
+<tr><th class="mono">st4_s4</th><td class="num">2520</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td><td>0</td><td>1073741824</td><td>capped</td></tr>
+</table></div>
+<h3>adaptive.q15_estimate_floor</h3>
+<p class="sub">24 points</p>
+<p>Closes: EPOCH2-DESIGN section 3: the roughly 2 LSB floor-bias figure for the Q15 error estimate is an estimate, and section 5 needs the scored tolerance ladder to sit above whatever that floor turns out to be</p>
+<p class="note">Arithmetic: Q15 fixed point throughout, on the pinned primitives in rk_harness.fixedpoint, with floor multiply; the reference float mode used to reproduce the frozen curve is float64</p>
+<p class="note">the bit scan is booked at its worst case and its branches cannot be priced by the pinned cost model, so the sequence figure is an upper bound rather than an exact count. The factor table is held in Q14 because a Q15 table cannot represent a factor of 1.0 at all; the encoding is an open item in EPOCH2-DESIGN section 4.</p>
+<div class="scroll"><table>
+<tr><th>point</th><th>cycle</th><th>points</th><th>finished</th><th>statuses</th><th>flattening_tol_lsb</th><th>mean_bias_lsb_pooled</th><th>mean_bias_lsb_total</th><th>overflow_rejected</th><th>tables_agree</th></tr>
+<tr><th class="mono">battery_2rc_s1</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.00486615</td><td>-2.03564</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">battery_2rc_s2</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.00466504</td><td>-1.89532</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">battery_2rc_s4</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.0126933</td><td>-1.943</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">bicycle_lateral_s1</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>256</td><td>-0.0168511</td><td>-1.59451</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">bicycle_lateral_s2</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.00646408</td><td>-1.28954</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">bicycle_lateral_s4</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.00734325</td><td>-1.22897</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">buck_converter_s1</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.0504386</td><td>-1.8119</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">buck_converter_s2</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.0101078</td><td>-1.84062</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">buck_converter_s4</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.016269</td><td>-1.81396</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">enzyme_qssa_s1</th><td class="num">2540</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>256</td><td>-0.200438</td><td>-1.8909</td><td>135</td><td>false</td></tr>
+<tr><th class="mono">enzyme_qssa_s2</th><td class="num">2540</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.12472</td><td>-1.84144</td><td>136</td><td>false</td></tr>
+<tr><th class="mono">enzyme_qssa_s4</th><td class="num">2540</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.0850521</td><td>-1.81784</td><td>140</td><td>false</td></tr>
+<tr><th class="mono">glucose_minimal_s1</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.0394501</td><td>-1.91737</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">glucose_minimal_s2</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.0237129</td><td>-1.93891</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">glucose_minimal_s4</th><td class="num">2540</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>512</td><td>-0.0134941</td><td>-1.90417</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">pll_lock_s1</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok, overflow</td><td>512</td><td>-0.104358</td><td>-1.94728</td><td>1</td><td>false</td></tr>
+<tr><th class="mono">pll_lock_s2</th><td class="num">2520</td><td>10</td><td>7</td><td>attempt_cap, ok</td><td>512</td><td>-0.00373301</td><td>-1.89591</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">pll_lock_s4</th><td class="num">2520</td><td>10</td><td>8</td><td>attempt_cap, ok</td><td>512</td><td>-0.00638674</td><td>-1.82013</td><td>0</td><td>false</td></tr>
+<tr><th class="mono">robertson_scaled_s1</th><td class="num">2540</td><td>10</td><td>7</td><td>attempt_cap, ok, step_underflow</td><td>128</td><td>-0.166833</td><td>-1.88871</td><td>10</td><td>false</td></tr>
+<tr><th class="mono">robertson_scaled_s2</th><td class="num">2540</td><td>10</td><td>6</td><td>attempt_cap, ok, overflow, step_underflow</td><td>64</td><td>-0.112156</td><td>-1.88565</td><td>20</td><td>false</td></tr>
+<tr><th class="mono">robertson_scaled_s4</th><td class="num">2540</td><td>10</td><td>5</td><td>attempt_cap, ok, overflow, step_underflow</td><td>32</td><td>-0.0732931</td><td>-1.7575</td><td>32</td><td>false</td></tr>
+<tr><th class="mono">servo_load_step_s1</th><td class="num">2540</td><td>10</td><td>7</td><td>ok, overflow, step_underflow</td><td>256</td><td>-1.58357</td><td>-1.72787</td><td>3</td><td>false</td></tr>
+<tr><th class="mono">servo_load_step_s2</th><td class="num">2540</td><td>10</td><td>7</td><td>ok, overflow, step_underflow</td><td>n/a</td><td>-1.52041</td><td>-1.59191</td><td>3</td><td>false</td></tr>
+<tr><th class="mono">servo_load_step_s4</th><td class="num">2540</td><td>10</td><td>7</td><td>ok, overflow, step_underflow</td><td>n/a</td><td>-1.45251</td><td>-1.48171</td><td>4</td><td>false</td></tr>
+</table></div>
+<h3>adaptive.suite_sweep</h3>
+<p class="sub">16 points</p>
+<p>Closes: EPOCH2-DESIGN section 5: the scored tolerance ladder is unchosen, and the published curve covers 3 of the 8 validation problems</p>
+<p class="note">Arithmetic: float64 only; no Q15 effects are included</p>
+<div class="scroll"><table>
+<tr><th>point</th><th>cycle</th><th>points</th><th>finished</th><th>statuses</th><th>fevals_max</th><th>fevals_min</th><th>rejection_rate_max</th></tr>
+<tr><th class="mono">battery_2rc</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>421</td><td>28</td><td>0.0151515</td></tr>
+<tr><th class="mono">battery_2rc</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>421</td><td>28</td><td>0.0151515</td></tr>
+<tr><th class="mono">bicycle_lateral</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>1195</td><td>43</td><td>0.0434783</td></tr>
+<tr><th class="mono">bicycle_lateral</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>1195</td><td>43</td><td>0.0434783</td></tr>
+<tr><th class="mono">buck_converter</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>3571</td><td>91</td><td>0.0166667</td></tr>
+<tr><th class="mono">buck_converter</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>3571</td><td>91</td><td>0.0166667</td></tr>
+<tr><th class="mono">enzyme_qssa</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>3301</td><td>1162</td><td>0.198905</td></tr>
+<tr><th class="mono">enzyme_qssa</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>3301</td><td>1162</td><td>0.198905</td></tr>
+<tr><th class="mono">glucose_minimal</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>1675</td><td>49</td><td>0.0333333</td></tr>
+<tr><th class="mono">glucose_minimal</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>1675</td><td>49</td><td>0.0333333</td></tr>
+<tr><th class="mono">pll_lock</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>1603</td><td>52</td><td>0.0344828</td></tr>
+<tr><th class="mono">pll_lock</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>1603</td><td>52</td><td>0.0344828</td></tr>
+<tr><th class="mono">robertson_scaled</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>3883</td><td>2353</td><td>0.0425039</td></tr>
+<tr><th class="mono">robertson_scaled</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>3883</td><td>2353</td><td>0.0425039</td></tr>
+<tr><th class="mono">servo_load_step</th><td class="num">2380</td><td>6</td><td>6</td><td>ok</td><td>3145</td><td>3004</td><td>0.00667939</td></tr>
+<tr><th class="mono">servo_load_step</th><td class="num">2520</td><td>6</td><td>6</td><td>ok</td><td>3145</td><td>3004</td><td>0.00667939</td></tr>
+</table></div>
+<h2>Library adaptive integrators</h2>
+<p>The same problems solved by the compiled explicit adaptive integrators scipy provides, at the benchmark's tolerance. They are the counterpart this class gets to stand next to, in the same place as its own numbers; the <a href="benchmark.html">benchmark page</a> carries the whole set and the environment they ran in.</p>
+<div class="panel"><figure><figcaption>Achieved error against derivative evaluations, both axes log, one mark per solve. Down and to the left is better on both axes: less work for less error. The measured ladder holds one tolerance rung, so each series is a single mark and no line is drawn. Adaptive and implicit library integrators choose their own step counts, so their work is reported for context and is never a same-work comparison with any fixed-step run on this site. Hover a mark for exact values.</figcaption><div class="legend"><span><span class="sw" style="background:var(--s1)"></span>RK45</span></div><svg viewBox="0 0 640 340" width="640" height="340" role="img" aria-label="Error against derivative evaluations for the library adaptive integrators"><line class="gridline" x1="52.00" y1="10" x2="52.00" y2="306"/><text x="52.00" y="320" text-anchor="middle">1e1</text><line class="gridline" x1="339.00" y1="10" x2="339.00" y2="306"/><text x="339.00" y="320" text-anchor="middle">1e2</text><line class="gridline" x1="626.00" y1="10" x2="626.00" y2="306"/><text x="626.00" y="320" text-anchor="middle">1e3</text><line class="gridline" x1="52" y1="306.00" x2="626" y2="306.00"/><text x="46" y="304.00" text-anchor="end">1e-6</text><line class="gridline" x1="52" y1="232.00" x2="626" y2="232.00"/><text x="46" y="235.50" text-anchor="end">1e-5</text><line class="gridline" x1="52" y1="158.00" x2="626" y2="158.00"/><text x="46" y="161.50" text-anchor="end">1e-4</text><line class="gridline" x1="52" y1="84.00" x2="626" y2="84.00"/><text x="46" y="87.50" text-anchor="end">1e-3</text><line class="gridline" x1="52" y1="10.00" x2="626" y2="10.00"/><text x="46" y="13.50" text-anchor="end">1e-2</text><line class="axis" x1="52" y1="306" x2="626" y2="306"/><line class="axis" x1="52" y1="10" x2="52" y2="306"/><text x="339.00" y="336" text-anchor="middle">derivative evaluations per solve</text><text x="12" y="158.00" text-anchor="middle" transform="rotate(-90 12 158.00)">error against the reference</text><circle cx="290.93" cy="245.13" r="4.5" fill="var(--s1)" class="cellstroke"><title>dahlquist / RK45: error 6.64604e-06 after 68 derivative evaluations</title></circle><circle cx="460.94" cy="112.43" r="4.5" fill="var(--s1)" class="cellstroke"><title>damped_osc / RK45: error 0.000412926 after 266 derivative evaluations</title></circle><circle cx="328.61" cy="175.25" r="4.5" fill="var(--s1)" class="cellstroke"><title>dc_motor / RK45: error 5.84714e-05 after 92 derivative evaluations</title></circle><circle cx="557.67" cy="21.48" r="4.5" fill="var(--s1)" class="cellstroke"><title>pendulum / RK45: error 0.00699539 after 578 derivative evaluations</title></circle><circle cx="328.61" cy="133.24" r="4.5" fill="var(--s1)" class="cellstroke"><title>quaternion / RK45: error 0.000216045 after 92 derivative evaluations</title></circle><circle cx="413.64" cy="172.81" r="4.5" fill="var(--s1)" class="cellstroke"><title>rc_thermal / RK45: error 6.30811e-05 after 182 derivative evaluations</title></circle><circle cx="471.71" cy="56.46" r="4.5" fill="var(--s1)" class="cellstroke"><title>vanderpol_mild / RK45: error 0.00235604 after 290 derivative evaluations</title></circle></svg></figure></div>
+<div class="scroll"><table><tr><th>problem</th><th>integrator</th><th class="num">error</th><th class="num">rtol</th><th class="num">atol</th><th class="num">accepted steps</th><th class="num">rhs evaluations</th><th class="num">median s per solve</th><th>status</th></tr>
+<tr><td>dahlquist</td><td>RK45</td><td class="num">6.64604e-06</td><td class="num">3.05176e-05</td><td class="num">0.00012207</td><td class="num">11</td><td class="num">68</td><td class="num">0.0006187</td><td>ok</td></tr>
+<tr><td>damped_osc</td><td>RK45</td><td class="num">0.000412926</td><td class="num">3.05176e-05</td><td class="num">0.00012207</td><td class="num">44</td><td class="num">266</td><td class="num">0.0023491</td><td>ok</td></tr>
+<tr><td>dc_motor</td><td>RK45</td><td class="num">5.84714e-05</td><td class="num">3.05176e-05</td><td class="num">0.000244141</td><td class="num">15</td><td class="num">92</td><td class="num">0.0017953</td><td>ok</td></tr>
+<tr><td>pendulum</td><td>RK45</td><td class="num">0.00699539</td><td class="num">3.05176e-05</td><td class="num">0.00012207</td><td class="num">82</td><td class="num">578</td><td class="num">0.0094761</td><td>ok</td></tr>
+<tr><td>quaternion</td><td>RK45</td><td class="num">0.000216045</td><td class="num">3.05176e-05</td><td class="num">0.00012207</td><td class="num">15</td><td class="num">92</td><td class="num">0.0020845</td><td>ok</td></tr>
+<tr><td>rc_thermal</td><td>RK45</td><td class="num">6.30811e-05</td><td class="num">3.05176e-05</td><td class="num">0.00012207</td><td class="num">26</td><td class="num">182</td><td class="num">0.0051742</td><td>ok</td></tr>
+<tr><td>vanderpol_mild</td><td>RK45</td><td class="num">0.00235604</td><td class="num">3.05176e-05</td><td class="num">0.000488281</td><td class="num">36</td><td class="num">290</td><td class="num">0.0051517</td><td>ok</td></tr>
+</table></div>
+<p class="note">Adaptive and implicit library integrators choose their own step counts, so their work is reported for context and is never a same-work comparison with any fixed-step run on this site.</p>
+<h2>Further evidence, not published here</h2>
+<div class="panel"><div class="scroll"><table><tr><th>document</th><th>state</th><th>what it holds</th></tr>
+<tr><td class="mono">rk-work/validation/axes.json</td><td>not written yet</td><td>the cycles-to-tolerance rows for this class, and the measured floor of the Q15 error estimate that bounds how tight a tolerance can mean anything</td></tr>
+<tr><td class="mono">rk-work/adaptive_archive/elites.json</td><td>not written yet</td><td>the unpinned lane archive: candidate pairs and controller gains ranked among themselves</td></tr>
+<tr><td class="mono">rk-work/schedule/shares.json</td><td>not written yet</td><td>the per-cycle lane log summarised per method class</td></tr>
+</table></div><p class="note">The traceability rule lists key_findings.json, validation/results.json, benchmark/results.json and the side-track ledger with its artifacts. Each document named above sits outside that list and says so in its own schema, so this page names it and reports whether it exists without publishing a number from it. Admitting one to the list is a decision for the owner, not for the page generator.</p></div>
+<h2>What these numbers are not</h2>
+<ul><li><strong>Not scored.</strong> No off-archive measurement enters the archive, changes an elite, or affects a hypothesis verdict. The executor sits outside the verifier hash by construction.</li><li><strong>Not Q15.</strong> Except where a job says otherwise, nothing here carries the quantization effects that dominate the archive, the floor bias in particular, and nothing here runs under a cycle budget. Each job states its own arithmetic, because they differ: the solver jobs run in float64, while the stability scan is exact over rationals with only the measured order in float.</li><li><strong>Not a cost comparison with the archive.</strong> There is no shared cycle budget. Where cycles per step appear, the explicit anchors are priced by the same pinned cost model the archive uses, and SDIRK2 is priced by the unpinned prototype estimate with a finite-difference Jacobian. Neither figure includes the right-hand side or the Jacobian evaluation itself.</li><li><strong>Preliminary.</strong> These exist to choose the parameters that get frozen at an epoch boundary. The scored implementation is written fresh against the pinned interfaces when that boundary arrives.</li></ul>
+<p class="note">Plan, job catalogue and invariants: docs/SIDETRACK-AUTOMATION.md in the harness repository. Designs these feed: docs/EPOCH2-DESIGN.md and docs/EPOCH3-DESIGN.md.</p>
+<footer>
+<p>rk-harness findings: Q15 fixed point, equal cycle budget, Cortex-M0+ cost models.</p>
+<p class="prov">Generated from run data by the harness; no human review. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
+</footer>
+</div>
+</body>
+</html>

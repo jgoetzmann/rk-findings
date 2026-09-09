@@ -124,6 +124,25 @@ nav.tabs.sub2 a{font-size:12.5px;padding:4px 12px;border-radius:7px;color:var(--
 nav.tabs.sub2 a:hover{color:var(--text-1)}
 nav.tabs.sub2 a.on{background:var(--surface-0);border:1px solid var(--line);
   color:var(--text-1);font-weight:600;box-shadow:none}
+nav.tabs.sub3{margin-top:0;padding-bottom:4px}
+nav.tabs.sub3 a{font-size:12px;padding:3px 12px;border-radius:7px;color:var(--text-3)}
+nav.tabs.sub3 a:hover{color:var(--text-1)}
+nav.tabs.sub3 a.on{background:var(--surface-0);border:1px solid var(--line);
+  color:var(--text-1);font-weight:600;box-shadow:none}
+
+/* the three method classes: one accent each, slots 1-3 of the validated palette */
+.card.klass{flex:1 1 280px;min-width:250px;max-width:380px;
+  border-left-width:3px;border-left-style:solid}
+.card.k-explicit{border-left-color:var(--s1)}
+.card.k-implicit{border-left-color:var(--s2)}
+.card.k-adaptive{border-left-color:var(--s3)}
+.card.klass .d{margin-top:0;margin-bottom:8px}
+.card.klass .n{font-size:12.5px;color:var(--text-2);margin:0 0 8px;max-width:none}
+.card.klass .go{font-size:13px;margin:auto 0 0;max-width:none}
+/* A class with nothing measured yet states that in words. Set smaller and in
+   the secondary colour so it does not read as a headline figure sitting beside
+   one, which is the comparison the hub row invites. */
+.card.unmeasured .v{font-size:17px;font-weight:550;color:var(--text-2);letter-spacing:0}
 
 /* one-line ledger rows: the summary carries the whole record, the body carries prose */
 .ledger{min-width:820px}
@@ -160,7 +179,7 @@ details.repeats>div{padding:4px 12px 8px}
 <header class="site"><div class="wrap">
 <h1>practical validation</h1>
 <p class="sub">Application-domain problems no search ever saw, at the same budget and arithmetic.</p>
-<nav class="tabs"><a href="index.html">overview</a><a href="validation.html" class="on">validation</a><a href="benchmark.html">benchmark</a><a href="sidetrack.html">side tracks</a><a href="hypotheses.html">hypotheses</a><a href="falsification.html">falsification</a></nav><nav class="tabs sub2"><a href="methodology.html">methodology</a><a href="costmodel.html">cost model</a><a href="literature.html">literature</a><a href="interpretation.html">interpretation</a><a href="glossary.html">glossary</a></nav>
+<nav class="tabs"><a href="index.html">overview</a><a href="explicit.html">explicit</a><a href="implicit.html">implicit</a><a href="adaptive.html">adaptive</a></nav><nav class="tabs sub2"><a href="validation.html" class="on">validation</a><a href="benchmark.html">benchmark</a><a href="hypotheses.html">hypotheses</a><a href="falsification.html">falsification</a></nav><nav class="tabs sub3"><a href="methodology.html">methodology</a><a href="costmodel.html">cost model</a><a href="sidetrack.html">measurement ledger</a><a href="literature.html">literature</a><a href="interpretation.html">interpretation</a><a href="glossary.html">glossary</a></nav>
 </div></header>
 <div class="wrap">
 <p class="lead">This page reports the practical validation suite: 8 problems taken from embedded application domains, disjoint from both the search set and the <a href="glossary.html#held-out-set">held-out set</a>, which no optimizer saw and no archive statistic includes. Discovered methods from the live archive and the classical anchors integrate each problem in <a href="glossary.html#q15">Q15</a> at the same fixed <a href="glossary.html#cycle-budget">cycle budget</a> of 65536 cycles under m0plus_fast with <a href="glossary.html#floor-rounding">floor rounding</a>, scored as final-state error against an independent reference solution. The suite splits into 5 non-stiff practical problems and 3 moderately stiff ones, grouped separately below because stiffness changes which methods finish at all.</p>

@@ -124,6 +124,25 @@ nav.tabs.sub2 a{font-size:12.5px;padding:4px 12px;border-radius:7px;color:var(--
 nav.tabs.sub2 a:hover{color:var(--text-1)}
 nav.tabs.sub2 a.on{background:var(--surface-0);border:1px solid var(--line);
   color:var(--text-1);font-weight:600;box-shadow:none}
+nav.tabs.sub3{margin-top:0;padding-bottom:4px}
+nav.tabs.sub3 a{font-size:12px;padding:3px 12px;border-radius:7px;color:var(--text-3)}
+nav.tabs.sub3 a:hover{color:var(--text-1)}
+nav.tabs.sub3 a.on{background:var(--surface-0);border:1px solid var(--line);
+  color:var(--text-1);font-weight:600;box-shadow:none}
+
+/* the three method classes: one accent each, slots 1-3 of the validated palette */
+.card.klass{flex:1 1 280px;min-width:250px;max-width:380px;
+  border-left-width:3px;border-left-style:solid}
+.card.k-explicit{border-left-color:var(--s1)}
+.card.k-implicit{border-left-color:var(--s2)}
+.card.k-adaptive{border-left-color:var(--s3)}
+.card.klass .d{margin-top:0;margin-bottom:8px}
+.card.klass .n{font-size:12.5px;color:var(--text-2);margin:0 0 8px;max-width:none}
+.card.klass .go{font-size:13px;margin:auto 0 0;max-width:none}
+/* A class with nothing measured yet states that in words. Set smaller and in
+   the secondary colour so it does not read as a headline figure sitting beside
+   one, which is the comparison the hub row invites. */
+.card.unmeasured .v{font-size:17px;font-weight:550;color:var(--text-2);letter-spacing:0}
 
 /* one-line ledger rows: the summary carries the whole record, the body carries prose */
 .ledger{min-width:820px}
@@ -160,7 +179,7 @@ details.repeats>div{padding:4px 12px 8px}
 <header class="site"><div class="wrap">
 <h1>interpretation</h1>
 <p class="sub">Model-written readings of the archive; the numbers stay authoritative.</p>
-<nav class="tabs"><a href="index.html">overview</a><a href="validation.html">validation</a><a href="benchmark.html">benchmark</a><a href="sidetrack.html">side tracks</a><a href="hypotheses.html">hypotheses</a><a href="falsification.html">falsification</a></nav><nav class="tabs sub2"><a href="methodology.html">methodology</a><a href="costmodel.html">cost model</a><a href="literature.html">literature</a><a href="interpretation.html" class="on">interpretation</a><a href="glossary.html">glossary</a></nav>
+<nav class="tabs"><a href="index.html">overview</a><a href="explicit.html">explicit</a><a href="implicit.html">implicit</a><a href="adaptive.html">adaptive</a></nav><nav class="tabs sub2"><a href="validation.html">validation</a><a href="benchmark.html">benchmark</a><a href="hypotheses.html">hypotheses</a><a href="falsification.html">falsification</a></nav><nav class="tabs sub3"><a href="methodology.html">methodology</a><a href="costmodel.html">cost model</a><a href="sidetrack.html">measurement ledger</a><a href="literature.html">literature</a><a href="interpretation.html" class="on">interpretation</a><a href="glossary.html">glossary</a></nav>
 </div></header>
 <div class="wrap">
 <p class="lead">Model-written readings of the archive at points during the run, newest at the top. Each entry is commentary on the numbers as they stood at that cycle; the tables and charts on the other pages stay authoritative, and where text and tables disagree, trust the tables. Unlike <a href="glossary.html#hypothesis-ledger">hypotheses</a> these readings carry no machine-checkable predicate, so they can be wrong in ways the code cannot check; they are kept because they explain what the search was steering toward. Click an entry for its full text.</p>
