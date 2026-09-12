@@ -3,16 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>cell p2 s4 b1</title>
+<title>Cell p2 s4 b1</title>
 <style>
 :root{
   color-scheme:light;
   --surface-0:#f5f4f2;--surface-1:#fcfcfb;--line:#dedcd6;--grid:#eceae5;
   --text-1:#0b0b0b;--text-2:#52514e;--text-3:#8a887f;
-  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;
   --good-bg:#e0f2e3;--good-fg:#0d5c1d;--warn-bg:#fdf0d3;--warn-fg:#7a5300;
   --mut-bg:#eceae5;--mut-fg:#52514e;--bad-bg:#fbe3e3;--bad-fg:#8f1d1d;
   --q1:#cde2fb;--q2:#9ec5f4;--q3:#6da7ec;--q4:#3987e5;--q5:#256abf;--q6:#184f95;--q7:#0d366b;
+  --on-q1:#0b0b0b;--on-q2:#0b0b0b;--on-q3:#0b0b0b;--on-q4:#0b0b0b;
+  --on-q5:#ffffff;--on-q6:#ffffff;--on-q7:#ffffff;
   --banner-bg:#fdf0d3;--banner-line:#c98500;
 }
 @media (prefers-color-scheme: dark){
@@ -20,10 +22,12 @@
     color-scheme:dark;
     --surface-0:#111110;--surface-1:#1a1a19;--line:#3a3936;--grid:#262523;
     --text-1:#ffffff;--text-2:#c3c2b7;--text-3:#8a887f;
-    --s1:#3987e5;--s2:#d95926;--s3:#199e70;
+    --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;
     --good-bg:#123a1c;--good-fg:#9fdca9;--warn-bg:#42350b;--warn-fg:#ecc76a;
     --mut-bg:#262523;--mut-fg:#c3c2b7;--bad-bg:#461414;--bad-fg:#f1a5a5;
     --q1:#0d366b;--q2:#184f95;--q3:#256abf;--q4:#3987e5;--q5:#6da7ec;--q6:#9ec5f4;--q7:#cde2fb;
+    --on-q1:#ffffff;--on-q2:#ffffff;--on-q3:#ffffff;--on-q4:#0b0b0b;
+    --on-q5:#0b0b0b;--on-q6:#0b0b0b;--on-q7:#0b0b0b;
     --banner-bg:#42350b;--banner-line:#ecc76a;
   }
 }
@@ -38,26 +42,48 @@ h2{font-size:18px;margin:36px 0 12px;letter-spacing:-.01em}
 h3{font-size:14px;margin:20px 0 6px;color:var(--text-2)}
 p{max-width:76ch}
 .sub{color:var(--text-2);margin:0 0 14px;font-size:14px}
+header.site .sub{max-width:none}
 nav.tabs{display:flex;gap:2px;flex-wrap:wrap;margin:14px 0 0}
 nav.tabs a{padding:8px 14px;border-radius:8px 8px 0 0;color:var(--text-2);
   text-decoration:none;font-size:13.5px;border:1px solid transparent;border-bottom:none}
 nav.tabs a:hover{color:var(--text-1);background:var(--surface-0)}
 nav.tabs a.on{background:var(--surface-0);border-color:var(--line);color:var(--text-1);
   font-weight:600;box-shadow:0 1px 0 var(--surface-0)}
+.navrow{display:flex;align-items:flex-end;justify-content:space-between;gap:4px 16px;
+  flex-wrap:wrap}
+a.about{font-size:13.5px;color:var(--text-1);text-decoration:none;white-space:nowrap;
+  padding:5px 12px;margin:0 0 6px;border:1px solid var(--line);border-radius:8px}
+a.about:hover{background:var(--surface-0);text-decoration:underline}
 a{color:var(--s1)}
-.cards{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;align-items:stretch}
+/* card rows are a grid, so every card in a row has the same width and the rows line up */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:12px;
+  margin:16px 0}
 .card{background:var(--surface-1);border:1px solid var(--line);border-radius:10px;
-  padding:12px 16px;min-width:148px;flex:0 1 auto;display:flex;flex-direction:column}
+  padding:12px 16px;min-width:0;display:flex;flex-direction:column}
+/* label, value and note line up across a row even where one label wraps to two lines:
+   each card takes its three rows from the row's own grid */
+.cards{grid-auto-rows:auto}
+.cards>.card:not(.klass){display:grid;grid-template-rows:subgrid;grid-row:span 3}
 .card .k{font-size:11px;color:var(--text-2);letter-spacing:.06em;text-transform:uppercase}
 .card .v{font-size:26px;font-weight:650;font-variant-numeric:tabular-nums;
   letter-spacing:-.01em;line-height:1.25;margin:2px 0}
+.card .v.vh{font:600 17px/1.9 ui-monospace,Consolas,monospace;letter-spacing:0;
+  overflow-wrap:anywhere}
 .card .d{font-size:12px;color:var(--text-3);margin-top:auto}
 .panel{background:var(--surface-1);border:1px solid var(--line);border-radius:10px;
   padding:16px 18px;margin:16px 0}
+/* a panel that holds one chart, one chart drawn at two widths, or one set of small
+   multiples is as wide as its content rather than the page */
+.panel:has(>figure>svg),.panel:has(>figure>.chart-wide),
+.panel:has(>figure>.multiples){width:fit-content;max-width:100%}
 figure{margin:0}
 figure figcaption{font-size:13px;color:var(--text-2);margin:0 0 10px;max-width:72ch;
   line-height:1.5}
-.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-2);margin:2px 0 6px}
+/* the cap is what stops a legend from setting the panel width: the panel is fit-content,
+   and an uncapped flex row offers its whole single-line width as max-content, so five
+   long solver names would widen the panel past the charts they label */
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-2);
+  margin:2px 0 6px;max-width:640px}
 .legend .sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;
   vertical-align:-1px}
 .charts{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
@@ -65,6 +91,7 @@ svg{max-width:100%;height:auto;display:block}
 svg text{font:11px system-ui,-apple-system,"Segoe UI",sans-serif;fill:var(--text-2)}
 svg .lbl{font-weight:600;fill:var(--text-1);paint-order:stroke;stroke:var(--surface-1);
   stroke-width:3px;stroke-linejoin:round}
+svg .cv{font-weight:600}
 svg .axis{stroke:var(--line)}
 svg .gridline{stroke:var(--grid)}
 svg .cellstroke{stroke:var(--surface-1);stroke-width:2px}
@@ -89,7 +116,9 @@ th.num,td.num{text-align:right}
 .badge-inconclusive{background:var(--warn-bg);color:var(--warn-fg)}
 .badge-active{background:var(--good-bg);color:var(--good-fg)}
 .badge-frozen{background:var(--mut-bg);color:var(--mut-fg)}
-.hash{word-break:break-all;font:12px ui-monospace,Consolas,monospace;color:var(--text-2)}
+.hash{word-break:break-all;font:12px ui-monospace,Consolas,monospace;color:var(--text-2);
+  line-height:inherit}
+p.note .hash{word-break:normal;white-space:nowrap}
 .mono{font:13px ui-monospace,Consolas,monospace}
 .note{font-size:13px;color:var(--text-2);font-style:italic}
 dl.meta{display:grid;grid-template-columns:max-content 1fr;gap:2px 16px;font-size:13px}
@@ -119,28 +148,37 @@ footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);
   font-size:12px;color:var(--text-3)}
 footer p{margin:3px 0;max-width:none}
 footer p.prov a{color:var(--text-2)}
-nav.tabs.sub2{margin-top:0;padding-bottom:2px}
-nav.tabs.sub2 a{font-size:12.5px;padding:4px 12px;border-radius:7px;color:var(--text-3)}
-nav.tabs.sub2 a:hover{color:var(--text-1)}
-nav.tabs.sub2 a.on{background:var(--surface-0);border:1px solid var(--line);
-  color:var(--text-1);font-weight:600;box-shadow:none}
-nav.tabs.sub3{margin-top:0;padding-bottom:4px}
-nav.tabs.sub3 a{font-size:12px;padding:3px 12px;border-radius:7px;color:var(--text-3)}
-nav.tabs.sub3 a:hover{color:var(--text-1)}
-nav.tabs.sub3 a.on{background:var(--surface-0);border:1px solid var(--line);
-  color:var(--text-1);font-weight:600;box-shadow:none}
+table.side td{min-width:150px;max-width:34ch}
+dl.gloss{margin:10px 0;max-width:82ch}
+dl.gloss dt{font-weight:600;margin-top:12px}
+dl.gloss dd{margin:2px 0 0;font-size:13.5px}
+/* the methodology article: infobox, contents and references */
+.meth-infobox{float:right;width:320px;margin:4px 0 18px 24px;font-size:12.5px}
+.meth-infobox caption{caption-side:top;font-weight:700;font-size:13.5px;text-align:left;
+  padding:6px 2px;color:var(--text-1)}
+.meth-infobox th,.meth-infobox td{padding:4px 8px;white-space:normal;font-weight:400}
+.meth-infobox th{width:42%;color:var(--text-2);font-weight:600;font-size:12px}
+@media(max-width:760px){.meth-infobox{float:none;width:100%;margin:12px 0}}
+.meth-toc{background:var(--surface-1);border:1px solid var(--line);border-radius:10px;
+  padding:12px 18px 12px 40px;max-width:44ch;font-size:13.5px;margin:18px 0}
+.meth-toc li{margin:3px 0}
+.meth-refs{font-size:13px;max-width:82ch;padding-left:2.2em}
+.meth-refs li{margin:4px 0}
+sup.meth-cite{font-size:10.5px;line-height:0}
+sup.meth-cite a{text-decoration:none}
 
 /* the three method classes: one accent each, slots 1-3 of the validated palette */
-.card.klass{flex:1 1 280px;min-width:250px;max-width:380px;
-  border-left-width:3px;border-left-style:solid}
+.cards:has(>.card.klass){grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card.klass{border-left-width:3px;border-left-style:solid}
 .card.k-explicit{border-left-color:var(--s1)}
 .card.k-implicit{border-left-color:var(--s2)}
 .card.k-adaptive{border-left-color:var(--s3)}
 .card.klass .d{margin-top:0;margin-bottom:8px}
 .card.klass .n{font-size:12.5px;color:var(--text-2);margin:0 0 8px;max-width:none}
+.card.klass .g{font-size:12px;color:var(--text-3);margin:0 0 8px;max-width:none}
 .card.klass .go{font-size:13px;margin:auto 0 0;max-width:none}
 /* A class with nothing measured yet states that in words. Set smaller and in
-   the secondary colour so it does not read as a headline figure sitting beside
+   the secondary color so it does not read as a headline figure sitting beside
    one, which is the comparison the hub row invites. */
 .card.unmeasured .v{font-size:17px;font-weight:550;color:var(--text-2);letter-spacing:0}
 
@@ -161,29 +199,70 @@ details.led[open]>summary{border-bottom:1px solid var(--line)}
 details.led>div{padding:10px 16px 12px 40px}
 details.led .pred{font:12px ui-monospace,Consolas,monospace;color:var(--text-2);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* an open row shows its whole predicate, so no hover title has to repeat it */
+details.led[open] .pred{white-space:normal;overflow-wrap:anywhere}
 details.led .num,.ledhead .num{text-align:right}
 details.led .badge{justify-self:start}
 details.led .mono{font-size:12px;color:var(--text-2)}
 details.led .rep{color:var(--text-3);font-weight:600}
 details.led table{font-size:12px;margin:6px 0 0}
-details.repeats{margin:10px 0;font-size:13px;color:var(--text-2);border:1px solid var(--line);
-  border-radius:8px;background:var(--surface-0)}
-details.repeats>summary{cursor:pointer;padding:6px 12px;color:var(--text-3);font-size:12.5px}
-details.repeats>summary:hover{color:var(--text-1)}
-details.repeats[open]>summary{border-bottom:1px solid var(--line);color:var(--text-2)}
-details.repeats>div{padding:4px 12px 8px}
 .hash a,a.hash{font:12px ui-monospace,Consolas,monospace}
+/* class pages: the 2 by 2 heatmap grid, small multiples, legend keys drawn as marks */
+.charts.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;
+  align-items:stretch}
+.charts.grid2>.panel{margin:0}
+.ptitle{margin:0 0 6px;font-size:13px;font-weight:600;color:var(--text-1)}
+/* the matched-accuracy table: columns 5 to 9 are numbers, aligned here once rather
+   than by a class on each of several hundred cells */
+table.matched td:nth-child(n+5):nth-child(-n+9){text-align:right}
+@media(max-width:900px){.charts.grid2{grid-template-columns:minmax(0,1fr)}}
+/* small multiples size the container, not the column: fixed tracks give the box a
+   max-content width of --cols panels, so the panel's fit-content wraps the charts
+   instead of resolving to one very long row and then clamping to the full width */
+.multiples{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,var(--tw,272px)));
+  gap:10px 14px;margin-top:6px;width:fit-content;max-width:100%}
+.legend svg.key{display:inline-block;vertical-align:-1px;margin-right:5px;overflow:visible}
+dl.glance{max-width:100ch;margin:6px 0 4px}
+/* A chart drawn for a phone is emitted beside the wide one; only one of the two is ever
+   shown, so a narrow screen gets the marks inside its viewport instead of the left edge
+   of a 640-wide frame. */
+.chart-phone{display:none}
+/* phones: a chart keeps its drawn size and scrolls inside its figure or its panel, since
+   shrinking a 640-wide chart to fit leaves 5 px text. The gradients are the cue that a
+   figure scrolls: the pale pair hides where the content ends, the dark pair shows at an
+   edge with more content past it, and background-attachment:local moves them with the
+   scroll. The side-by-side table gives up its fixed widths so all four columns fit. */
+@media(max-width:640px){
+  figure{overflow-x:auto}
+  figure svg{max-width:none}
+  .charts.grid2>.panel{overflow-x:auto}
+  figure,.charts.grid2>.panel{
+    background:
+      linear-gradient(90deg,var(--surface-1) 30%,transparent),
+      linear-gradient(270deg,var(--surface-1) 30%,transparent) 100% 0,
+      radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.18),transparent),
+      radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.18),transparent) 100% 0;
+    background-repeat:no-repeat;
+    background-size:28px 100%,28px 100%,14px 100%,14px 100%;
+    background-attachment:local,local,scroll,scroll}
+  .chart-wide{display:none}
+  .chart-phone{display:block}
+  table.side{table-layout:fixed;width:100%}
+  table.side th,table.side td{padding:6px;font-size:12px}
+  table.side th:nth-child(1){width:22%}
+  table.side th{white-space:normal;min-width:0}
+  table.side td{min-width:0;max-width:none;overflow-wrap:break-word}
+}
 </style>
 </head>
 <body>
 <header class="site"><div class="wrap">
-<h1>cell p2 s4 b1</h1>
-
-<nav class="tabs"><a href="index.html">overview</a><a href="explicit.html" class="on">explicit</a><a href="implicit.html">implicit</a><a href="adaptive.html">adaptive</a></nav><nav class="tabs sub2"><a href="validation.html">validation</a><a href="benchmark.html">benchmark</a><a href="hypotheses.html">hypotheses</a><a href="falsification.html">falsification</a></nav><nav class="tabs sub3"><a href="methodology.html">methodology</a><a href="costmodel.html">cost model</a><a href="sidetrack.html">measurement ledger</a><a href="literature.html">literature</a><a href="interpretation.html">interpretation</a><a href="glossary.html">glossary</a></nav>
+<h1>Cell p2 s4 b1</h1>
+<p class="sub">grid order 2, 4 stages, cycle bucket 1</p>
+<div class="navrow"><nav class="tabs"><a href="index.html">overview</a><a href="explicit.html" class="on">explicit</a><a href="implicit.html">implicit</a><a href="adaptive.html">adaptive</a><a href="validation.html">validation</a><a href="hypotheses.html">research log</a><a href="methodology.html">methodology</a></nav><a class="about" href="https://jgoetzmann.github.io/rk-overview/">About the project &#8599;</a></div>
 </div></header>
 <div class="wrap">
-<p class="sub">grid order 2, 4 stages, cycle bucket 1</p>
-<p class="lead">This page is the full archive record for the <a href="glossary.html#elite">elite</a> of one grid cell: algebraic order 2, 4 stages, <a href="glossary.html#cost-bucket">cycle bucket</a> 1. Everything here was produced by the pinned verifier; see the <a href="explicit.html">explicit archive</a> for where this cell sits in the grids. The <a href="glossary.html#tiers">tier</a> and phase label are assigned mechanically, and <a href="glossary.html#verifier-hash">verifier_hash</a> pins the exact scoring code.</p>
+<p class="lead">This page is the full archive record for this cell's <a href="methodology.html#elite">elite</a>. Every number here was produced by the pinned scoring code, and <a href="methodology.html#verifier-hash">verifier_hash</a> pins which version of it; see the <a href="explicit.html">explicit archive</a> for where this cell sits in the grids. The <a href="methodology.html#tiers">tier</a> and phase label are assigned mechanically.</p>
 <div class="panel"><dl class="meta">
 <dt>tier</dt><dd><span class="tier tier-unreplicated">unreplicated</span></dd>
 <dt>phase label</dt><dd>search result</dd>
@@ -204,8 +283,8 @@ details.repeats>div{padding:4px 12px 8px}
 <tr><th class="mono">c[3] = 1/2</th><td class="mono">1/16</td><td class="mono">1/4</td><td class="mono">3/16</td><td class="mono">0/1</td></tr>
 <tr><th>b</th><td class="mono">1/16</td><td class="mono">1/16</td><td class="mono">1/1</td><td class="mono">-1/8</td></tr>
 </table></div>
-<p class="note">All values are exact fractions; the Q15 integrator applies each one as a <a href="glossary.html#dyadic-rational">dyadic</a> m/2^s pair, listed below. The <a href="glossary.html#tableau">tableau</a> layout is defined in the glossary.</p>
-<details class="fold"><summary>Raw coefficient representation (m/2^s)</summary><div><p>The Q15 integrator applies each nonzero A and b entry to a state value v as (v * m) &gt;&gt; s, an arithmetic right shift that <a href="glossary.html#floor-rounding">floors</a>. Zero entries are skipped. When exact is no, m/2^s only approximates the fraction and the largest such gap is the record's coeff_quant_error. <a href="glossary.html#csd-weight">CSD weight</a> is the length of the shift-add chain the cost model may charge for the multiply by m.</p>
+<p class="note">All values are exact fractions; the Q15 integrator applies each one as a <a href="methodology.html#dyadic-rational">dyadic</a> m/2^s pair, listed below. The <a href="methodology.html#tableau">tableau</a> layout is defined in the glossary.</p>
+<details class="fold"><summary>Raw coefficient representation (m/2^s)</summary><div><p>The Q15 integrator applies each nonzero A and b entry to a state value v as (v * m) &gt;&gt; s, an arithmetic right shift that <a href="methodology.html#floor-rounding">floors</a>. Zero entries are skipped. When exact is no, m/2^s only approximates the fraction and the largest such gap is the record's coeff_quant_error. <a href="methodology.html#csd-weight">CSD weight</a> is the length of the shift-add chain the cost model may charge for the multiply by m.</p>
 <div class="scroll"><table><tr><th>entry</th><th>exact value</th><th class="num">m</th><th class="num">s</th><th>m/2^s</th><th>exact</th><th class="num">csd weight</th></tr>
 <tr><td class="mono">A[2][0]</td><td class="mono">1/16</td><td class="num">1</td><td class="num">4</td><td class="mono">1/2^4</td><td>yes</td><td class="num">1</td></tr>
 <tr><td class="mono">A[2][1]</td><td class="mono">1/2</td><td class="num">1</td><td class="num">1</td><td class="mono">1/2^1</td><td>yes</td><td class="num">1</td></tr>
@@ -218,12 +297,12 @@ details.repeats>div{padding:4px 12px 8px}
 <tr><td class="mono">b[3]</td><td class="mono">-1/8</td><td class="num">-1</td><td class="num">3</td><td class="mono">-1/2^3</td><td>yes</td><td class="num">1</td></tr>
 </table></div></div></details>
 <h2>Per problem</h2>
-<div class="panel"><figure><figcaption>Final-state error of this tableau on each problem, integrated in Q15 under m0plus_fast at the fixed cycle budget. Bar length is error on a log scale; the printed value is exact. dahlquist, damped_osc and vanderpol_mild are the search set the optimizer sees; the other four are the <a href="glossary.html#held-out-set">held-out set</a> that decides archive fitness, and on several problems <a href="glossary.html#floor-rounding">floor rounding</a> dominates the method choice, so bars can look similar across very different tableaus.</figcaption><svg viewBox="0 0 560 228" width="560" height="228" role="img" aria-label="Per-problem error, log scale"><line class="gridline" x1="118.00" y1="10" x2="118.00" y2="202"/><text x="118.00" y="216" text-anchor="middle">1e-5</text><line class="gridline" x1="203.20" y1="10" x2="203.20" y2="202"/><text x="203.20" y="216" text-anchor="middle">1e-4</text><line class="gridline" x1="288.40" y1="10" x2="288.40" y2="202"/><text x="288.40" y="216" text-anchor="middle">1e-3</text><line class="gridline" x1="373.60" y1="10" x2="373.60" y2="202"/><text x="373.60" y="216" text-anchor="middle">1e-2</text><line class="gridline" x1="458.80" y1="10" x2="458.80" y2="202"/><text x="458.80" y="216" text-anchor="middle">1e-1</text><line class="gridline" x1="544.00" y1="10" x2="544.00" y2="202"/><text x="544.00" y="216" text-anchor="middle">1e0</text><text x="112" y="27.00" text-anchor="end">dahlquist</text><rect x="118" y="14" width="55.98" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dahlquist: 4.53999e-05</title></rect><text class="lbl" x="179.98" y="27.00">4.53999e-05</text><text x="112" y="53.00" text-anchor="end">damped_osc</text><rect x="118" y="40" width="267.95" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>damped_osc: 0.0139606</title></rect><text class="lbl" x="391.95" y="53.00">0.0139606</text><text x="112" y="79.00" text-anchor="end">dc_motor</text><rect x="118" y="66" width="307.90" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dc_motor: 0.0410984</title></rect><text class="lbl" x="431.90" y="79.00">0.0410984</text><text x="112" y="105.00" text-anchor="end">pendulum</text><rect x="118" y="92" width="234.91" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>pendulum: 0.00571646</title></rect><text class="lbl" x="358.91" y="105.00">0.00571646</text><text x="112" y="131.00" text-anchor="end">quaternion</text><rect x="118" y="118" width="310.45" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>quaternion: 0.0440332</title></rect><text class="lbl" x="434.45" y="131.00">0.0440332</text><text x="112" y="157.00" text-anchor="end">rc_thermal</text><rect x="118" y="144" width="357.23" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>rc_thermal: 0.155905</title></rect><text class="lbl" x="481.23" y="157.00">0.155905</text><text x="112" y="183.00" text-anchor="end">vanderpol_mild</text><rect x="118" y="170" width="322.37" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>vanderpol_mild: 0.0607715</title></rect><text class="lbl" x="446.37" y="183.00">0.0607715</text></svg></figure></div>
+<div class="panel"><figure><figcaption>Final-state error of this tableau on each problem, integrated in Q15 under m0plus_fast at the fixed cycle budget. Bar length is error on a log scale; the printed value is exact. dahlquist, damped_osc and vanderpol_mild are the search set the optimizer sees; the other four are the <a href="methodology.html#held-out-set">held-out set</a> that decides archive fitness, and on several problems <a href="methodology.html#floor-rounding">floor rounding</a> dominates the method choice, so bars can look similar across very different tableaus.</figcaption><svg viewBox="0 0 560 228" width="560" height="228" role="img" aria-label="Per-problem error, log scale"><line class="gridline" x1="118.00" y1="10" x2="118.00" y2="202"/><text x="118.00" y="216" text-anchor="middle">1e-5</text><line class="gridline" x1="203.20" y1="10" x2="203.20" y2="202"/><text x="203.20" y="216" text-anchor="middle">1e-4</text><line class="gridline" x1="288.40" y1="10" x2="288.40" y2="202"/><text x="288.40" y="216" text-anchor="middle">1e-3</text><line class="gridline" x1="373.60" y1="10" x2="373.60" y2="202"/><text x="373.60" y="216" text-anchor="middle">1e-2</text><line class="gridline" x1="458.80" y1="10" x2="458.80" y2="202"/><text x="458.80" y="216" text-anchor="middle">1e-1</text><line class="gridline" x1="544.00" y1="10" x2="544.00" y2="202"/><text x="544.00" y="216" text-anchor="middle">1e0</text><text x="112" y="27.00" text-anchor="end">dahlquist</text><rect x="118" y="14" width="55.98" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dahlquist: 4.53999e-05</title></rect><text class="lbl" x="179.98" y="27.00">4.53999e-05</text><text x="112" y="53.00" text-anchor="end">damped_osc</text><rect x="118" y="40" width="267.95" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>damped_osc: 0.0139606</title></rect><text class="lbl" x="391.95" y="53.00">0.0139606</text><text x="112" y="79.00" text-anchor="end">dc_motor</text><rect x="118" y="66" width="307.90" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dc_motor: 0.0410984</title></rect><text class="lbl" x="431.90" y="79.00">0.0410984</text><text x="112" y="105.00" text-anchor="end">pendulum</text><rect x="118" y="92" width="234.91" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>pendulum: 0.00571646</title></rect><text class="lbl" x="358.91" y="105.00">0.00571646</text><text x="112" y="131.00" text-anchor="end">quaternion</text><rect x="118" y="118" width="310.45" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>quaternion: 0.0440332</title></rect><text class="lbl" x="434.45" y="131.00">0.0440332</text><text x="112" y="157.00" text-anchor="end">rc_thermal</text><rect x="118" y="144" width="357.23" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>rc_thermal: 0.155905</title></rect><text class="lbl" x="481.23" y="157.00">0.155905</text><text x="112" y="183.00" text-anchor="end">vanderpol_mild</text><rect x="118" y="170" width="322.37" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>vanderpol_mild: 0.0607715</title></rect><text class="lbl" x="446.37" y="183.00">0.0607715</text></svg></figure></div>
 <h2>Cycle counts (n_states = 1)</h2>
 <table><tr><th>model</th><th class="num">cycles</th><th>note</th></tr>
 <tr><td>m0plus_fast</td><td class="num">30</td><td></td></tr>
 <tr><td>m0plus_slow</td><td class="num">31</td><td></td></tr>
-<tr><td>avr_approx</td><td class="num">104</td><td><span class="note">Cost model approximate; see HANDOFF §4.5.</span></td></tr>
+<tr><td>avr_approx</td><td class="num">104</td><td><span class="note">avr_approx is an approximate model, shown for context only.</span></td></tr>
 </table>
 <h2>Score</h2>
 <table><tr><th>metric</th><th class="num">value</th></tr>
@@ -238,7 +317,7 @@ details.repeats>div{padding:4px 12px 8px}
 <tr><td>heldout_error</td><td class="num">0.0836168</td></tr>
 <tr><td>overflow_margin</td><td class="num">1.98162</td></tr>
 </table>
-<details class="explain"><summary>How to read this</summary><div><p>measured_order is the slope of a log-log fit of float64 final-state error against step size on the dahlquist problem, over the longest usable run of points (order_fit_points of them); it is measured evidence, distinct from the algebraic <a href="glossary.html#order">order</a> that keys the grid. error_constant is the L2 norm of the order-condition residuals one order past the achieved one, a size estimate for the leading truncation term. stability_real and stability_imag are the extents of the stability region along the negative real axis and the imaginary axis.</p><p>csd_weight_total sums <a href="glossary.html#csd-weight">CSD weights</a> over the non-trivial coefficients, a proxy for coefficient-arithmetic cost. coeff_quant_error is the largest gap between an exact coefficient and its m/2^s form. search_error and heldout_error are root-mean-square errors over the two problem sets at the fixed cycle budget; heldout_error is the archive fitness. overflow_margin is 1 / max|state| observed at twice the nominal amplitude and must exceed 1.0, meaning a doubled signal still fits in <a href="glossary.html#q15">Q15</a> range.</p></div></details>
+<details class="explain"><summary>How to read this</summary><div><p>measured_order is the slope of a log-log fit of float64 final-state error against step size on the dahlquist problem, over the longest usable run of points (order_fit_points of them); it is measured evidence, distinct from the algebraic <a href="methodology.html#order">order</a> that keys the grid. error_constant is the L2 norm of the order-condition residuals one order past the achieved one, a size estimate for the leading truncation term. stability_real and stability_imag are the extents of the stability region along the negative real axis and the imaginary axis.</p><p>csd_weight_total sums <a href="methodology.html#csd-weight">CSD weights</a> over the non-trivial coefficients, a proxy for coefficient-arithmetic cost. coeff_quant_error is the largest gap between an exact coefficient and its m/2^s form. search_error and heldout_error are root-mean-square errors over the two problem sets at the fixed cycle budget; heldout_error is the archive fitness. overflow_margin is 1 / max|state| observed at twice the nominal amplitude and must exceed 1.0, meaning a doubled signal still fits in <a href="methodology.html#q15">Q15</a> range.</p></div></details>
 <h3>Every per-problem error, by cost model</h3>
 <div class="scroll"><table><tr><th>problem</th><th class="num">m0plus_fast</th><th class="num">m0plus_slow</th><th class="num">avr_approx</th></tr>
 <tr><td>dahlquist</td><td class="num">4.53999e-05</td><td class="num">4.53999e-05</td><td class="num">4.53999e-05</td></tr>
@@ -251,9 +330,8 @@ details.repeats>div{padding:4px 12px 8px}
 <tr><td><strong>search_error</strong></td><td class="num">n/a</td><td class="num">0.0377385</td><td class="num">0.019823</td></tr>
 <tr><td><strong>heldout_error</strong></td><td class="num">n/a</td><td class="num">0.0835185</td><td class="num">0.0559455</td></tr>
 </table></div>
-<p class="note">Cost model approximate; see HANDOFF §4.5.</p>
 <footer>
-<p>rk-harness findings: Q15 fixed point, equal cycle budget, Cortex-M0+ cost models.</p>
+<p>rk-harness findings: Runge-Kutta integrators for a Cortex-M0+ microcontroller.</p>
 <p class="prov">Generated from run data by the harness; no human review. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
 </footer>
 </div>
