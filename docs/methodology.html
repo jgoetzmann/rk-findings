@@ -3,7 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Methodology</title>
+<title>Methodology | rk-harness findings</title>
+<meta name="description" content="How the harness searches, scores and verifies Runge-Kutta tableaus in Q15: the cost model, the measurement ledger and the glossary.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="rk-harness findings">
+<meta property="og:title" content="Methodology | rk-harness findings">
+<meta property="og:description" content="How the harness searches, scores and verifies Runge-Kutta tableaus in Q15: the cost model, the measurement ledger and the glossary.">
+<meta property="og:url" content="https://jgoetzmann.github.io/rk-findings/methodology.html">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://jgoetzmann.github.io/rk-findings/methodology.html">
 <style>
 :root{
   color-scheme:light;
@@ -95,6 +103,14 @@ svg .cv{font-weight:600}
 svg .axis{stroke:var(--line)}
 svg .gridline{stroke:var(--grid)}
 svg .cellstroke{stroke:var(--surface-1);stroke-width:2px}
+/* A chart mark that is a link is a tab stop, and until now nothing marked which one had
+   the keyboard. The outline draws the ring; the stroke is the fallback for engines that
+   do not paint an outline on an SVG child. Only :focus-visible, so a mouse click on a
+   cell does not leave a ring behind it. */
+svg a:focus-visible rect,svg a:focus-visible circle,svg a:focus-visible path{
+  outline:2px solid var(--s1);outline-offset:2px;stroke:var(--s1);stroke-width:2.5px}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--s1);outline-offset:2px;
+  border-radius:3px}
 .scroll{overflow-x:auto}
 table{border-collapse:collapse;margin:10px 0;font-size:13px;background:var(--surface-1);
   border:1px solid var(--line);border-radius:8px}
@@ -110,6 +126,9 @@ th.num,td.num{text-align:right}
 .tier-heldout_verified{background:var(--good-bg);color:var(--good-fg)}
 .tier-search_only{background:var(--warn-bg);color:var(--warn-fg)}
 .tier-unreplicated{background:var(--mut-bg);color:var(--mut-fg)}
+/* The two tiers that replaced the merged unreplicated label. Neither is a grade, so both
+   wear the muted badge that label wore. */
+.tier-no_incumbent,.tier-no_improvement{background:var(--mut-bg);color:var(--mut-fg)}
 .badge-open{background:var(--mut-bg);color:var(--mut-fg)}
 .badge-supported{background:var(--good-bg);color:var(--good-fg)}
 .badge-refuted{background:var(--bad-bg);color:var(--bad-fg)}
@@ -285,8 +304,8 @@ pattern<sup class="meth-cite"><a href="#meth-ref-21">[21]</a></sup>.</p>
 hypotheses, but it never scores, tiers or verifies anything. Results are on the other
 tabs and the machinery on the <a href="https://jgoetzmann.github.io/rk-overview/architecture.html">overview architecture page</a>. Terms are
 in the <a href="methodology.html#glossary">glossary</a> below, and a bracketed number such
-as <sup class="meth-cite"><a href="#meth-ref-21">[21]</a></sup> cites a file in the rk-harness repository or a section of the frozen
-specification, docs/HANDOFF.md.</p>
+as <sup class="meth-cite"><a href="#meth-ref-21">[21]</a></sup> cites a file in the rk-harness repository, a section of the frozen
+specification, docs/HANDOFF.md, or a published paper.</p>
 <ol class="meth-toc">
 <li><a href="#meth-setup">Experimental setup</a></li>
 <li><a href="#meth-measurement">Measurement</a></li>
@@ -297,6 +316,7 @@ specification, docs/HANDOFF.md.</p>
 <li><a href="#meth-limitations">Limitations</a></li>
 <li><a href="#costmodel">Cost model</a></li>
 <li><a href="#ledger">Measurement ledger</a></li>
+<li><a href="#related-work">Related work</a></li>
 <li><a href="#glossary">Glossary</a></li>
 <li><a href="#meth-references">References</a></li>
 </ol>
@@ -398,9 +418,13 @@ slope; the problem runs measure the Q15 error separately<sup class="meth-cite"><
 when it is archived. <em>heldout_verified</em>: it improved on the incumbent elite in both
 search-set and held-out error, across at least two problem families.
 <em>search_only</em>: the search error improved and the held-out error did not, which is
-the signature of overfitting. <em>unreplicated</em>: everything else, including a record
-in an empty cell. The tier words appear in no prompt template, and a planted tableau
-tuned to the search set must land in search_only; canaries check both. The archive
+the signature of overfitting. <em>no_incumbent</em>: the cell was empty.
+<em>no_improvement</em>: there was an incumbent and neither rule above applied, which
+includes improving held-out error but not search error. Both were one word,
+<em>unreplicated</em>, which every record written before the split still carries. The tier
+words appear in no
+prompt template, and a planted tableau tuned to the search set must land in search_only;
+canaries check both. The archive
 behind the cells is on the <a href="https://jgoetzmann.github.io/rk-overview/architecture.html#archive">architecture page</a><sup class="meth-cite"><a href="#meth-ref-11">[11]</a><a href="#meth-ref-13">[13]</a></sup>.</p>
 
 <p>The two early phases enumerate their spaces completely, so their entries are marked
@@ -435,6 +459,17 @@ applications that the optimizer never sees and that no score, tier or archive st
 includes. The archived champions and the classical anchors run each one at the same
 65,536-cycle budget, to see whether methods selected on the fixed problems hold up on
 dynamics they were not selected on<sup class="meth-cite"><a href="#meth-ref-5">[5]</a><a href="#meth-ref-21">[21]</a></sup>.</p>
+
+<p>Two numeric filters run before any win or loss from that suite is published. A
+problem is flagged degenerate when its finishers' Q15 errors span less than 5 percent
+from best to worst, because a field that tight is reporting the problem rather than the
+method; a flagged problem is left out of every tally with its reason printed. The second
+criterion, an error within 5 percent of the reference solution's norm, catches a state
+that decayed to nothing. validation/results.json stores that norm for each problem, on
+the same scale as the errors, so the pages read it from the document rather than
+assuming it. Any error ratio within 2 percent of 1.0 is counted as a tie. A third
+criterion, an identical peak magnitude equal to the initial condition, was dropped for
+flagging a healthy problem<sup class="meth-cite"><a href="#meth-ref-5">[5]</a><a href="#meth-ref-20">[20]</a></sup>.</p>
 
 <h2 id="meth-trust">4. Verification and trust</h2>
 
@@ -491,7 +526,7 @@ stay comparable across the run<sup class="meth-cite"><a href="#meth-ref-21">[21]
 <h2 id="costmodel">Cost model</h2>
 <p>Cycles per integration step, computed from instruction counts. The <a href="methodology.html#cycle-budget">cycle budget</a> and the <a href="methodology.html#cost-bucket">cycle buckets</a> on the other tabs are built from these numbers.</p>
 <h3>Anchor: rk4 and rk38</h3>
-<div class="panel"><figure><figcaption>Analytic cycles per step for rk4 and rk38 under the fast and slow multiplier cost models. Bar height is the per-step cost and the printed number is the exact cycle count. Which of the two <a href="methodology.html#anchor-methods">anchor methods</a> is cheaper swaps between the multiplier models, and that swap is the cost model's main sanity check.</figcaption><div class="legend"><span><span class="sw" style="background:var(--s1)"></span>m0plus_fast (1-cycle multiplier)</span><span><span class="sw" style="background:var(--s2)"></span>m0plus_slow (32-cycle multiplier)</span></div><svg viewBox="0 0 460 260" width="460" height="260" role="img" aria-label="Cycles per step for rk4 and rk38 under the fast and slow multiplier models"><line class="axis" x1="46" y1="220" x2="450" y2="220"/><path d="M 87.50 220.00 L 87.50 155.13 Q 87.50 151.13 91.50 151.13 L 139.50 151.13 Q 143.50 151.13 143.50 155.13 L 143.50 220.00 Z" fill="var(--s1)" class="cellstroke"><title>rk4 under m0plus_fast: 33 cycles per step</title></path><text class="lbl" x="115.50" y="146.13" text-anchor="middle">33</text><path d="M 145.50 220.00 L 145.50 46.61 Q 145.50 42.61 149.50 42.61 L 197.50 42.61 Q 201.50 42.61 201.50 46.61 L 201.50 220.00 Z" fill="var(--s2)" class="cellstroke"><title>rk4 under m0plus_slow: 85 cycles per step</title></path><text class="lbl" x="173.50" y="37.61" text-anchor="middle">85</text><text x="144.50" y="236" text-anchor="middle">rk4</text><path d="M 284.50 220.00 L 284.50 148.87 Q 284.50 144.87 288.50 144.87 L 336.50 144.87 Q 340.50 144.87 340.50 148.87 L 340.50 220.00 Z" fill="var(--s1)" class="cellstroke"><title>rk38 under m0plus_fast: 36 cycles per step</title></path><text class="lbl" x="312.50" y="139.87" text-anchor="middle">36</text><path d="M 342.50 220.00 L 342.50 90.43 Q 342.50 86.43 346.50 86.43 L 394.50 86.43 Q 398.50 86.43 398.50 90.43 L 398.50 220.00 Z" fill="var(--s2)" class="cellstroke"><title>rk38 under m0plus_slow: 64 cycles per step</title></path><text class="lbl" x="370.50" y="81.43" text-anchor="middle">64</text><text x="341.50" y="236" text-anchor="middle">rk38</text></svg></figure></div>
+<div class="panel"><figure><figcaption>Analytic cycles per step for rk4 and rk38 under the fast and slow multiplier cost models. Bar height is the per-step cost and the printed number is the exact cycle count. Which of the two <a href="methodology.html#anchor-methods">anchor methods</a> is cheaper swaps between the multiplier models, and that swap is the cost model's main sanity check.</figcaption><div class="legend"><span><span class="sw" style="background:var(--s1)"></span>m0plus_fast (1-cycle multiplier)</span><span><span class="sw" style="background:var(--s2)"></span>m0plus_slow (32-cycle multiplier)</span></div><svg viewBox="0 0 460 260" width="460" height="260" role="img" aria-label="Cycles per step for rk4 and rk38 under the fast and slow multiplier models, 4 bars" aria-describedby="anchor-cycle-values"><line class="axis" x1="46" y1="220" x2="450" y2="220"/><path d="M 87.50 220.00 L 87.50 155.13 Q 87.50 151.13 91.50 151.13 L 139.50 151.13 Q 143.50 151.13 143.50 155.13 L 143.50 220.00 Z" fill="var(--s1)" class="cellstroke"><title>rk4 under m0plus_fast: 33 cycles per step</title></path><text class="lbl" x="115.50" y="146.13" text-anchor="middle">33</text><path d="M 145.50 220.00 L 145.50 46.61 Q 145.50 42.61 149.50 42.61 L 197.50 42.61 Q 201.50 42.61 201.50 46.61 L 201.50 220.00 Z" fill="var(--s2)" class="cellstroke"><title>rk4 under m0plus_slow: 85 cycles per step</title></path><text class="lbl" x="173.50" y="37.61" text-anchor="middle">85</text><text x="144.50" y="236" text-anchor="middle">rk4</text><path d="M 284.50 220.00 L 284.50 148.87 Q 284.50 144.87 288.50 144.87 L 336.50 144.87 Q 340.50 144.87 340.50 148.87 L 340.50 220.00 Z" fill="var(--s1)" class="cellstroke"><title>rk38 under m0plus_fast: 36 cycles per step</title></path><text class="lbl" x="312.50" y="139.87" text-anchor="middle">36</text><path d="M 342.50 220.00 L 342.50 90.43 Q 342.50 86.43 346.50 86.43 L 394.50 86.43 Q 398.50 86.43 398.50 90.43 L 398.50 220.00 Z" fill="var(--s2)" class="cellstroke"><title>rk38 under m0plus_slow: 64 cycles per step</title></path><text class="lbl" x="370.50" y="81.43" text-anchor="middle">64</text><text x="341.50" y="236" text-anchor="middle">rk38</text></svg><details class="fold" id="anchor-cycle-values"><summary>Every plotted bar, in one table (4 rows)</summary><div><div class="scroll"><table><tr><th>method</th><th>cost model</th><th class="num">cycles per step</th></tr><tr><td>rk4</td><td>m0plus_fast</td><td class="num">33</td></tr><tr><td>rk4</td><td>m0plus_slow</td><td class="num">85</td></tr><tr><td>rk38</td><td>m0plus_fast</td><td class="num">36</td></tr><tr><td>rk38</td><td>m0plus_slow</td><td class="num">64</td></tr></table></div></div></details></figure></div>
 <table><tr><th>tableau</th><th class="num">n_states</th><th class="num">m0plus_fast</th><th class="num">m0plus_slow</th></tr>
 <tr><td>rk4</td><td class="num">1</td><td class="num">33</td><td class="num">85</td></tr>
 <tr><td>rk4</td><td class="num">2</td><td class="num">66</td><td class="num">170</td></tr>
@@ -528,6 +563,34 @@ stay comparable across the run<sup class="meth-cite"><a href="#meth-ref-21">[21]
 <h3>The retry policy</h3>
 <p>A point that raises is recorded with its message and retried on later firings; after three failures under one code hash it is set aside and listed here. A side-track failure never costs a cycle, because the executor catches it and the run continues.</p>
 
+<h2 id="related-work">Related work</h2>
+
+<p>Rounding error in time integration is an active line of work, and this project did
+not discover it. Croci and Giles analyse Runge-Kutta discretizations of the heat
+equation in low-precision floating point and show that under round-to-nearest the
+computed solution stagnates once the timestep is small enough, with global rounding
+error growing like unit roundoff divided by the timestep until it does<sup class="meth-cite"><a href="#meth-ref-22">[22]</a></sup>.
+Hopkins and colleagues measure stochastic rounding and reduced-precision fixed point in
+ODE solvers built for neuromorphic hardware, which is the same arithmetic regime as this
+work in different hardware<sup class="meth-cite"><a href="#meth-ref-23">[23]</a></sup>. Croci and Rosilho de Souza build mixed-precision
+explicit stabilized Runge-Kutta methods and show where the low-precision part can sit
+without costing accuracy<sup class="meth-cite"><a href="#meth-ref-24">[24]</a></sup>.</p>
+
+<p>The crossover this run measures, where Q15 error turns back up as the step size falls,
+is the fixed-point counterpart of that stagnation result in a different arithmetic.
+Finding the same shape under a different rounding rule is a check on this harness rather
+than a new phenomenon, and it is consistent with what that literature shows.</p>
+
+<p>Two things here are different from that line of work, and both are narrow. The
+arithmetic is fixed point with directed rounding: every Q15 multiply ends in an
+arithmetic right shift that floors, so the error is biased one way, where round-to-nearest
+is symmetric and stochastic rounding is unbiased by construction. And the object of study
+is the tableau rather than the arithmetic: this run searches coefficient space against
+that bias and prices every coefficient on a cost model, where the work above analyses
+fixed methods under a rounding mode. Neither difference is a claim of priority over that
+work.</p>
+
+
 <h2 id="glossary">Glossary</h2>
 <p>Terms used across this site, in alphabetical order. Each definition says what the code does.</p>
 <dl class="gloss">
@@ -554,7 +617,7 @@ stay comparable across the run<sup class="meth-cite"><a href="#meth-ref-21">[21]
 <dt id="floor-rounding">floor rounding (ASRS)</dt>
 <dd>The Q15 multiply rounds toward negative infinity, as the ARM ASRS shift does, so every product loses up to one LSB, always downward (section 1).</dd>
 <dt id="held-out-set">held-out set</dt>
-<dd>The four problems that decide archive fitness and that the optimizer never sees: pendulum, dc_motor, rc_thermal and quaternion.</dd>
+<dd>The four problems that decide which tableau a cell keeps: pendulum, dc_motor, rc_thermal and quaternion. The inner optimizer scores on the search set alone, but elites are selected on held-out error and the outer-loop model is shown one held-out figure per occupied cell, so a champion&#x27;s held-out error carries selection bias and is not a clean test-set result.</dd>
 <dt id="hypothesis-ledger">hypothesis ledger</dt>
 <dd>An append-only file of falsifiable statements about the archive, each carrying a machine-checkable predicate over cell statistics. Code writes the verdict once the named cells have enough records.</dd>
 <dt id="l-stability">L-stability</dt>
@@ -580,7 +643,7 @@ stay comparable across the run<sup class="meth-cite"><a href="#meth-ref-21">[21]
 <dt id="tableau">tableau</dt>
 <dd>The Butcher tableau (A, b, c) that defines a Runge-Kutta method: stage weights, final weights and stage times, with A strictly lower triangular for an explicit method. On this site every tableau is exact fractions, hashed by content.</dd>
 <dt id="tiers">tier names</dt>
-<dd>The evidence tier a record gets on entering its cell, heldout_verified, search_only or unreplicated, by the rules in section 3. The grid ranks on held-out error alone, so the heldout_verified count can fall without anything going wrong.</dd>
+<dd>The evidence tier a record gets on entering its cell by the rules in section 3: heldout_verified, search_only, no_incumbent for an empty cell, no_improvement when an incumbent was there and neither applied, and unreplicated, which merged those last two. The grid ranks on held-out error alone, so the heldout_verified count can fall without anything going wrong.</dd>
 <dt id="verifier-hash">verifier hash</dt>
 <dd>A sha256 over the ten pinned scoring files, checked at container start and stored on every record. Every score therefore carries the version of the code that produced it, and a table holding more than one hash says so beneath it.</dd>
 <dt id="work-precision">work-precision</dt>
@@ -611,11 +674,14 @@ stay comparable across the run<sup class="meth-cite"><a href="#meth-ref-21">[21]
 <li id="meth-ref-19">rk_harness/falsification.py; HANDOFF 15 (criteria and sweep).</li>
 <li id="meth-ref-20">rk_harness/sitegen.py; HANDOFF 17 (auto-publish rules, determinism, labels).</li>
 <li id="meth-ref-21">docs/HANDOFF.md (frozen specification; section numbers as cited above).</li>
+<li id="meth-ref-22">M. Croci and M. B. Giles, "Effects of round-to-nearest and stochastic rounding in the numerical solution of the heat equation in low precision", IMA Journal of Numerical Analysis 43(3), 2023, pages 1358-1390.</li>
+<li id="meth-ref-23">M. Hopkins, M. Mikaitis, D. R. Lester and S. Furber, "Stochastic rounding and reduced-precision fixed-point arithmetic for solving neural ordinary differential equations", Philosophical Transactions of the Royal Society A 378:20190052, 2020.</li>
+<li id="meth-ref-24">M. Croci and G. Rosilho de Souza, "Mixed-precision explicit stabilized Runge-Kutta methods for single- and multi-scale differential equations", Journal of Computational Physics 464, 2022, 111349.</li>
 </ol>
 
 <footer>
-<p>rk-harness findings: Runge-Kutta integrators for a Cortex-M0+ microcontroller.</p>
-<p class="prov">Generated from run data by the harness; no human review. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
+<p>rk-harness findings: Runge-Kutta integrators for a Cortex-M0+ microcontroller, with cycle counts from a model rather than from hardware.</p>
+<p class="prov">Generated from run data by the harness, with no human review. The container starts only if the ten pinned scoring files still match their hash, no page is written unless every page passes the banned-word check, and pages this site has retired are deleted on the same build. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
 </footer>
 </div>
 </body>

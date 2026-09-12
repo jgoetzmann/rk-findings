@@ -3,7 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cell p2 s5 b3</title>
+<title>Cell p2 s5 b3 | rk-harness findings</title>
+<meta name="description" content="The full archive record for the elite of grid cell order 2, 5 stages, cycle bucket 3: its tableau, its scores and the pinned code that verified it.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="rk-harness findings">
+<meta property="og:title" content="Cell p2 s5 b3 | rk-harness findings">
+<meta property="og:description" content="The full archive record for the elite of grid cell order 2, 5 stages, cycle bucket 3: its tableau, its scores and the pinned code that verified it.">
+<meta property="og:url" content="https://jgoetzmann.github.io/rk-findings/cell-p2-s5-b3.html">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://jgoetzmann.github.io/rk-findings/cell-p2-s5-b3.html">
 <style>
 :root{
   color-scheme:light;
@@ -95,6 +103,14 @@ svg .cv{font-weight:600}
 svg .axis{stroke:var(--line)}
 svg .gridline{stroke:var(--grid)}
 svg .cellstroke{stroke:var(--surface-1);stroke-width:2px}
+/* A chart mark that is a link is a tab stop, and until now nothing marked which one had
+   the keyboard. The outline draws the ring; the stroke is the fallback for engines that
+   do not paint an outline on an SVG child. Only :focus-visible, so a mouse click on a
+   cell does not leave a ring behind it. */
+svg a:focus-visible rect,svg a:focus-visible circle,svg a:focus-visible path{
+  outline:2px solid var(--s1);outline-offset:2px;stroke:var(--s1);stroke-width:2.5px}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--s1);outline-offset:2px;
+  border-radius:3px}
 .scroll{overflow-x:auto}
 table{border-collapse:collapse;margin:10px 0;font-size:13px;background:var(--surface-1);
   border:1px solid var(--line);border-radius:8px}
@@ -110,6 +126,9 @@ th.num,td.num{text-align:right}
 .tier-heldout_verified{background:var(--good-bg);color:var(--good-fg)}
 .tier-search_only{background:var(--warn-bg);color:var(--warn-fg)}
 .tier-unreplicated{background:var(--mut-bg);color:var(--mut-fg)}
+/* The two tiers that replaced the merged unreplicated label. Neither is a grade, so both
+   wear the muted badge that label wore. */
+.tier-no_incumbent,.tier-no_improvement{background:var(--mut-bg);color:var(--mut-fg)}
 .badge-open{background:var(--mut-bg);color:var(--mut-fg)}
 .badge-supported{background:var(--good-bg);color:var(--good-fg)}
 .badge-refuted{background:var(--bad-bg);color:var(--bad-fg)}
@@ -304,7 +323,7 @@ dl.glance{max-width:100ch;margin:6px 0 4px}
 <tr><td class="mono">b[4]</td><td class="mono">8161/16384</td><td class="num">8161</td><td class="num">14</td><td class="mono">8161/2^14</td><td>yes</td><td class="num">3</td></tr>
 </table></div></div></details>
 <h2>Per problem</h2>
-<div class="panel"><figure><figcaption>Final-state error of this tableau on each problem, integrated in Q15 under m0plus_fast at the fixed cycle budget. Bar length is error on a log scale; the printed value is exact. dahlquist, damped_osc and vanderpol_mild are the search set the optimizer sees; the other four are the <a href="methodology.html#held-out-set">held-out set</a> that decides archive fitness, and on several problems <a href="methodology.html#floor-rounding">floor rounding</a> dominates the method choice, so bars can look similar across very different tableaus.</figcaption><svg viewBox="0 0 560 228" width="560" height="228" role="img" aria-label="Per-problem error, log scale"><line class="gridline" x1="118.00" y1="10" x2="118.00" y2="202"/><text x="118.00" y="216" text-anchor="middle">1e-5</text><line class="gridline" x1="224.50" y1="10" x2="224.50" y2="202"/><text x="224.50" y="216" text-anchor="middle">1e-4</text><line class="gridline" x1="331.00" y1="10" x2="331.00" y2="202"/><text x="331.00" y="216" text-anchor="middle">1e-3</text><line class="gridline" x1="437.50" y1="10" x2="437.50" y2="202"/><text x="437.50" y="216" text-anchor="middle">1e-2</text><line class="gridline" x1="544.00" y1="10" x2="544.00" y2="202"/><text x="544.00" y="216" text-anchor="middle">1e-1</text><text x="112" y="27.00" text-anchor="end">dahlquist</text><rect x="118" y="14" width="69.98" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dahlquist: 4.53999e-05</title></rect><text class="lbl" x="193.98" y="27.00">4.53999e-05</text><text x="112" y="53.00" text-anchor="end">damped_osc</text><rect x="118" y="40" width="277.12" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>damped_osc: 0.00399971</title></rect><text class="lbl" x="401.12" y="53.00">0.00399971</text><text x="112" y="79.00" text-anchor="end">dc_motor</text><rect x="118" y="66" width="418.40" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dc_motor: 0.0848549</title></rect><text class="lbl" x="530.40" y="79.00" text-anchor="end">0.0848549</text><text x="112" y="105.00" text-anchor="end">pendulum</text><rect x="118" y="92" width="279.26" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>pendulum: 0.00418973</title></rect><text class="lbl" x="403.26" y="105.00">0.00418973</text><text x="112" y="131.00" text-anchor="end">quaternion</text><rect x="118" y="118" width="382.35" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>quaternion: 0.0389178</title></rect><text class="lbl" x="494.35" y="131.00" text-anchor="end">0.0389178</text><text x="112" y="157.00" text-anchor="end">rc_thermal</text><rect x="118" y="144" width="419.61" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>rc_thermal: 0.087104</title></rect><text class="lbl" x="531.61" y="157.00" text-anchor="end">0.087104</text><text x="112" y="183.00" text-anchor="end">vanderpol_mild</text><rect x="118" y="170" width="345.87" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>vanderpol_mild: 0.0176837</title></rect><text class="lbl" x="469.87" y="183.00">0.0176837</text></svg></figure></div>
+<div class="panel"><figure><figcaption>Final-state error of this tableau on each problem, integrated in Q15 under m0plus_fast at the fixed cycle budget. Bar length is error on a log scale; the printed value is exact. dahlquist, damped_osc and vanderpol_mild are the search set the optimizer sees; the other four are the <a href="methodology.html#held-out-set">held-out set</a> that decides archive fitness, and on several problems <a href="methodology.html#floor-rounding">floor rounding</a> dominates the method choice, so bars can look similar across very different tableaus.</figcaption><svg viewBox="0 0 560 228" width="560" height="228" role="img" aria-label="Per-problem error on 7 problems, log scale" aria-describedby="per-problem-values"><line class="gridline" x1="118.00" y1="10" x2="118.00" y2="202"/><text x="118.00" y="216" text-anchor="middle">1e-5</text><line class="gridline" x1="224.50" y1="10" x2="224.50" y2="202"/><text x="224.50" y="216" text-anchor="middle">1e-4</text><line class="gridline" x1="331.00" y1="10" x2="331.00" y2="202"/><text x="331.00" y="216" text-anchor="middle">1e-3</text><line class="gridline" x1="437.50" y1="10" x2="437.50" y2="202"/><text x="437.50" y="216" text-anchor="middle">1e-2</text><line class="gridline" x1="544.00" y1="10" x2="544.00" y2="202"/><text x="544.00" y="216" text-anchor="middle">1e-1</text><text x="112" y="27.00" text-anchor="end">dahlquist</text><rect x="118" y="14" width="69.98" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dahlquist: 4.53999e-05</title></rect><text class="lbl" x="193.98" y="27.00">4.53999e-05</text><text x="112" y="53.00" text-anchor="end">damped_osc</text><rect x="118" y="40" width="277.12" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>damped_osc: 0.00399971</title></rect><text class="lbl" x="401.12" y="53.00">0.00399971</text><text x="112" y="79.00" text-anchor="end">dc_motor</text><rect x="118" y="66" width="418.40" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>dc_motor: 0.0848549</title></rect><text class="lbl" x="530.40" y="79.00" text-anchor="end">0.0848549</text><text x="112" y="105.00" text-anchor="end">pendulum</text><rect x="118" y="92" width="279.26" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>pendulum: 0.00418973</title></rect><text class="lbl" x="403.26" y="105.00">0.00418973</text><text x="112" y="131.00" text-anchor="end">quaternion</text><rect x="118" y="118" width="382.35" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>quaternion: 0.0389178</title></rect><text class="lbl" x="494.35" y="131.00" text-anchor="end">0.0389178</text><text x="112" y="157.00" text-anchor="end">rc_thermal</text><rect x="118" y="144" width="419.61" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>rc_thermal: 0.087104</title></rect><text class="lbl" x="531.61" y="157.00" text-anchor="end">0.087104</text><text x="112" y="183.00" text-anchor="end">vanderpol_mild</text><rect x="118" y="170" width="345.87" height="18" rx="4" fill="var(--s1)" class="cellstroke"><title>vanderpol_mild: 0.0176837</title></rect><text class="lbl" x="469.87" y="183.00">0.0176837</text></svg><details class="fold" id="per-problem-values"><summary>Every plotted bar, in one table (7 rows)</summary><div><div class="scroll"><table><tr><th>problem</th><th class="num">final-state error</th></tr><tr><td>dahlquist</td><td class="num">4.53999e-05</td></tr><tr><td>damped_osc</td><td class="num">0.00399971</td></tr><tr><td>dc_motor</td><td class="num">0.0848549</td></tr><tr><td>pendulum</td><td class="num">0.00418973</td></tr><tr><td>quaternion</td><td class="num">0.0389178</td></tr><tr><td>rc_thermal</td><td class="num">0.087104</td></tr><tr><td>vanderpol_mild</td><td class="num">0.0176837</td></tr></table></div></div></details></figure></div>
 <h2>Cycle counts (n_states = 1)</h2>
 <table><tr><th>model</th><th class="num">cycles</th><th>note</th></tr>
 <tr><td>m0plus_fast</td><td class="num">65</td><td></td></tr>
@@ -317,14 +336,15 @@ dl.glance{max-width:100ch;margin:6px 0 4px}
 <tr><td>order_fit_points</td><td class="num">7</td></tr>
 <tr><td>error_constant</td><td class="num">0.109199</td></tr>
 <tr><td>stability_real</td><td class="num">-5.06889</td></tr>
-<tr><td>stability_imag</td><td class="num">2.40111</td></tr>
+<tr><td>stability_imag <span class="note">(bisection floor)</span></td><td class="num">2.40111</td></tr>
 <tr><td>csd_weight_total</td><td class="num">71</td></tr>
 <tr><td>coeff_quant_error</td><td class="num">1.9978e-05</td></tr>
 <tr><td>search_error</td><td class="num">0.0104676</td></tr>
 <tr><td>heldout_error</td><td class="num">0.0638741</td></tr>
 <tr><td>overflow_margin</td><td class="num">1.98354</td></tr>
 </table>
-<details class="explain"><summary>How to read this</summary><div><p>measured_order is the slope of a log-log fit of float64 final-state error against step size on the dahlquist problem, over the longest usable run of points (order_fit_points of them); it is measured evidence, distinct from the algebraic <a href="methodology.html#order">order</a> that keys the grid. error_constant is the L2 norm of the order-condition residuals one order past the achieved one, a size estimate for the leading truncation term. stability_real and stability_imag are the extents of the stability region along the negative real axis and the imaginary axis.</p><p>csd_weight_total sums <a href="methodology.html#csd-weight">CSD weights</a> over the non-trivial coefficients, a proxy for coefficient-arithmetic cost. coeff_quant_error is the largest gap between an exact coefficient and its m/2^s form. search_error and heldout_error are root-mean-square errors over the two problem sets at the fixed cycle budget; heldout_error is the archive fitness. overflow_margin is 1 / max|state| observed at twice the nominal amplitude and must exceed 1.0, meaning a doubled signal still fits in <a href="methodology.html#q15">Q15</a> range.</p></div></details>
+<p class="note">stability_imag is the smallest imaginary-axis interval the scorer&#x27;s search can resolve, from 4000 samples and 200 bisection steps, so it is a floor rather than a measured extent: a method whose stability region meets the imaginary axis only at the origin reports that floor and not 0. Read a value at the floor as no resolvable interval. stability_real carries no such floor, because the real-axis interval of these methods is well inside the sampled range.</p>
+<details class="explain"><summary>How to read this</summary><div><p>measured_order is the slope of a log-log fit of float64 final-state error against step size on the dahlquist problem, over the longest usable run of points (order_fit_points of them); it is measured evidence, distinct from the algebraic <a href="methodology.html#order">order</a> that keys the grid. error_constant is the L2 norm of the order-condition residuals one order past the achieved one, a size estimate for the leading truncation term. stability_real and stability_imag are read off the stability region by the bisection described under the table above, along the negative real axis and along the imaginary axis.</p><p>csd_weight_total sums <a href="methodology.html#csd-weight">CSD weights</a> over the non-trivial coefficients, a proxy for coefficient-arithmetic cost. coeff_quant_error is the largest gap between an exact coefficient and its m/2^s form. search_error and heldout_error are root-mean-square errors over the two problem sets at the fixed cycle budget; heldout_error is the archive fitness. overflow_margin is 1 / max|state| observed at twice the nominal amplitude and must exceed 1.0, meaning a doubled signal still fits in <a href="methodology.html#q15">Q15</a> range.</p></div></details>
 <h3>Every per-problem error, by cost model</h3>
 <div class="scroll"><table><tr><th>problem</th><th class="num">m0plus_fast</th><th class="num">m0plus_slow</th><th class="num">avr_approx</th></tr>
 <tr><td>dahlquist</td><td class="num">4.53999e-05</td><td class="num">4.53999e-05</td><td class="num">4.53999e-05</td></tr>
@@ -338,8 +358,8 @@ dl.glance{max-width:100ch;margin:6px 0 4px}
 <tr><td><strong>heldout_error</strong></td><td class="num">n/a</td><td class="num">0.0341851</td><td class="num">inf</td></tr>
 </table></div>
 <footer>
-<p>rk-harness findings: Runge-Kutta integrators for a Cortex-M0+ microcontroller.</p>
-<p class="prov">Generated from run data by the harness; no human review. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
+<p>rk-harness findings: Runge-Kutta integrators for a Cortex-M0+ microcontroller, with cycle counts from a model rather than from hardware.</p>
+<p class="prov">Generated from run data by the harness, with no human review. The container starts only if the ten pinned scoring files still match their hash, no page is written unless every page passes the banned-word check, and pages this site has retired are deleted on the same build. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
 </footer>
 </div>
 </body>

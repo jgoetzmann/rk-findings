@@ -3,7 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>rk-harness findings</title>
+<title>rk-harness findings: Runge-Kutta methods in Q15 fixed point</title>
+<meta name="description" content="What an automated search found for Runge-Kutta methods in Q15 fixed point at a modeled Cortex-M0+ cycle budget: the archive, the three method classes and the evidence behind them.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="rk-harness findings">
+<meta property="og:title" content="rk-harness findings: Runge-Kutta methods in Q15 fixed point">
+<meta property="og:description" content="What an automated search found for Runge-Kutta methods in Q15 fixed point at a modeled Cortex-M0+ cycle budget: the archive, the three method classes and the evidence behind them.">
+<meta property="og:url" content="https://jgoetzmann.github.io/rk-findings/">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://jgoetzmann.github.io/rk-findings/">
 <style>
 :root{
   color-scheme:light;
@@ -95,6 +103,14 @@ svg .cv{font-weight:600}
 svg .axis{stroke:var(--line)}
 svg .gridline{stroke:var(--grid)}
 svg .cellstroke{stroke:var(--surface-1);stroke-width:2px}
+/* A chart mark that is a link is a tab stop, and until now nothing marked which one had
+   the keyboard. The outline draws the ring; the stroke is the fallback for engines that
+   do not paint an outline on an SVG child. Only :focus-visible, so a mouse click on a
+   cell does not leave a ring behind it. */
+svg a:focus-visible rect,svg a:focus-visible circle,svg a:focus-visible path{
+  outline:2px solid var(--s1);outline-offset:2px;stroke:var(--s1);stroke-width:2.5px}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--s1);outline-offset:2px;
+  border-radius:3px}
 .scroll{overflow-x:auto}
 table{border-collapse:collapse;margin:10px 0;font-size:13px;background:var(--surface-1);
   border:1px solid var(--line);border-radius:8px}
@@ -110,6 +126,9 @@ th.num,td.num{text-align:right}
 .tier-heldout_verified{background:var(--good-bg);color:var(--good-fg)}
 .tier-search_only{background:var(--warn-bg);color:var(--warn-fg)}
 .tier-unreplicated{background:var(--mut-bg);color:var(--mut-fg)}
+/* The two tiers that replaced the merged unreplicated label. Neither is a grade, so both
+   wear the muted badge that label wore. */
+.tier-no_incumbent,.tier-no_improvement{background:var(--mut-bg);color:var(--mut-fg)}
 .badge-open{background:var(--mut-bg);color:var(--mut-fg)}
 .badge-supported{background:var(--good-bg);color:var(--good-fg)}
 .badge-refuted{background:var(--bad-bg);color:var(--bad-fg)}
@@ -262,14 +281,17 @@ dl.glance{max-width:100ch;margin:6px 0 4px}
 <div class="navrow"><nav class="tabs"><a href="index.html" class="on">overview</a><a href="explicit.html">explicit</a><a href="implicit.html">implicit</a><a href="adaptive.html">adaptive</a><a href="validation.html">validation</a><a href="hypotheses.html">research log</a><a href="methodology.html">methodology</a></nav><a class="about" href="https://jgoetzmann.github.io/rk-overview/">About the project &#8599;</a></div>
 </div></header>
 <div class="wrap">
-<p class="lead">An automated search for Runge-Kutta methods that hold up in <a href="methodology.html#q15">Q15</a> fixed-point arithmetic on small microcontrollers. This site is the run's live record: it is generated from the run's data at the end of every cycle, and nobody edits it by hand. The <a href="https://jgoetzmann.github.io/rk-overview/">project overview</a> explains why the project exists and how it works.</p>
+<p class="lead">An automated search for Runge-Kutta methods that hold up in <a href="methodology.html#q15">Q15</a> fixed-point arithmetic on small microcontrollers. Cost is counted against a modeled Cortex-M0+ <a href="methodology.html#cycle-budget">cycle budget</a> rather than measured on the chip. This site is rebuilt from the run's data at the end of every cycle, and nobody edits it by hand. The <a href="https://jgoetzmann.github.io/rk-overview/">project overview</a> explains why the project exists and how it works.</p>
+<p class="when">Built from cycle 3,930 of the run, 141,364 archive records. Newest elite recorded 2026-09-08 22:30 CT.</p>
 <h2>The three classes</h2>
 <p class="note">A scored record has room for one explicit tableau and nothing else, so the implicit and adaptive classes are measured outside the archive and never ranked against it.</p>
-<div class="cards"><div class="card klass k-explicit"><div class="k">explicit</div><div class="v">65 of 96</div><div class="d">matched-accuracy targets our solvers reached; Q15 and float64 runs, from benchmark/results.json</div><p class="n">Scored, archived and ranked at an equal cycle budget.</p><p class="g">Q15 fixed point, checked by the pinned verifier.</p><p class="go"><a href="explicit.html">explicit methods</a></p></div><div class="card klass k-implicit"><div class="k">implicit</div><div class="v">44 of 44</div><div class="d">matched-accuracy targets our solvers reached; 20 further rows never ran; float64 runs, from benchmark/results.json</div><p class="n">Measured because the explicit class runs out of stability before it runs out of budget: on 1 of 3 stiff validation problems every discovered explicit tableau overflows Q15 (validation/results.json).</p><p class="g">float64; not order-verified and not scored.</p><p class="go"><a href="implicit.html">implicit methods</a></p></div><div class="card klass k-adaptive"><div class="k">adaptive</div><div class="v">47 of 64</div><div class="d">matched-accuracy targets our solvers reached; Q15 and float64 runs, from benchmark/results.json</div><p class="n">A record has no room for the second b vector an error estimate needs.</p><p class="g">float64, with one fixed pair also run in Q15; not order-verified and not scored.</p><p class="go"><a href="adaptive.html">adaptive methods</a></p></div></div>
+<div class="cards"><div class="card klass k-explicit"><div class="k">explicit</div><div class="v">65 of 96 run</div><div class="d">matched-accuracy targets reached by 11e898cbab59 in Q15, rk4 in Q15 and rk4_float64 in float64; 96 of 96 rows ran, from benchmark/results.json</div><p class="n">Scored, archived and ranked at an equal cycle budget.</p><p class="g">Q15 fixed point, checked by the pinned verifier.</p><p class="go"><a href="explicit.html">explicit methods</a></p></div><div class="card klass k-implicit"><div class="k">implicit</div><div class="v">44 of 44 run</div><div class="d">matched-accuracy targets reached by sdirk2_analytic_jac in float64 and sdirk2_fd_jac in float64; 44 of 64 rows ran, from benchmark/results.json</div><p class="n">Measured because the explicit class runs out of stability before it runs out of budget: on 1 of 3 stiff validation problems every discovered explicit tableau overflows Q15 (validation/results.json).</p><p class="g">float64; not order-verified and not scored.</p><p class="go"><a href="implicit.html">implicit methods</a></p></div><div class="card klass k-adaptive"><div class="k">adaptive</div><div class="v">47 of 64 run</div><div class="d">matched-accuracy targets reached by bs32_float in float64 and bs32_q15 in Q15; 64 of 64 rows ran, from benchmark/results.json</div><p class="n">A record has no room for the second b vector an error estimate needs.</p><p class="g">float64, with one fixed pair also run in Q15; not order-verified and not scored.</p><p class="go"><a href="adaptive.html">adaptive methods</a></p></div></div>
+<p class="note">Each card counts its own class&#x27;s rows in benchmark/results.json. The value is the targets reached out of the rows that ran, and the figure beside it is how many of the class&#x27;s rows ran at all: a row that never ran is not a target the class missed. Ours on these rows means run by this harness through its own solver path, which includes the classical rk4 control, so it does not mean discovered.</p>
+<p class="note">All three cards read benchmark/results.json, which runs the tableaus named in validation/results.json. That document was built at 141,364 archive records, so these three numbers stand at that state and not at the archive&#x27;s current one.</p>
 <h2>The three classes side by side</h2>
 <div class="scroll"><table class="side"><tr><th></th><th><a href="explicit.html">explicit</a></th><th><a href="implicit.html">implicit</a></th><th><a href="adaptive.html">adaptive</a></th></tr><tr><th scope="row">method family</th><td>Explicit fixed-step Runge-Kutta: a strictly lower triangular A and one b vector</td><td>Two-stage <a href="methodology.html#sdirk">SDIRK</a> over a dyadic grid of gamma and a21, with a Newton iteration count and a Jacobian policy</td><td>An <a href="methodology.html#embedded-pair">embedded pair</a> on the dyadic lattice (order 3 with an order-2 estimate) and a step-size controller</td></tr><tr><th scope="row">how candidates are found</th><td><a href="methodology.html#map-elites">MAP-Elites</a> cells filled by exhaustive enumeration and CMA-ES islands</td><td>Deterministic enumeration, plus the side-track jobs</td><td>Deterministic enumeration, plus the side-track jobs</td></tr><tr><th scope="row">the question asked</th><td>What error does a method reach inside a fixed <a href="methodology.html#cycle-budget">cycle budget</a>?</td><td>How many modeled cycles does a method need to reach an accuracy target? (<a href="methodology.html#cycles-to-tolerance">cycles to tolerance</a>)</td><td>How many modeled cycles does a method need to reach an accuracy target? (<a href="methodology.html#cycles-to-tolerance">cycles to tolerance</a>)</td></tr><tr><th scope="row">problems</th><td>The frozen search set and <a href="methodology.html#held-out-set">held-out set</a></td><td>The validation problems</td><td>The validation problems</td></tr><tr><th scope="row">arithmetic</th><td><a href="methodology.html#q15">Q15</a> through the pinned solver</td><td>float64: there is no Q15 LU factorization</td><td>float64; the Q15 adaptive solver runs one fixed pair</td></tr><tr><th scope="row">what checks a result</th><td>The pinned verifier, order conditions included, then scoring on the held-out set</td><td>Nothing: not order-verified and not scored</td><td>Nothing: not order-verified and not scored</td></tr><tr><th scope="row">cost basis</th><td>The pinned <a href="methodology.html#costmodel">cost model</a></td><td>A design estimate that assumes a division cost</td><td>Float64 attempt counts, each attempt priced by the Q15 cost model</td></tr><tr><th scope="row">source documents</th><td>rk-work/archive, validation/results.json, benchmark/results.json</td><td>implicit_archive/elites.json, the side-track ledger, validation/results.json, benchmark/results.json</td><td>adaptive_archive/elites.json, the side-track ledger, benchmark/results.json</td></tr></table></div>
 <p class="note">Numbers from different columns do not compare, so each class tab carries its own.</p>
-<p>Measured wall clock agrees with the cycle model: in the benchmark head-to-head the champion tableau (11e898cb) runs in 20.47 us per Q15 step against 31.993 us for rk4 (medians across 7 problems, geometric-mean per-step speedup 1.452x). Details are in the <a href="validation.html#speed">measured speed section</a>.</p>
+<p>Python wall clock on a desktop preserves the cycle model's ordering (Pearson r 0.970 over 56 fixed-step Q15 runs), and the cycle counts are modeled rather than measured on a Cortex-M0+. In the benchmark head-to-head the champion tableau (11e898cb) runs in 20.47 us per Q15 step against 31.99 us for rk4, each a median over that method's own 7 problems. The per-step speedup of 1.452x is the geometric mean of the per-problem ratios, so it is not the quotient of those two medians. Details are in the <a href="validation.html#speed">measured speed section</a>.</p>
 <h2>Epoch status</h2>
 <div class="panel"><p style="margin:0 0 6px"><strong>Epoch 1</strong> <span class="badge badge-active">active</span> <span class="when">scored method class: explicit fixed-step Runge-Kutta</span></p><dl class="meta">
 <dt>last progress</dt><dd>2026-09-08 22:30 CT: an acceptance at the heldout_verified tier</dd>
@@ -278,8 +300,8 @@ dl.glance{max-width:100ch;margin:6px 0 4px}
 <dt>falsification file</dt><dd>present</dd>
 </dl><p class="note">Progress is a record in an empty cell, an improved elite or a heldout_verified acceptance. With no progress inside the saturation window and the falsification file written, a check counts as saturating, and enough in a row reach the freeze threshold. Starting the next epoch, and re-pinning the verifier for it, is a person's decision. Times are stored in UTC and shown in US Central.</p></div>
 <footer>
-<p>rk-harness findings: Runge-Kutta integrators for a Cortex-M0+ microcontroller.</p>
-<p class="prov">Generated from run data by the harness; no human review. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
+<p>rk-harness findings: Runge-Kutta integrators for a Cortex-M0+ microcontroller, with cycle counts from a model rather than from hardware.</p>
+<p class="prov">Generated from run data by the harness, with no human review. The container starts only if the ten pinned scoring files still match their hash, no page is written unless every page passes the banned-word check, and pages this site has retired are deleted on the same build. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
 </footer>
 </div>
 </body>
