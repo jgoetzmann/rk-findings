@@ -591,7 +591,7 @@ stay comparable across the run<sup class="meth-cite"><a href="#meth-ref-21">[21]
 <p class="note">m0plus_fast and m0plus_slow differ only in the multiplier: both read the same op counts from one entry of the <a href="methodology.html#coeff-table">coefficient price table</a>, so the gap between them is 31 cycles per coefficient multiply per state. The per-coefficient op counts are the instructions arm-none-eabi-gcc 13.2.1 emits for that term at -mcpu=cortex-m0plus -mthumb -O2 -ffreestanding -nostdlib, counted by op class; the five numbers above turn those counts into cycles, and no number here is a hardware measurement. A coefficient whose multiplier is plus or minus 1 at shift 0 costs nothing, because the compiler emits a bare adds or subs that the combination add already prices. The off-archive lanes add their own stated terms, named on the implicit and adaptive tabs.</p>
 
 <h2 id="ledger">Measurement ledger</h2>
-<p>The side-track ledger, rk-work/sidetrack/ledger.jsonl, has not been written in this work directory, so no measurement outside the scored archive is recorded yet.</p>
+<p>Every measurement the run takes outside the scored archive is a line in rk-work/sidetrack/ledger.jsonl, stamped with the code hash that produced it and the artifact it was read from. The ledger holds 91 points across 10 jobs. The readings are on the <a href="implicit.html">implicit</a> and <a href="adaptive.html">adaptive</a> tabs. The newest measurement ran under code hash <span class="hash">2b9f0b0f9005</span>.</p>
 <h3>The code-hash rule</h3>
 <p>Every artifact is a pure function of the code and the point's parameters, so measuring a point again reproduces it byte for byte. A point counts as measured only under the code hash that measured it, a digest over the executor and the prototype modules, so editing a prototype re-opens its points instead of leaving stale numbers beside fresh ones.</p>
 <h3>The retry policy</h3>
@@ -718,7 +718,7 @@ work.</p>
 <footer>
 <p>rk-harness findings: Runge-Kutta integrators for a Cortex-M0+ microcontroller, with cycle counts from a model rather than from hardware.</p>
 <p class="prov">Generated from run data by the harness, with no human review. The container starts only if the fourteen pinned scoring files still match their hash, no page is written unless every page passes the banned-word check, and pages this site has retired are deleted on the same build. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
-<p class="prov">Built from rk-findings d9b48af41edf, rk-harness 363e5c4bde1d, rk-work 49da30662189: the commit each repository was at when this page was written.</p>
+<p class="prov">Built from rk-findings 949193beb9cd, rk-harness 363e5c4bde1d, rk-work 49da30662189: the commit each repository was at when this page was written.</p>
 </footer>
 </div>
 </body>
