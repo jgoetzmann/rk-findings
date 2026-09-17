@@ -286,11 +286,11 @@ dl.glance{max-width:100ch;margin:6px 0 4px}
 <caption>rk-harness</caption>
 <tr><th>Object of study</th><td>Explicit Runge-Kutta tableaus, orders 1 to 4, stages 2 to 6</td></tr>
 <tr><th>State arithmetic</th><td>Q15: int16 in [-32768, 32767], scale 2<sup>-15</sup></td></tr>
-<tr><th>Target</th><td>ARM Cortex-M0+, analytic cycle model, two multiplier variants; AVR model advisory only</td></tr>
+<tr><th>Target</th><td>ARM Cortex-M0+, analytic cycle model, two multiplier variants; AVR model advisory only; coefficient prices compiled at pinned flags</td></tr>
 <tr><th>Evaluation budget</th><td>65,536 cycles per problem run</td></tr>
 <tr><th>Test problems</th><td>7 fixed (3 search, 4 held out)</td></tr>
 <tr><th>Verification gate</th><td>Nine ordered checks, pure code, never raises</td></tr>
-<tr><th>Integrity pin</th><td>sha256 over ten files, checked at container start</td></tr>
+<tr><th>Integrity pin</th><td>sha256 over 14 files, checked at container start</td></tr>
 </table>
 
 <p>rk-harness searches for explicit Runge-Kutta tableaus that give the lowest integration
@@ -347,11 +347,25 @@ tableau costing k cycles per step takes n = B // k steps with B = 65,536 cycles,
 two-stage method takes about twice the steps of a four-stage one. Comparing at equal h
 would hand the expensive methods free work<sup class="meth-cite"><a href="#meth-ref-5">[5]</a></sup>.</p>
 
-<p>Cycle counts are analytic, a pure function of the tableau with no compiler in the
-loop. m0plus_fast (single-cycle multiplier) and m0plus_slow (32-cycle multiplier) are
-primary; avr_approx is advisory. Each coefficient application is charged the cheaper of
-a shift-add chain of its <a href="methodology.html#csd-weight">CSD weight</a> and a
-hardware multiply, which is why bit structure matters under a slow multiplier. The tables
+<p>Cycle counts are analytic: a pure function of the tableau, with no compiler and no
+hardware in the scoring loop. m0plus_fast (single-cycle multiplier) and m0plus_slow
+(32-cycle multiplier) are primary; avr_approx is advisory. Under the two M0+ models a
+coefficient application costs the instructions arm-none-eabi-gcc 13.2.1 emits for that
+term at -mcpu=cortex-m0plus -mthumb -O2 -ffreestanding -nostdlib, counted by op class
+(mul, shift, add, load) in the pinned table <code>fixtures/m0plus_coeff_ops.json</code>
+and priced by the model's per-class cycles, so the compiler enters the price once, at pin
+time, and never per evaluation. The table is keyed by the signed multiplier and by whether
+a shift is present, so a negative coefficient can cost more than its positive twin, and a
+multiplier outside the two keyed domains raises rather than guessing. A multiplier of plus
+or minus 1 at shift 0 costs nothing, because the compiler emits a bare adds or subs that
+the combination add already prices; zero entries and exact plus or minus 1 stay free.
+avr_approx keeps the earlier charge, the cheaper of a shift-add chain of its
+<a href="methodology.html#csd-weight">CSD weight</a> and a hardware multiply, which is why
+bit structure matters under its slow multiplier. The table holds what one compiler emits
+for an isolated term at those flags: it over-prices work the compiler shares across a
+combination, and it says nothing about other compilers, flags or tunings, about AVR, or
+about cycle accuracy. The correction landed at the epoch-2 boundary (DECISIONS D45);
+scores produced under the earlier charge keep the pin they were scored with. The tables
 are in the <a href="methodology.html#costmodel">cost model</a> section below and the
 counting rules on the <a href="https://jgoetzmann.github.io/rk-overview/architecture.html#costmodel">architecture page</a><sup class="meth-cite"><a href="#meth-ref-7">[7]</a><a href="#meth-ref-2">[2]</a></sup>.</p>
 
@@ -496,9 +510,9 @@ the search but never change the objective, the problems, the cost model or the t
 rules<sup class="meth-cite"><a href="#meth-ref-15">[15]</a></sup>.</p>
 
 <p>The container mounts rk-harness read-only and exits at start-up unless a sha256 over
-the ten scoring files matches VERIFIER_HASH and the golden tests pass, and every record
-stores the hash it was scored under. Model-written code runs only inside the problem
-quarantine, and the container never receives the GitHub token. The
+the fourteen scoring files matches VERIFIER_HASH and the golden tests pass, and
+every record stores the hash it was scored under. Model-written code runs only inside
+the problem quarantine, and the container never receives the GitHub token. The
 <a href="https://jgoetzmann.github.io/rk-overview/architecture.html#verify">architecture page</a> goes through the checks in
 order<sup class="meth-cite"><a href="#meth-ref-13">[13]</a><a href="#meth-ref-14">[14]</a><a href="#meth-ref-16">[16]</a></sup>.</p>
 
@@ -523,7 +537,11 @@ has the detail<sup class="meth-cite"><a href="#meth-ref-5">[5]</a><a href="#meth
 
 <p>The cost model is analytic and has never been checked against silicon inside the
 loop: an assembly fixture and a reference C emitter anchor it, but no hardware
-measurement feeds a score. Derivative evaluation is left out of the cycle count, which is
+measurement feeds a score. The per-coefficient prices under the two M0+ models come from
+compiled probes at fixed flags rather than from silicon, and they describe an isolated
+term: work the compiler shares across a combination is over-priced, and nothing is
+established for other compilers, flags or tunings, for AVR, or for cycle accuracy.
+Derivative evaluation is left out of the cycle count, which is
 harmless between methods with the same stage count and a real simplification
 otherwise<sup class="meth-cite"><a href="#meth-ref-7">[7]</a></sup>.</p>
 
@@ -541,27 +559,27 @@ threshold are conventions chosen in advance, frozen by the specification so resu
 stay comparable across the run<sup class="meth-cite"><a href="#meth-ref-21">[21]</a></sup>.</p>
 
 <h2 id="costmodel">Cost model</h2>
-<p>Cycles per integration step, computed from instruction counts. The <a href="methodology.html#cycle-budget">cycle budget</a> and the <a href="methodology.html#cost-bucket">cycle buckets</a> on the other tabs are built from these numbers.</p>
+<p>Cycles per integration step, computed from instruction counts: the stage and b combinations a tableau's sparsity pattern implies, with each coefficient application under the two M0+ models priced from the <a href="methodology.html#coeff-table">coefficient price table</a>, which records the instructions arm-none-eabi-gcc 13.2.1 emits for that term at -mcpu=cortex-m0plus -mthumb -O2 -ffreestanding -nostdlib. The <a href="methodology.html#cycle-budget">cycle budget</a> and the <a href="methodology.html#cost-bucket">cycle buckets</a> on the other tabs are built from these numbers.</p>
 <h3>Anchor: rk4 and rk38</h3>
-<div class="panel"><figure><figcaption>Analytic cycles per step for rk4 and rk38 under the fast and slow multiplier cost models. Bar height is the per-step cost and the printed number is the exact cycle count. Which of the two <a href="methodology.html#anchor-methods">anchor methods</a> is cheaper swaps between the multiplier models, and that swap is the cost model's main sanity check.</figcaption><div class="legend"><span><span class="sw" style="background:var(--s1)"></span>m0plus_fast (1-cycle multiplier)</span><span><span class="sw" style="background:var(--s2)"></span>m0plus_slow (32-cycle multiplier)</span></div><svg viewBox="0 0 460 260" width="460" height="260" role="img" aria-label="Cycles per step for rk4 and rk38 under the fast and slow multiplier models, 4 bars" aria-describedby="anchor-cycle-values"><line class="axis" x1="46" y1="220" x2="450" y2="220"/><path d="M 87.50 220.00 L 87.50 155.13 Q 87.50 151.13 91.50 151.13 L 139.50 151.13 Q 143.50 151.13 143.50 155.13 L 143.50 220.00 Z" fill="var(--s1)" class="cellstroke"><title>rk4 under m0plus_fast: 33 cycles per step</title></path><text class="lbl" x="115.50" y="146.13" text-anchor="middle">33</text><path d="M 145.50 220.00 L 145.50 46.61 Q 145.50 42.61 149.50 42.61 L 197.50 42.61 Q 201.50 42.61 201.50 46.61 L 201.50 220.00 Z" fill="var(--s2)" class="cellstroke"><title>rk4 under m0plus_slow: 85 cycles per step</title></path><text class="lbl" x="173.50" y="37.61" text-anchor="middle">85</text><text x="144.50" y="236" text-anchor="middle">rk4</text><path d="M 284.50 220.00 L 284.50 148.87 Q 284.50 144.87 288.50 144.87 L 336.50 144.87 Q 340.50 144.87 340.50 148.87 L 340.50 220.00 Z" fill="var(--s1)" class="cellstroke"><title>rk38 under m0plus_fast: 36 cycles per step</title></path><text class="lbl" x="312.50" y="139.87" text-anchor="middle">36</text><path d="M 342.50 220.00 L 342.50 90.43 Q 342.50 86.43 346.50 86.43 L 394.50 86.43 Q 398.50 86.43 398.50 90.43 L 398.50 220.00 Z" fill="var(--s2)" class="cellstroke"><title>rk38 under m0plus_slow: 64 cycles per step</title></path><text class="lbl" x="370.50" y="81.43" text-anchor="middle">64</text><text x="341.50" y="236" text-anchor="middle">rk38</text></svg><details class="fold" id="anchor-cycle-values"><summary>Every plotted bar, in one table (4 rows)</summary><div><div class="scroll"><table><tr><th>method</th><th>cost model</th><th class="num">cycles per step</th></tr><tr><td>rk4</td><td>m0plus_fast</td><td class="num">33</td></tr><tr><td>rk4</td><td>m0plus_slow</td><td class="num">85</td></tr><tr><td>rk38</td><td>m0plus_fast</td><td class="num">36</td></tr><tr><td>rk38</td><td>m0plus_slow</td><td class="num">64</td></tr></table></div></div></details></figure></div>
+<div class="panel"><figure><figcaption>Analytic cycles per step for rk4 and rk38 under the fast and slow multiplier cost models. Bar height is the per-step cost and the printed number is the exact cycle count. The two <a href="methodology.html#anchor-methods">anchor methods</a> share a stability polynomial, so the whole difference between these bars is coefficient arithmetic, which is what makes the pair the cost model's own check. rk38 is the cheaper of the two under both multiplier models.</figcaption><div class="legend"><span><span class="sw" style="background:var(--s1)"></span>m0plus_fast (1-cycle multiplier)</span><span><span class="sw" style="background:var(--s2)"></span>m0plus_slow (32-cycle multiplier)</span></div><svg viewBox="0 0 460 260" width="460" height="260" role="img" aria-label="Cycles per step for rk4 and rk38 under the fast and slow multiplier models, 4 bars" aria-describedby="anchor-cycle-values"><line class="axis" x1="46" y1="220" x2="450" y2="220"/><path d="M 87.50 220.00 L 87.50 46.61 Q 87.50 42.61 91.50 42.61 L 139.50 42.61 Q 143.50 42.61 143.50 46.61 L 143.50 220.00 Z" fill="var(--s1)" class="cellstroke"><title>rk4 under m0plus_fast: 53 cycles per step</title></path><text class="lbl" x="115.50" y="37.61" text-anchor="middle">53</text><path d="M 145.50 220.00 L 145.50 46.61 Q 145.50 42.61 149.50 42.61 L 197.50 42.61 Q 201.50 42.61 201.50 46.61 L 201.50 220.00 Z" fill="var(--s2)" class="cellstroke"><title>rk4 under m0plus_slow: 53 cycles per step</title></path><text class="lbl" x="173.50" y="37.61" text-anchor="middle">53</text><text x="144.50" y="236" text-anchor="middle">rk4</text><path d="M 284.50 220.00 L 284.50 60.00 Q 284.50 56.00 288.50 56.00 L 336.50 56.00 Q 340.50 56.00 340.50 60.00 L 340.50 220.00 Z" fill="var(--s1)" class="cellstroke"><title>rk38 under m0plus_fast: 49 cycles per step</title></path><text class="lbl" x="312.50" y="51.00" text-anchor="middle">49</text><path d="M 342.50 220.00 L 342.50 60.00 Q 342.50 56.00 346.50 56.00 L 394.50 56.00 Q 398.50 56.00 398.50 60.00 L 398.50 220.00 Z" fill="var(--s2)" class="cellstroke"><title>rk38 under m0plus_slow: 49 cycles per step</title></path><text class="lbl" x="370.50" y="51.00" text-anchor="middle">49</text><text x="341.50" y="236" text-anchor="middle">rk38</text></svg><details class="fold" id="anchor-cycle-values"><summary>Every plotted bar, in one table (4 rows)</summary><div><div class="scroll"><table><tr><th>method</th><th>cost model</th><th class="num">cycles per step</th></tr><tr><td>rk4</td><td>m0plus_fast</td><td class="num">53</td></tr><tr><td>rk4</td><td>m0plus_slow</td><td class="num">53</td></tr><tr><td>rk38</td><td>m0plus_fast</td><td class="num">49</td></tr><tr><td>rk38</td><td>m0plus_slow</td><td class="num">49</td></tr></table></div></div></details></figure></div>
 <table><tr><th>tableau</th><th class="num">n_states</th><th class="num">m0plus_fast</th><th class="num">m0plus_slow</th></tr>
-<tr><td>rk4</td><td class="num">1</td><td class="num">33</td><td class="num">85</td></tr>
-<tr><td>rk4</td><td class="num">2</td><td class="num">66</td><td class="num">170</td></tr>
-<tr><td>rk4</td><td class="num">4</td><td class="num">132</td><td class="num">340</td></tr>
-<tr><td>rk38</td><td class="num">1</td><td class="num">36</td><td class="num">64</td></tr>
-<tr><td>rk38</td><td class="num">2</td><td class="num">72</td><td class="num">128</td></tr>
-<tr><td>rk38</td><td class="num">4</td><td class="num">144</td><td class="num">256</td></tr>
+<tr><td>rk4</td><td class="num">1</td><td class="num">53</td><td class="num">53</td></tr>
+<tr><td>rk4</td><td class="num">2</td><td class="num">106</td><td class="num">106</td></tr>
+<tr><td>rk4</td><td class="num">4</td><td class="num">212</td><td class="num">212</td></tr>
+<tr><td>rk38</td><td class="num">1</td><td class="num">49</td><td class="num">49</td></tr>
+<tr><td>rk38</td><td class="num">2</td><td class="num">98</td><td class="num">98</td></tr>
+<tr><td>rk38</td><td class="num">4</td><td class="num">196</td><td class="num">196</td></tr>
 </table>
 <h3>Classical tableaus (n_states = 1)</h3>
 <div class="scroll"><table><tr><th>tableau</th><th class="num">stages</th><th class="num">m0plus_fast</th><th class="num">m0plus_slow</th><th class="num">avr_approx</th></tr>
 <tr><td>euler</td><td class="num">1</td><td class="num">5</td><td class="num">5</td><td class="num">6</td></tr>
 <tr><td>heun2</td><td class="num">2</td><td class="num">13</td><td class="num">13</td><td class="num">30</td></tr>
-<tr><td>heun3</td><td class="num">3</td><td class="num">23</td><td class="num">50</td><td class="num">90</td></tr>
-<tr><td>kutta3</td><td class="num">3</td><td class="num">26</td><td class="num">65</td><td class="num">106</td></tr>
+<tr><td>heun3</td><td class="num">3</td><td class="num">34</td><td class="num">34</td><td class="num">90</td></tr>
+<tr><td>kutta3</td><td class="num">3</td><td class="num">41</td><td class="num">41</td><td class="num">106</td></tr>
 <tr><td>midpoint</td><td class="num">2</td><td class="num">11</td><td class="num">11</td><td class="num">20</td></tr>
-<tr><td>ralston2</td><td class="num">2</td><td class="num">16</td><td class="num">30</td><td class="num">62</td></tr>
-<tr><td>rk38</td><td class="num">4</td><td class="num">36</td><td class="num">64</td><td class="num">132</td></tr>
-<tr><td>rk4</td><td class="num">4</td><td class="num">33</td><td class="num">85</td><td class="num">134</td></tr>
+<tr><td>ralston2</td><td class="num">2</td><td class="num">22</td><td class="num">22</td><td class="num">62</td></tr>
+<tr><td>rk38</td><td class="num">4</td><td class="num">49</td><td class="num">49</td><td class="num">132</td></tr>
+<tr><td>rk4</td><td class="num">4</td><td class="num">53</td><td class="num">53</td><td class="num">134</td></tr>
 </table></div>
 <p class="note">avr_approx is an approximate model, shown for context only. It never drives the search or the archive grids. A tableau of simple <a href="methodology.html#dyadic-rational">dyadic</a> values can cost much less than its stage count suggests.</p>
 <h3>Model parameters</h3>
@@ -570,13 +588,12 @@ stay comparable across the run<sup class="meth-cite"><a href="#meth-ref-21">[21]
 <tr><td>m0plus_slow</td><td class="num">32</td><td class="num">1</td><td class="num">1</td><td class="num">2</td><td class="num">2</td></tr>
 <tr><td>avr_approx</td><td class="num">14</td><td class="num">2</td><td class="num">8</td><td class="num">2</td><td class="num">2</td></tr>
 </table>
-<p class="note">m0plus_fast and m0plus_slow differ only in the multiplier. Every archive cycle count is these five numbers applied to a tableau's instruction sequence, never a hardware measurement. The off-archive lanes add their own stated terms, named on the implicit and adaptive tabs.</p>
+<p class="note">m0plus_fast and m0plus_slow differ only in the multiplier: both read the same op counts from one entry of the <a href="methodology.html#coeff-table">coefficient price table</a>, so the gap between them is 31 cycles per coefficient multiply per state. The per-coefficient op counts are the instructions arm-none-eabi-gcc 13.2.1 emits for that term at -mcpu=cortex-m0plus -mthumb -O2 -ffreestanding -nostdlib, counted by op class; the five numbers above turn those counts into cycles, and no number here is a hardware measurement. A coefficient whose multiplier is plus or minus 1 at shift 0 costs nothing, because the compiler emits a bare adds or subs that the combination add already prices. The off-archive lanes add their own stated terms, named on the implicit and adaptive tabs.</p>
 
 <h2 id="ledger">Measurement ledger</h2>
-<p>Every measurement the run takes outside the scored archive is a line in rk-work/sidetrack/ledger.jsonl, stamped with the code hash that produced it and the artifact it was read from. The ledger holds 103 points across 10 jobs. The readings are on the <a href="implicit.html">implicit</a> and <a href="adaptive.html">adaptive</a> tabs. The newest measurement ran under code hash <span class="hash">305c692a1b5c</span>.</p>
+<p>The side-track ledger, rk-work/sidetrack/ledger.jsonl, has not been written in this work directory, so no measurement outside the scored archive is recorded yet.</p>
 <h3>The code-hash rule</h3>
 <p>Every artifact is a pure function of the code and the point's parameters, so measuring a point again reproduces it byte for byte. A point counts as measured only under the code hash that measured it, a digest over the executor and the prototype modules, so editing a prototype re-opens its points instead of leaving stale numbers beside fresh ones.</p>
-<p class="note">Points in the ledger were measured under 2 code hashes: <span class="hash">305c692a1b5c085a</span>, <span class="hash">a98acb39fb4f31ca</span>.</p>
 <h3>The retry policy</h3>
 <p>A point that raises is recorded with its message and retried on later firings; after three failures under one code hash it is set aside and listed here. A side-track failure never costs a cycle, because the executor catches it and the run continues.</p>
 
@@ -613,12 +630,14 @@ work.</p>
 <dl class="gloss">
 <dt id="anchor-methods">anchor methods</dt>
 <dd>rk4 and rk38, two classical four-stage, order-4 tableaus with the same stability polynomial, so they differ in cost only through coefficient arithmetic; the cost model section compares them.</dd>
+<dt id="coeff-table">coefficient price table</dt>
+<dd>The pinned table fixtures/m0plus_coeff_ops.json, which holds the instruction counts by op class that arm-none-eabi-gcc 13.2.1 emits for one coefficient term at -mcpu=cortex-m0plus -mthumb -O2 -ffreestanding -nostdlib, keyed by the signed multiplier and by whether a shift is present. Under the two M0+ models a coefficient application is priced from its entry with the model&#x27;s own per-class cycles, so the compiler enters the price once, at pin time, and a multiplier outside the two keyed domains raises rather than guessing.</dd>
 <dt id="cohens-d">Cohen&#x27;s d</dt>
 <dd>The effect size on a hypothesis verdict: the difference of two cell populations&#x27; means over their pooled standard deviation, with the 0.2 threshold of section 3.</dd>
 <dt id="cost-bucket">cost bucket (cycle bucket)</dt>
 <dd>A log2-spaced bin of cycles per step under m0plus_fast, one axis of the archive grids: bucket 0 is under 16 cycles, bucket 1 is 16 to 31, and so on up to bucket 7 at 1024 cycles or more.</dd>
 <dt id="csd-weight">CSD weight</dt>
-<dd>The fewest nonzero signed power-of-two terms that write an integer multiplier m. The cost model charges a coefficient the cheaper of a shift-add chain of that length and a hardware multiply.</dd>
+<dd>The fewest nonzero signed power-of-two terms that write an integer multiplier m. It is recorded on every record as csd_weight_total and it prices the advisory avr_approx model; the two M0+ models price a coefficient from the pinned per-multiplier table instead.</dd>
 <dt id="cycle-budget">cycle budget</dt>
 <dd>The fixed allowance of every archive evaluation, 65536 cycles per problem per cost model, so archive errors compare methods at equal budget (section 1).</dd>
 <dt id="cycles-to-tolerance">cycles to tolerance</dt>
@@ -662,7 +681,7 @@ work.</p>
 <dt id="tiers">tier names</dt>
 <dd>The evidence tier a record gets on entering its cell by the rules in section 3: heldout_verified, search_only, no_incumbent for an empty cell, no_improvement when an incumbent was there and neither applied, and unreplicated, the one word those last two replaced, which no record carries now. The grid ranks on held-out error alone, so the heldout_verified count can fall without anything going wrong.</dd>
 <dt id="verifier-hash">verifier hash</dt>
-<dd>A sha256 over the ten pinned scoring files, checked at container start and stored on every record. Every score therefore carries the version of the code that produced it, and a table holding more than one hash says so beneath it.</dd>
+<dd>A sha256 over the fourteen pinned scoring files, checked at container start and stored on every record. Every score therefore carries the version of the code that produced it, and a table holding more than one hash says so beneath it.</dd>
 <dt id="work-precision">work-precision</dt>
 <dd>A chart of achieved error against work spent, one line per method, for comparing methods that share no control parameter. Down and to the left is better.</dd>
 </dl>
@@ -676,7 +695,7 @@ work.</p>
 <li id="meth-ref-4">rk_harness/simulate.py (Q15 and float64 integrators, derivative scaling, budget-to-steps).</li>
 <li id="meth-ref-5">rk_harness/evaluator.py; HANDOFF 4.7 (equal-budget rule, measured order, stability extents).</li>
 <li id="meth-ref-6">rk_harness/verifier.py; HANDOFF 4.4 (nine ordered checks).</li>
-<li id="meth-ref-7">rk_harness/costmodel.py, fixtures/known_sequence.s; HANDOFF 4.5 (counting rules), 9.5 (anchor comparison) and 12 (assembly fixture).</li>
+<li id="meth-ref-7">rk_harness/costmodel.py, fixtures/known_sequence.s, fixtures/m0plus_coeff_ops.json; HANDOFF 4.5 (counting rules, superseded for the M0+ coefficient charge by DECISIONS D45), 9.5 (anchor comparison) and 12 (assembly fixture).</li>
 <li id="meth-ref-8">rk_harness/orderconditions.py; HANDOFF 4.3 (rooted trees, dyadic impossibility).</li>
 <li id="meth-ref-9">rk_harness/search.py; HANDOFF 4.9 (CMA-ES, projection, islands).</li>
 <li id="meth-ref-10">rk_harness/enumeration.py; HANDOFF 8 (phase table) and 9.6 (phase 0 count).</li>
@@ -698,7 +717,7 @@ work.</p>
 
 <footer>
 <p>rk-harness findings: Runge-Kutta integrators for a Cortex-M0+ microcontroller, with cycle counts from a model rather than from hardware.</p>
-<p class="prov">Generated from run data by the harness, with no human review. The container starts only if the ten pinned scoring files still match their hash, no page is written unless every page passes the banned-word check, and pages this site has retired are deleted on the same build. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
+<p class="prov">Generated from run data by the harness, with no human review. The container starts only if the fourteen pinned scoring files still match their hash, no page is written unless every page passes the banned-word check, and pages this site has retired are deleted on the same build. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
 </footer>
 </div>
 </body>
