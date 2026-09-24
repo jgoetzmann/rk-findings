@@ -282,7 +282,7 @@ dl.glance{max-width:100ch;margin:6px 0 4px}
 </div></header>
 <div class="wrap">
 <p class="lead">An automated search for Runge-Kutta methods that hold up in <a href="methodology.html#q15">Q15</a> fixed-point arithmetic on small microcontrollers. Cost is counted against a modeled Cortex-M0+ <a href="methodology.html#cycle-budget">cycle budget</a> rather than measured on the chip. This site is rebuilt from the run's data at the end of every cycle, and nobody edits it by hand. The <a href="https://jgoetzmann.github.io/rk-overview/">project overview</a> explains why the project exists and how it works.</p>
-<p class="when">Built from cycle 510 of the run, 18,825 archive records. Newest elite recorded 2026-09-23 20:19 CT, less than an hour before the last saturation check at 2026-09-23 20:20 CT.</p>
+<p class="when">Built from cycle 510 of the run, 18,825 archive records. Newest elite recorded 2026-09-23 20:19 CT, about 1 hour before the last saturation check at 2026-09-23 20:50 CT.</p>
 <h2>The three classes</h2>
 <p class="note">A scored record has room for one explicit tableau and nothing else, so the implicit and adaptive classes are measured outside the archive and never ranked against it.</p>
 <div class="cards"><div class="card klass k-explicit"><div class="k">explicit</div><div class="v">18,825</div><div class="d">archive records, from the run archive</div><p class="n">Scored, archived and ranked at an equal cycle budget.</p><p class="g">Q15 fixed point, checked by the pinned verifier.</p><p class="go"><a href="explicit.html">explicit methods</a></p></div><div class="card klass k-implicit"><div class="k">implicit</div><div class="v">47</div><div class="d">measured ledger points, from the measurement ledger</div><p class="n">Measured because the explicit class runs out of stability before it runs out of budget.</p><p class="g">float64; not order-verified and not scored.</p><p class="go"><a href="implicit.html">implicit methods</a></p></div><div class="card klass k-adaptive"><div class="k">adaptive</div><div class="v">56</div><div class="d">measured ledger points, from the measurement ledger</div><p class="n">A record has no room for the second b vector an error estimate needs.</p><p class="g">float64, with one fixed pair also run in Q15; not order-verified and not scored.</p><p class="go"><a href="adaptive.html">adaptive methods</a></p></div></div>
@@ -294,13 +294,13 @@ dl.glance{max-width:100ch;margin:6px 0 4px}
 <dt>epoch 1</dt><dd><a href="epoch-1/">frozen copy of the epoch 1 site</a>, frozen 2026-09-14 23:33 CT</dd>
 <dt>last progress</dt><dd>2026-09-23 20:19 CT: an acceptance at the heldout_verified tier</dd>
 <dt>saturation counter</dt><dd>0 consecutive saturating checks; 6 trigger a freeze</dd>
-<dt>last check</dt><dd>2026-09-23 20:20 CT, verdict CONTINUE</dd>
+<dt>last check</dt><dd>2026-09-23 20:50 CT, verdict CONTINUE</dd>
 <dt>falsification file</dt><dd>not yet produced</dd>
 </dl><p class="note">Progress is a record in an empty cell, an improved elite or a heldout_verified acceptance. With no progress inside the saturation window and the falsification file written, a check counts as saturating, and enough in a row reach the freeze threshold. When the next epoch opens, the frozen epoch's pages are copied to a directory of their own, and the copy keeps the scoring hash they were built under. Starting the next epoch, and re-pinning the verifier for it, is a person's decision. Times are stored in UTC and shown in US Central.</p></div>
 <footer>
 <p>rk-harness findings: Runge-Kutta integrators for a Cortex-M0+ microcontroller, with cycle counts from a model rather than from hardware.</p>
 <p class="prov">Generated from run data by the harness, with no human review. The container starts only if the fourteen pinned scoring files still match their hash, no page is written unless every page passes the banned-word check, and pages this site has retired are deleted on the same build. Human interpretation is at <a href="https://jgoetzmann.github.io/rk-overview/">the rk-overview site</a>.</p>
-<p class="prov">Built from rk-findings 35d4e399c043, rk-harness d1e41d5976a4, rk-work e8af7cdbb620: the commit each repository was at when this page was written.</p>
+<p class="prov">Built from rk-findings b02b0bf307a2, rk-harness d1e41d5976a4, rk-work 3981306b66b2: the commit each repository was at when this page was written.</p>
 </footer>
 </div>
 </body>
